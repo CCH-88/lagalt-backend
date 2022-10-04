@@ -5,9 +5,10 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity
+
 @Getter
 @Setter
+@Entity
 public class Chat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
