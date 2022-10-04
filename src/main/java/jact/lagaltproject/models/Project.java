@@ -4,9 +4,10 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Entity
+
 @Getter
 @Setter
+@Entity
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,5 +19,6 @@ public class Project {
     @Column(length = 1000, nullable = false)
     private String description;
     //TODO: add array of image urls
+
 
 }
