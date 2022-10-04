@@ -3,10 +3,13 @@ package jact.lagaltproject.models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
-@Entity
+
 @Getter
 @Setter
+@Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,4 +31,9 @@ public class User {
     private String portfolio;
     @Column(length = 4000)
     private String description;
+
+    //Relationships
+    @OneToMany(mappedBy = "user")
+    Set<Message> messages;
+
 }
