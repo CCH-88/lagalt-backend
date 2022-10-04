@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 
 @Getter
@@ -14,5 +15,11 @@ public class Chat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     //TODO: Add array for old messages
+
+    @OneToMany(mappedBy = "chat")
+    private Set<Message> messages;
+
+    @OneToOne
+    private Project project;
 
 }
