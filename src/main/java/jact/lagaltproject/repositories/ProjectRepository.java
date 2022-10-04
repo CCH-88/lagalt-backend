@@ -1,4 +1,7 @@
 package jact.lagaltproject.repositories;
 
-public interface ProjectRepository {
+import jact.lagaltproject.models.Project;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProjectRepository extends JpaRepository<Project, Integer> {
 }
