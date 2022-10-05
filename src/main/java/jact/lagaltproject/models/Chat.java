@@ -2,6 +2,7 @@ package jact.lagaltproject.models;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -13,8 +14,10 @@ import java.util.Set;
 public class Chat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    //TODO: Add array for old messages
+    private Long id;
+    @Type(type = "list-array")
+    @Column(name = "chat_message", columnDefinition = "text[]")
+    private String[] chatMessages;
 
     @OneToMany(mappedBy = "chat")
     private Set<Message> messages;

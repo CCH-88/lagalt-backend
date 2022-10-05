@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class Project_user {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
 
 }
