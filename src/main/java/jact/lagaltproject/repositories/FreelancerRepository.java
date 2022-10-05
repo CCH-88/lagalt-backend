@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Collection;
 
 public interface FreelancerRepository extends JpaRepository<Freelancer, Integer> {
-    @Query(value = "SELECT * FROM project where project_id = ?!", nativeQuery = true)
+    @Query(value = "SELECT * FROM Project p where p.id = ?1", nativeQuery = true)
     Collection<Freelancer> findUsersInProject(Integer id);
 }
