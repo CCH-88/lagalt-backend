@@ -5,15 +5,23 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity
+
 @Getter
 @Setter
+@Entity
+@Table(name = "messages")
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
-    private int user;
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "chat_id")
+    private Chat chat;
+
     @Column(length = 600, nullable = false)
     private String text;
 }
