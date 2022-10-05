@@ -51,15 +51,4 @@ public class FreelancerServiceImpl implements FreelancerService {
         return freelancerRepo.findUsersInProject(id);
     }
 
-    @Override
-    public void updateFreelancersInProject(Set<Integer> freelancerId, int projectId) {
-        //TODO: Need to make the DTO before u.setProject(project) works.
-//        List<Freelancer> freelancers = freelancerRepo.findAllById(userId);
-//        Project project = projectRepo.getReferenceById(projectId);
-//        for (Freelancer f:freelancers){
-//            f.setProject(project);
-//        }
-//        userRepo.saveAll(freelancers);
-    }
-
 }
