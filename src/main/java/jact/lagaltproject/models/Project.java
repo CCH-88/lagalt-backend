@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.Set;
 
 
 @Getter
@@ -23,5 +24,11 @@ public class Project {
     @Column(name = "project_images", columnDefinition = "text[]")
     private String[] projectImages;
 
+    //Relationships
+    @OneToMany(mappedBy = "project")
+    private Set<User> users;
+    @OneToOne
+    @JoinColumn(name = "project_chat")
+    private Chat chat;
 
 }
