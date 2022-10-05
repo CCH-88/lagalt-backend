@@ -1,12 +1,12 @@
 package jact.lagaltproject.repositories;
 
-import jact.lagaltproject.models.User;
+import jact.lagaltproject.models.Freelancer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.Collection;
 
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface FreelancerRepository extends JpaRepository<Freelancer, Integer> {
     @Query(value = "SELECT * FROM project where project_id = ?!", nativeQuery = true)
-    Collection<User> findUsersInProject(Integer id);
+    Collection<Freelancer> findUsersInProject(Integer id);
 }

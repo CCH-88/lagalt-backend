@@ -1,10 +1,9 @@
 package jact.lagaltproject.mappers;
 
+
 import jact.lagaltproject.models.Freelancer;
-import jact.lagaltproject.models.Project;
-import jact.lagaltproject.models.dtos.project.ProjectDTO;
+import jact.lagaltproject.models.dtos.user.FreelancerDTO;
 import jact.lagaltproject.services.freelancerService.FreelancerService;
-import jact.lagaltproject.services.project.ProjectService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -15,35 +14,31 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
-public abstract class ProjectMapper {
+public abstract class FreelancerMapper {
 
 //    @Autowired
 //    protected FreelancerService freelancerService;
-//    @Autowired
-//    protected ProjectService projectService;
 //
 //    @Mapping(target = "project", source = "project.id")
-//    @Mapping(target = "user", source = "user.id")
-//    public abstract ProjectDTO projectToProjectDto(Project project);
+//    public abstract FreelancerDTO freelancerDTO(Freelancer user);
 //
-//    public abstract Collection<ProjectDTO> projectToProjectDto(Collection<Project> projects);
+//    public abstract Collection<FreelancerDTO> userToUserDTO(Collection<Freelancer> users);
 //
 //    @Mapping(target = "project", source = "project", qualifiedByName = "projectIdToProject")
-//    @Mapping(target = "freelancers", source = "freelancers", qualifiedByName = "userIdsToUser")
-//    public abstract Project projectDtoToProject(ProjectDTO dto);
+//    public abstract Freelancer userDtoToUser(FreelancerDTO dto);
 //
-//    //Custom Mappings
-//    @Named("projectIdToProject")
-//    Project mapIdToProject(int id) {
-//        return projectService.findById(id);
+//    @Named("usersToIds")
+//    Set<Long> mapFreelancersToIds(Set<Freelancer> source) {
+//        if (source == null) return null;
+//        return source.stream()
+//                .map(Freelancer::getId).collect(Collectors.toSet());
 //    }
 //
 //    @Named("userIdsToUsers")
-//    Set<Freelancer> mapIdsToUsers(Set<Integer> id) {
+//    Set<Freelancer> mapIdsToFreelancers(Set<Integer> id) {
 //        return id.stream()
 //                .map(i -> freelancerService.findById(i))
 //                .collect(Collectors.toSet());
 //    }
-
 
 }
