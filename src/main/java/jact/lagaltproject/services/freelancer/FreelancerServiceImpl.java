@@ -1,4 +1,4 @@
-package jact.lagaltproject.services.freelancerService;
+package jact.lagaltproject.services.freelancer;
 
 import jact.lagaltproject.exceptions.FreelancerNotFoundException;
 import jact.lagaltproject.models.Freelancer;

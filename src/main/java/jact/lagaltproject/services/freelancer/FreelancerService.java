@@ -1,4 +1,4 @@
-package jact.lagaltproject.services.freelancerService;
+package jact.lagaltproject.services.freelancer;
 
 import jact.lagaltproject.models.Freelancer;
 import jact.lagaltproject.services.CrudService;

@@ -1,4 +1,4 @@
-package jact.lagaltproject.models.dtos.user;
+package jact.lagaltproject.models.dtos.freelancer;
 
 import lombok.Data;
 
