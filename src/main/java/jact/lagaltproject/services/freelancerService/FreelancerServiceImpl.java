@@ -2,17 +2,22 @@ package jact.lagaltproject.services.freelancerService;
 
 import jact.lagaltproject.exceptions.FreelancerNotFoundException;
 import jact.lagaltproject.models.Freelancer;
+import jact.lagaltproject.models.Project;
 import jact.lagaltproject.repositories.FreelancerRepository;
+import jact.lagaltproject.repositories.ProjectRepository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 public class FreelancerServiceImpl implements FreelancerService {
 
     private final FreelancerRepository freelancerRepo;
+    private final ProjectRepository projectRepo;
 
-    public FreelancerServiceImpl(FreelancerRepository freelancerRepo) {
+    public FreelancerServiceImpl(FreelancerRepository freelancerRepo, ProjectRepository projectRepo) {
         this.freelancerRepo = freelancerRepo;
+        this.projectRepo = projectRepo;
     }
 
     @Override
@@ -37,8 +42,8 @@ public class FreelancerServiceImpl implements FreelancerService {
     }
 
     @Override
-    public void deleteById(Integer integer) {
-        freelancerRepo.deleteById(integer);
+    public void deleteById(Integer id) {
+        freelancerRepo.deleteById(id);
     }
 
     @Override
@@ -49,17 +54,6 @@ public class FreelancerServiceImpl implements FreelancerService {
     @Override
     public Collection<Freelancer> findFreelancersInProject(Integer id) {
         return freelancerRepo.findUsersInProject(id);
-    }
-
-    @Override
-    public void updateFreelancersInProject(Set<Integer> freelancerId, int projectId) {
-        //TODO: Need to make the DTO before u.setProject(project) works.
-//        List<Freelancer> freelancers = freelancerRepo.findAllById(userId);
-//        Project project = projectRepo.getReferenceById(projectId);
-//        for (Freelancer f:freelancers){
-//            f.setProject(project);
-//        }
-//        userRepo.saveAll(freelancers);
     }
 
 }

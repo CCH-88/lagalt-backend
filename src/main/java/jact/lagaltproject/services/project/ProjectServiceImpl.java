@@ -1,5 +1,6 @@
 package jact.lagaltproject.services.project;
 
+import jact.lagaltproject.exceptions.ProjectNotFoundException;
 import jact.lagaltproject.models.Project;
 import jact.lagaltproject.repositories.ProjectRepository;
 
@@ -13,32 +14,33 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project findById(Integer integer) {
-        return null;
+    public Project findById(Integer id) {
+        return projectRepo.findById(id)
+                .orElseThrow(() -> new ProjectNotFoundException(id));
     }
 
     @Override
     public Collection<Project> findAll() {
-        return null;
+        return projectRepo.findAll();
     }
 
     @Override
     public Project add(Project entity) {
-        return null;
+        return projectRepo.save(entity);
     }
 
     @Override
     public Project update(Project entity) {
-        return null;
+        return projectRepo.save(entity);
     }
 
     @Override
-    public void deleteById(Integer integer) {
-
+    public void deleteById(Integer id) {
+        projectRepo.deleteById(id);
     }
 
     @Override
-    public boolean exists(Integer integer) {
-        return false;
+    public boolean exists(Integer id) {
+        return projectRepo.existsById(id);
     }
 }
