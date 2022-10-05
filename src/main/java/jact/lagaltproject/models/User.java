@@ -1,6 +1,7 @@
 package jact.lagaltproject.models;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -13,14 +14,16 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column(length = 50, nullable = false)
     private String name;
     @Column(length = 50, nullable = false)
     private String email;
     @Column()
     private boolean hidden;
-    //TODO: add for skills array.
+    @Type(type = "list-array")
+    @Column(name = "user_skill", columnDefinition = "text[]")
+    private String[] skills;
     @Column(length = 800)
     private String googleToken;
     @Column(length = 800)

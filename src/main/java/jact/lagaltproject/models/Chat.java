@@ -13,7 +13,7 @@ import java.util.Set;
 public class Chat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     //TODO: Add array for old messages
 
     @OneToMany(mappedBy = "chat")
