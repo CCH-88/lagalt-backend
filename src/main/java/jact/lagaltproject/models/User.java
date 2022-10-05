@@ -10,7 +10,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,9 +21,9 @@ public class User {
     private String email;
     @Column()
     private boolean hidden;
-    @Type(type = "list-array")
-    @Column(name = "user_skill", columnDefinition = "text[]")
-    private String[] skills;
+//    @Type(type = "list-array")
+//    @Column(name = "user_skills", columnDefinition = "text[]")
+//    private String[] skills;
     @Column(length = 800)
     private String googleToken;
     @Column(length = 800)
@@ -38,5 +38,8 @@ public class User {
     //Relationships
     @OneToMany(mappedBy = "user")
     Set<Message> messages;
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
 
 }

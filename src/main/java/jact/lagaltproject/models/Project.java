@@ -20,9 +20,9 @@ public class Project {
     private int ownerId;
     @Column(length = 1000, nullable = false)
     private String description;
-    @Type(type = "list-array")
-    @Column(name = "project_images", columnDefinition = "text[]")
-    private String[] projectImages;
+//    @Type(type = "list-array")
+//    @Column(name = "project_images", columnDefinition = "text[]")
+//    private String[] projectImages;
 
     //Relationships
     @OneToMany(mappedBy = "project")
