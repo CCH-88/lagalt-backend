@@ -3,7 +3,7 @@ package jact.lagaltproject.models.dtos.user;
 import lombok.Data;
 
 @Data
-public class UserDTO {
+public class FreelancerDTO {
     private Long id;
     private String name;
     private String email;

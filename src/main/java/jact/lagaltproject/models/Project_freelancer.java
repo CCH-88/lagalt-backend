@@ -11,10 +11,10 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-public class Project_user {
+public class Project_freelancer {
 
     @EmbeddedId
-    ProjectUserKey id;
+    ProjectFreelancerKey id;
 
     @Column(nullable = false)
     @ColumnDefault("'applicant'")
@@ -30,9 +30,9 @@ public class Project_user {
 
     // Relationships
     @OneToOne
-    @MapsId("userId")
-    @JoinColumn(name = "user_id")
-    User user;
+    @MapsId("freelancerId")
+    @JoinColumn(name = "freelancer_id")
+    Freelancer freelancer;
 
     @OneToOne
     @MapsId("projectId")

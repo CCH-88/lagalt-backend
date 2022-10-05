@@ -9,8 +9,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
-public class User {
+public class Freelancer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,9 +19,9 @@ public class User {
     private String email;
     @Column()
     private boolean hidden;
-    /*@Type(type = "list-array")
-    @Column(name = "user_skill", columnDefinition = "text[]")
-    private String[] skills;*/
+//    @Type(type = "list-array")
+//    @Column(name = "user_skills", columnDefinition = "text[]")
+//    private String[] skills;
     @Column(length = 800)
     private String googleToken;
     @Column(length = 800)
@@ -35,9 +34,9 @@ public class User {
     private String description;
 
     //Relationships
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "freelancer")
     Set<Message> messages;
 
-    @OneToOne(mappedBy = "user")
-    private Project_user project_user;
+    @OneToOne(mappedBy = "freelancer")
+    private Project_freelancer project_freelancer;
 }

@@ -12,9 +12,9 @@ import java.io.Serializable;
 @Setter
 @EqualsAndHashCode
 @Embeddable
-public class ProjectUserKey implements Serializable {
-    @Column(name = "user_id")
-    long userId;
+public class ProjectFreelancerKey implements Serializable {
+    @Column(name = "freelancer_id")
+    long freelancerId;
 
     @Column(name = "project_id")
     long projectId;
