@@ -29,12 +29,12 @@ public class Project_freelancer {
     private String motivation;
 
     // Relationships
-    @OneToOne
+    @ManyToOne
     @MapsId("freelancerId")
     @JoinColumn(name = "freelancer_id")
     Freelancer freelancer;
 
-    @OneToOne
+    @ManyToOne
     @MapsId("projectId")
     @JoinColumn(name = "project_id")
     Project project;

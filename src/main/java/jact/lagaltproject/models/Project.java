@@ -3,6 +3,7 @@ package jact.lagaltproject.models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 
 @Getter
@@ -24,8 +25,8 @@ public class Project {
 
     //Relationships
 
-    @OneToOne(mappedBy = "project")
-    private Project_freelancer project_freelancer;
+    @OneToMany(mappedBy = "project")
+    private Set<Project_freelancer> project_freelancers;
 
     @OneToOne
     @JoinColumn(name = "project_chat")
