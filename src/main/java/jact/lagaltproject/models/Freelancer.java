@@ -36,8 +36,6 @@ public class Freelancer {
     //Relationships
     @OneToMany(mappedBy = "freelancer")
     Set<Message> messages;
-    @ManyToOne
-    @JoinColumn(name = "project_id")
-    private Project project;
+
 
 }

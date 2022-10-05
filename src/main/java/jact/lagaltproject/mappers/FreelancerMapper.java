@@ -19,13 +19,13 @@ public abstract class FreelancerMapper {
 //    @Autowired
 //    protected FreelancerService freelancerService;
 //
-//    @Mapping(target = "project", source = "project.id")
+//    @Mapping(target = "projects", source = "project.id")
 //    public abstract FreelancerDTO freelancerDTO(Freelancer user);
 //
 //    public abstract Collection<FreelancerDTO> userToUserDTO(Collection<Freelancer> users);
 //
 //    @Mapping(target = "project", source = "project", qualifiedByName = "projectIdToProject")
-//    public abstract Freelancer userDtoToUser(FreelancerDTO dto);
+//    public abstract Freelancer freelancerDtoToFreelancer(FreelancerDTO dto);
 //
 //    @Named("usersToIds")
 //    Set<Long> mapFreelancersToIds(Set<Freelancer> source) {
