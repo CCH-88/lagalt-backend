@@ -24,8 +24,10 @@ public class Project {
 //    private String[] projectImages;
 
     //Relationships
+
     @OneToMany(mappedBy = "project")
-    private Set<Freelancer> freelancers;
+    private Set<Project_freelancer> project_freelancers;
+
     @OneToOne
     @JoinColumn(name = "project_chat")
     private Chat chat;

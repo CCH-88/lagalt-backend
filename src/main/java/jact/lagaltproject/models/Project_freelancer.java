@@ -1,8 +1,10 @@
 package jact.lagaltproject.models;
 
 
+import jact.lagaltproject.enums.Role;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -10,9 +12,32 @@ import javax.persistence.*;
 @Setter
 @Entity
 public class Project_freelancer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
+    @EmbeddedId
+    ProjectFreelancerKey id;
+
+    @Column(nullable = false)
+    @ColumnDefault("'applicant'")
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    // true = accepted, false = denied, null = not yet reviewed
+    @Column(columnDefinition = "Boolean default null")
+    private Boolean accepted;
+
+    @Column(length = 2000, nullable = false)
+    private String motivation;
+
+    // Relationships
+    @ManyToOne
+    @MapsId("freelancerId")
+    @JoinColumn(name = "freelancer_id")
+    Freelancer freelancer;
+
+    @ManyToOne
+    @MapsId("projectId")
+    @JoinColumn(name = "project_id")
+    Project project;
 
 
 }
