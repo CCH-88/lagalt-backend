@@ -1,7 +1,6 @@
 package jact.lagaltproject.models;
 
 import lombok.*;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -10,8 +9,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "user")
-public class User {
+public class Freelancer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,7 +34,7 @@ public class User {
     private String description;
 
     //Relationships
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "freelancer")
     Set<Message> messages;
     @ManyToOne
     @JoinColumn(name = "project_id")

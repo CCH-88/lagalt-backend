@@ -15,8 +15,8 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    @JoinColumn(name="user_id")
-    private User user;
+    @JoinColumn(name="freelancer_id")
+    private Freelancer freelancer;
 
     @ManyToOne
     @JoinColumn(name = "chat_id")

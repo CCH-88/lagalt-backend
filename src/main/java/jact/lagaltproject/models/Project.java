@@ -1,7 +1,6 @@
 package jact.lagaltproject.models;
 
 import lombok.*;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -26,7 +25,7 @@ public class Project {
 
     //Relationships
     @OneToMany(mappedBy = "project")
-    private Set<User> users;
+    private Set<Freelancer> freelancers;
     @OneToOne
     @JoinColumn(name = "project_chat")
     private Chat chat;
