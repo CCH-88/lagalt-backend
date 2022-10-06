@@ -1,5 +1,6 @@
 package jact.lagaltproject.models;
 
+import jact.lagaltproject.enums.Role;
 import lombok.*;
 import org.hibernate.annotations.Type;
 
@@ -22,8 +23,9 @@ public class Freelancer {
     private Boolean hidden;
 
     @Column(columnDefinition = "text[]")
+    @Enumerated(EnumType.STRING)
     @Type(type = "jact.lagaltproject.models.types.PostgreSqlStringArrayType")
-    private String[] skills;
+    private Role[] skills;
 
     @Column(length = 800)
     private String googleToken;
