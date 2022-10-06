@@ -58,4 +58,9 @@ public class FreelancerServiceImpl implements FreelancerService {
         return freelancerRepo.findUsersInProject(id);
     }
 
+    @Override
+    public Collection<Freelancer> findAllByName(String name) {
+        return freelancerRepo.findAllByName(name);
+    }
+
 }
