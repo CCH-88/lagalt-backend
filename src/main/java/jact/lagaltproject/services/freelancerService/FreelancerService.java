@@ -6,6 +6,6 @@ import jact.lagaltproject.services.CrudService;
 import java.util.Collection;
 import java.util.Set;
 
-public interface FreelancerService extends CrudService<Freelancer, Integer> {
-    Collection<Freelancer> findFreelancersInProject(Integer id);
+public interface FreelancerService extends CrudService<Freelancer, Long> {
+    Collection<Freelancer> findFreelancersInProject(Long id);
 }

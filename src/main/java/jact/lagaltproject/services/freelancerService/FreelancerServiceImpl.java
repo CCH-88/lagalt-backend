@@ -21,7 +21,7 @@ public class FreelancerServiceImpl implements FreelancerService {
     }
 
     @Override
-    public Freelancer findById(Integer id) {
+    public Freelancer findById(Long id) {
         return freelancerRepo.findById(id)
                 .orElseThrow(() -> new FreelancerNotFoundException(id));
     }
@@ -42,17 +42,17 @@ public class FreelancerServiceImpl implements FreelancerService {
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public void deleteById(Long id) {
         freelancerRepo.deleteById(id);
     }
 
     @Override
-    public boolean exists(Integer id) {
+    public boolean exists(Long id) {
         return freelancerRepo.existsById(id);
     }
 
     @Override
-    public Collection<Freelancer> findFreelancersInProject(Integer id) {
+    public Collection<Freelancer> findFreelancersInProject(Long id) {
         return freelancerRepo.findUsersInProject(id);
     }
 
