@@ -2,6 +2,8 @@ package jact.lagaltproject.models.dtos.freelancer;
 
 import lombok.Data;
 
+import java.util.Set;
+
 @Data
 public class FreelancerDTO {
     private Long id;
@@ -13,4 +15,8 @@ public class FreelancerDTO {
     private String twitterToken;
     private String portfolio;
     private String description;
+
+    private Set<Long> projectFreelancers;
+
+    private Set<Long> messages;
 }

@@ -30,12 +30,12 @@ public class Project_freelancer {
 
     // Relationships
     @ManyToOne
-    @MapsId("freelancerId")
+    @MapsId("freelancer_id")
     @JoinColumn(name = "freelancer_id")
     Freelancer freelancer;
 
     @ManyToOne
-    @MapsId("projectId")
+    @MapsId("project_id")
     @JoinColumn(name = "project_id")
     Project project;
 

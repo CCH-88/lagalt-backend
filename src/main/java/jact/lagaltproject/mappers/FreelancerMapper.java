@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public abstract class FreelancerMapper {
 //
 //    @Autowired
-//    protected FreelancerService freelancerService;
+ //   protected FreelancerService freelancerService;
 //
 //    @Mapping(target = "freelancer", source = "freelancer.id")
 //    public abstract FreelancerDTO freelancerDTO(Freelancer user);
