@@ -5,7 +5,6 @@ import jact.lagaltproject.models.Freelancer;
 import jact.lagaltproject.repositories.FreelancerRepository;
 
 import java.util.Collection;
-import java.util.Set;
 
 public class FreelancerServiceImpl implements FreelancerService {
 

@@ -8,5 +8,5 @@ import java.util.Set;
 
 public interface FreelancerService extends CrudService<Freelancer, Integer> {
     Collection<Freelancer> findFreelancersInProject(Integer id);
-    void updateFreelancersInProject(Set<Integer> freelancerId, int projectId);
+//    void updateFreelancersInProject(Set<Integer> freelancerId, int projectId);
 }
