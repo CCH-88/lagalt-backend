@@ -1,6 +1,7 @@
 package jact.lagaltproject.models;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -19,9 +20,10 @@ public class Project {
     private int ownerId;
     @Column(length = 1000, nullable = false)
     private String description;
-//    @Type(type = "list-array")
-//    @Column(name = "project_images", columnDefinition = "text[]")
-//    private String[] projectImages;
+
+    @Column(columnDefinition = "text[]")
+    @Type(type = "jact.lagaltproject.models.types.PostgreSqlStringArrayType")
+    private String[] projectImages;
 
     //Relationships
 

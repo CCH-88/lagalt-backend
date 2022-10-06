@@ -1,4 +1,4 @@
-package jact.lagaltproject.mappers;
+package jact.lagaltproject.models.types;
 
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
