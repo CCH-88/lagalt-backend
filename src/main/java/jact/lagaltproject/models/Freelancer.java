@@ -47,4 +47,8 @@ public class Freelancer {
     @OneToMany(mappedBy = "freelancer")
     private Set<Project_freelancer> project_freelancers;
 
+    @OneToOne
+    @JoinColumn(name = "freelancer_history_id", referencedColumnName = "id")
+    private Freelancer_history freelancer_history;
+
 }
