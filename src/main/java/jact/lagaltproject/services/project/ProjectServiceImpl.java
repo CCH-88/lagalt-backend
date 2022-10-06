@@ -45,4 +45,9 @@ public class ProjectServiceImpl implements ProjectService {
     public boolean exists(Long id) {
         return projectRepo.existsById(id);
     }
+
+    @Override
+    public Collection<Project> findAllByName(String name) {
+        return projectRepo.findAllByName(name);
+    }
 }

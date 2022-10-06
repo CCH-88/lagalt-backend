@@ -44,7 +44,7 @@ public class FreelanceController {
                                     mediaType = "application/json",
                                     array = @ArraySchema(schema = @Schema(implementation = FreelancerDTO.class))) })
     })
-    @GetMapping // GET: localhost:8081/api/v1/freelancers
+    @GetMapping // GET: localhost:8080/api/v1/freelancers
     public ResponseEntity<Collection<Freelancer>> getAll() {
         return ResponseEntity.ok(freelancerService.findAll());
     }
@@ -52,17 +52,17 @@ public class FreelanceController {
     /*
      * The findById methods gets the freelancers with the provided id.
      * */
-    @Operation(summary = "Gets a character by ID")
+    @Operation(summary = "Gets a freelancer by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Success",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Character.class)) }),
+                            schema = @Schema(implementation = Freelancer.class)) }),
             @ApiResponse(responseCode = "404",
-                    description = "Character with supplied ID does not exist",
+                    description = "Freelancer with supplied ID does not exist",
                     content = @Content)
     })
-    @GetMapping("{id}") // GET: localhost:8081/api/v1/freelancers/1
+    @GetMapping("{id}") // GET: localhost:8080/api/v1/freelancers/1
     public ResponseEntity<Freelancer> findById(@PathVariable long id) {
         return ResponseEntity.ok(freelancerService.findById(id));
     }
@@ -75,13 +75,13 @@ public class FreelanceController {
             @ApiResponse(responseCode = "200",
                     description = "Success",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Character.class)) }),
+                            schema = @Schema(implementation = Freelancer.class)) }),
             @ApiResponse(responseCode = "404",
                     description = "Character with supplied ID does not exist",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
-    @GetMapping("search") // GET: localhost:8081/api/v1/freelancers/search?name=Thor
+    @GetMapping("search") // GET: localhost:8080/api/v1/freelancers/search?name=Thor
     public ResponseEntity<Collection<Freelancer>> findByName(@RequestParam String name) {
         return ResponseEntity.ok(freelancerService.findAllByName(name));
     }
@@ -98,7 +98,7 @@ public class FreelanceController {
                     description = "Freelancer with supplied ID not found ",
                     content = @Content)
     })
-    @PostMapping // POST: localhost:8081/api/v1/freelancers
+    @PostMapping // POST: localhost:8080/api/v1/freelancers
     public ResponseEntity add(@RequestBody Freelancer freelancer) {
         Freelancer aFreelancer = freelancerService.add(freelancer);
         URI location = URI.create("freelancers/" + aFreelancer.getId());
