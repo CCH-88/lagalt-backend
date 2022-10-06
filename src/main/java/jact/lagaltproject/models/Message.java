@@ -4,16 +4,19 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 
 @Getter
 @Setter
 @Entity
-@Table(name = "messages")
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column
+    private LocalDateTime dateTime;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="freelancer_id")
     private Freelancer freelancer;
