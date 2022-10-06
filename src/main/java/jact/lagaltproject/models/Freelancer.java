@@ -13,9 +13,9 @@ public class Freelancer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 100, nullable = false)
+    @Column(length = 50, nullable = false)
     private String name;
-    @Column(length = 100, nullable = false)
+    @Column(length = 50, nullable = false)
     private String email;
     @Column()
     private boolean hidden;
@@ -36,7 +36,8 @@ public class Freelancer {
     //Relationships
     @OneToMany(mappedBy = "freelancer")
     Set<Message> messages;
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
 
-    @OneToMany(mappedBy = "freelancer")
-    private Set<Project_freelancer> project_freelancers;
 }
