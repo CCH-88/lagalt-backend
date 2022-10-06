@@ -17,11 +17,13 @@ public class Freelancer {
     private String name;
     @Column(length = 50, nullable = false)
     private String email;
-    @Column()
-    private boolean hidden;
+    @Column(columnDefinition = "Boolean default true")
+    private Boolean hidden;
+
 //    @Type(type = "list-array")
 //    @Column(name = "user_skills", columnDefinition = "text[]")
 //    private String[] skills;
+
     @Column(length = 800)
     private String googleToken;
     @Column(length = 800)
@@ -36,8 +38,8 @@ public class Freelancer {
     //Relationships
     @OneToMany(mappedBy = "freelancer")
     Set<Message> messages;
-    @ManyToOne
-    @JoinColumn(name = "project_id")
-    private Project project;
+
+    @OneToMany(mappedBy = "freelancer")
+    private Set<Project_freelancer> project_freelancers;
 
 }
