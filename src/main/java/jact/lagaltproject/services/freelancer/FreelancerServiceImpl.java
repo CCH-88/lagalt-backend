@@ -5,11 +5,13 @@ import jact.lagaltproject.models.Freelancer;
 import jact.lagaltproject.models.Project;
 import jact.lagaltproject.repositories.FreelancerRepository;
 import jact.lagaltproject.repositories.ProjectRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+@Service
 public class FreelancerServiceImpl implements FreelancerService {
 
     private final FreelancerRepository freelancerRepo;
@@ -54,6 +56,11 @@ public class FreelancerServiceImpl implements FreelancerService {
     @Override
     public Collection<Freelancer> findFreelancersInProject(Long id) {
         return freelancerRepo.findUsersInProject(id);
+    }
+
+    @Override
+    public Collection<Freelancer> findAllByName(String name) {
+        return freelancerRepo.findAllByName(name);
     }
 
 }

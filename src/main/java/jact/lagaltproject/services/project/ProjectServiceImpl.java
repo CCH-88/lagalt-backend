@@ -3,9 +3,11 @@ package jact.lagaltproject.services.project;
 import jact.lagaltproject.exceptions.ProjectNotFoundException;
 import jact.lagaltproject.models.Project;
 import jact.lagaltproject.repositories.ProjectRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
+@Service
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepo;
 
@@ -42,5 +44,10 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public boolean exists(Long id) {
         return projectRepo.existsById(id);
+    }
+
+    @Override
+    public Collection<Project> findAllByName(String name) {
+        return projectRepo.findAllByName(name);
     }
 }
