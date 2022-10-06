@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-public class Freelance_history {
+public class Freelancer_history {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,4 +29,9 @@ public class Freelance_history {
     @Column(columnDefinition = "bigint[]")
     @Type(type = "jact.lagaltproject.models.types.PostgreSqlLongArrayType")
     private Long[] participated;
+
+
+    @OneToOne(mappedBy = "freelancer_history")
+    private Freelancer freelancer;
+
 }
