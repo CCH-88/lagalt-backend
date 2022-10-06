@@ -1,6 +1,9 @@
 package jact.lagaltproject.models.dtos.project;
 
+import jact.lagaltproject.models.Project_freelancer;
 import lombok.Data;
+
+import java.util.Set;
 
 @Data
 public class ProjectDTO {
@@ -9,4 +12,7 @@ public class ProjectDTO {
     private int ownerId;
     private String description;
     private String[] projectImages;
+
+    private Set<Project_freelancer> projectFreelancers;
+    private Long chatId;
 }
