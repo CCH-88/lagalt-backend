@@ -14,7 +14,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project findById(Integer id) {
+    public Project findById(Long id) {
         return projectRepo.findById(id)
                 .orElseThrow(() -> new ProjectNotFoundException(id));
     }
@@ -35,12 +35,12 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public void deleteById(Long id) {
         projectRepo.deleteById(id);
     }
 
     @Override
-    public boolean exists(Integer id) {
+    public boolean exists(Long id) {
         return projectRepo.existsById(id);
     }
 }

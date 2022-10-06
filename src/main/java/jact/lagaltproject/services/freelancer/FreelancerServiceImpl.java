@@ -1,21 +1,27 @@
-package jact.lagaltproject.services.freelancer;
+package jact.lagaltproject.services.freelancerService;
 
 import jact.lagaltproject.exceptions.FreelancerNotFoundException;
 import jact.lagaltproject.models.Freelancer;
+import jact.lagaltproject.models.Project;
 import jact.lagaltproject.repositories.FreelancerRepository;
+import jact.lagaltproject.repositories.ProjectRepository;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 public class FreelancerServiceImpl implements FreelancerService {
 
     private final FreelancerRepository freelancerRepo;
+    private final ProjectRepository projectRepo;
 
-    public FreelancerServiceImpl(FreelancerRepository freelancerRepo) {
+    public FreelancerServiceImpl(FreelancerRepository freelancerRepo, ProjectRepository projectRepo) {
         this.freelancerRepo = freelancerRepo;
+        this.projectRepo = projectRepo;
     }
 
     @Override
-    public Freelancer findById(Integer id) {
+    public Freelancer findById(Long id) {
         return freelancerRepo.findById(id)
                 .orElseThrow(() -> new FreelancerNotFoundException(id));
     }
@@ -36,17 +42,17 @@ public class FreelancerServiceImpl implements FreelancerService {
     }
 
     @Override
-    public void deleteById(Integer integer) {
-        freelancerRepo.deleteById(integer);
+    public void deleteById(Long id) {
+        freelancerRepo.deleteById(id);
     }
 
     @Override
-    public boolean exists(Integer id) {
+    public boolean exists(Long id) {
         return freelancerRepo.existsById(id);
     }
 
     @Override
-    public Collection<Freelancer> findFreelancersInProject(Integer id) {
+    public Collection<Freelancer> findFreelancersInProject(Long id) {
         return freelancerRepo.findUsersInProject(id);
     }
 
