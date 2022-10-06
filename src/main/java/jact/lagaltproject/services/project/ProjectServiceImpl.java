@@ -3,9 +3,11 @@ package jact.lagaltproject.services.project;
 import jact.lagaltproject.exceptions.ProjectNotFoundException;
 import jact.lagaltproject.models.Project;
 import jact.lagaltproject.repositories.ProjectRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
+@Service
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepo;
 

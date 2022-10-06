@@ -1,15 +1,17 @@
-package jact.lagaltproject.services.freelancerService;
+package jact.lagaltproject.services.freelancer;
 
 import jact.lagaltproject.exceptions.FreelancerNotFoundException;
 import jact.lagaltproject.models.Freelancer;
 import jact.lagaltproject.models.Project;
 import jact.lagaltproject.repositories.FreelancerRepository;
 import jact.lagaltproject.repositories.ProjectRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+@Service
 public class FreelancerServiceImpl implements FreelancerService {
 
     private final FreelancerRepository freelancerRepo;
