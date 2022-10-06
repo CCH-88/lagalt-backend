@@ -16,11 +16,12 @@ public class Message {
     private Long id;
     @Column
     private LocalDateTime dateTime;
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="freelancer_id")
     private Freelancer freelancer;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_id")
     private Chat chat;
 
