@@ -1,6 +1,7 @@
 package jact.lagaltproject.models;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -20,16 +21,20 @@ public class Freelancer {
     @Column(columnDefinition = "Boolean default true")
     private Boolean hidden;
 
-//    @Type(type = "list-array")
-//    @Column(name = "user_skills", columnDefinition = "text[]")
-//    private String[] skills;
+    @Column(columnDefinition = "text[]")
+    @Type(type = "jact.lagaltproject.models.types.PostgreSqlStringArrayType")
+    private String[] skills;
 
     @Column(length = 800)
     private String googleToken;
+
+    /*
     @Column(length = 800)
     private String githubToken;
     @Column(length = 800)
     private String twitterToken;
+    */
+
     @Column()
     private String portfolio;
     @Column(length = 4000)
