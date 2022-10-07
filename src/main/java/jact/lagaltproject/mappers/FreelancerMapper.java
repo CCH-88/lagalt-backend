@@ -2,6 +2,7 @@ package jact.lagaltproject.mappers;
 
 
 import jact.lagaltproject.models.Freelancer;
+import jact.lagaltproject.models.Message;
 import jact.lagaltproject.models.dtos.freelancer.FreelancerDTO;
 import jact.lagaltproject.services.freelancer.FreelancerService;
 import org.mapstruct.Mapper;
@@ -41,4 +42,19 @@ public abstract class FreelancerMapper {
 //                .collect(Collectors.toSet());
 //    }
 
+    /*
+    * Mapping:  Messages
+    *           Freelance History
+    *           Project_Freelancers
+    * */
+    @Mapping(target = "messages",source = "messages", qualifiedByName = "messagesToIds")
+    public abstract FreelancerDTO freelancerToDTO(Freelancer freelancer);
+
+    @Named("messagesToIds")
+    Set<Long> mapMessagesToIds(Set<Message> messages) {
+        if(messages == null) {
+            return null;
+        }
+        return messages.stream().map(Message::getId).collect(Collectors.toSet());
+    }
 }
