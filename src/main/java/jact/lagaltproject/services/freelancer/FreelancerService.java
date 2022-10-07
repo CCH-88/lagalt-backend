@@ -10,4 +10,8 @@ public interface FreelancerService extends CrudService<Freelancer, Long> {
     Collection<Freelancer> findFreelancersInProject(Long id);
 
     Collection<Freelancer> findAllByName(String name);
+
+    Freelancer add(String uid);
+
+    Freelancer findByUid(String uid);
 }

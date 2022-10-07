@@ -11,6 +11,9 @@ public interface FreelancerRepository extends JpaRepository<Freelancer, Long> {
     @Query(value = "SELECT * FROM Project p where p.id = ?1", nativeQuery = true)
     Collection<Freelancer> findUsersInProject(Long id);
 
-    @Query("select f from Freelancer f where f.name like %?1%")
+    @Query(value = "select f from Freelancer f where f.name like %?1%")
     Set<Freelancer> findAllByName(String name);
+
+    @Query(value = "select f from Freelancer f where f.uid = ?1")
+    boolean existsByUid(String uid);
 }

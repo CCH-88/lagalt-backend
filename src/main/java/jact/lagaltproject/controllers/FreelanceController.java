@@ -11,10 +11,15 @@ import jact.lagaltproject.models.dtos.freelancer.FreelancerDTO;
 import jact.lagaltproject.services.freelancer.FreelancerService;
 import jact.lagaltproject.util.ApiErrorResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.security.Principal;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "api/v1/freelancers")
@@ -42,7 +47,7 @@ public class FreelanceController {
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = FreelancerDTO.class))) })
+                                    array = @ArraySchema(schema = @Schema(implementation = FreelancerDTO.class)))})
     })
     @GetMapping // GET: localhost:8080/api/v1/freelancers
     public ResponseEntity<Collection<Freelancer>> getAll() {
@@ -56,8 +61,8 @@ public class FreelanceController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Success",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Freelancer.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Freelancer.class))}),
             @ApiResponse(responseCode = "404",
                     description = "Freelancer with supplied ID does not exist",
                     content = @Content)
@@ -74,12 +79,12 @@ public class FreelanceController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Success",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Freelancer.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Freelancer.class))}),
             @ApiResponse(responseCode = "404",
                     description = "Character with supplied ID does not exist",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiErrorResponse.class)) })
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class))})
     })
     @GetMapping("search") // GET: localhost:8080/api/v1/freelancers/search?name=Thor
     public ResponseEntity<Collection<Freelancer>> findByName(@RequestParam String name) {
@@ -87,7 +92,7 @@ public class FreelanceController {
     }
 
     @Operation(summary = "Adds a freelancer")
-    @ApiResponses( value = {
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "204",
                     description = "Freelancer successfully added",
                     content = @Content),
@@ -107,7 +112,7 @@ public class FreelanceController {
     }
 
     @Operation(summary = "Updates a freelancer")
-    @ApiResponses( value = {
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "204",
                     description = "Freelancer successfully updated",
                     content = @Content),
@@ -121,14 +126,14 @@ public class FreelanceController {
     @PutMapping("{id}") // PUT: localhost:8080/api/v1/freelancers/1
     public ResponseEntity update(@RequestBody Freelancer aFreelancer, @PathVariable int id) {
         // Validates if body is correct
-        if(id != aFreelancer.getId())
+        if (id != aFreelancer.getId())
             return ResponseEntity.badRequest().build();
         freelancerService.update(aFreelancer);
         return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "Deletes a freelancer")
-    @ApiResponses( value = {
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "410",
                     description = "Freelancer successfully deleted",
                     content = @Content),
@@ -139,10 +144,46 @@ public class FreelanceController {
                     description = "Freelancer with supplied ID not found ",
                     content = @Content)
     })
-    @DeleteMapping("{id}") // DELETE: localhost:8080/api/v1/freelancers/1
+    @DeleteMapping("{id}") // DELETE: localhost:8080/api/v1/freelancers/{id}
     public ResponseEntity delete(@PathVariable long id) {
         freelancerService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    /*
+     * JWT Handling mappers
+     */
+
+    // Adding new user to jwt
+    @Operation(summary = "Adds the Freelancer JWT token to the database")
+    @PostMapping("register")
+    public ResponseEntity addNewUserFromJwt(@AuthenticationPrincipal Jwt jwt) {
+        Freelancer freelancer = freelancerService.add(jwt.getClaimAsString("sub"));
+        URI uri = URI.create("api/v1/freelancers" + freelancer.getUid());
+        return ResponseEntity.created(uri).build();
+    }
+
+    // Get the current freelancer
+    @Operation(summary = "Gets the current logged in freelancer")
+    @GetMapping("current")
+    public ResponseEntity getCurrentlyLoggedInFreelancer(@AuthenticationPrincipal Jwt jwt) {
+        return ResponseEntity.ok(
+                freelancerService.findByUid(
+                        jwt.getClaimAsString("sub")
+                )
+        );
+    }
+
+    @GetMapping("principal")
+    public ResponseEntity getFreelancerPrincipal(Principal freelancer){
+        return ResponseEntity.ok(freelancer);
+    }
+
+    @GetMapping("info")
+    public ResponseEntity getLoggedInFreelancerInfo(@AuthenticationPrincipal Jwt jwt){
+        Map<String, String> map = new HashMap<>();
+
+        return ResponseEntity.ok(map);
     }
 
 }

@@ -15,6 +15,8 @@ public class Freelancer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column
+    private String uid;
     @Column(length = 50, nullable = false)
     private String name;
     @Column(length = 50, nullable = false)

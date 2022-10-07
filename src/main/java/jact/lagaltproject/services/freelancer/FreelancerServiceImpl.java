@@ -1,5 +1,6 @@
 package jact.lagaltproject.services.freelancer;
 
+import jact.lagaltproject.exceptions.FreelancerAlreadyExistsException;
 import jact.lagaltproject.exceptions.FreelancerNotFoundException;
 import jact.lagaltproject.models.Freelancer;
 import jact.lagaltproject.models.Project;
@@ -36,6 +37,15 @@ public class FreelancerServiceImpl implements FreelancerService {
     @Override
     public Freelancer add(Freelancer entity) {
         return freelancerRepo.save(entity);
+    }
+
+    // Adding a freelancer using JWT
+    @Override
+    public Freelancer add(String uid){
+        if(freelancerRepo.existsByUid(uid)) throw new FreelancerAlreadyExistsException(uid);
+        Freelancer freelancer = new Freelancer();
+        freelancer.setUid(uid);
+        return freelancer;
     }
 
     @Override
