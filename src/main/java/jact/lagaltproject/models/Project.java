@@ -1,5 +1,6 @@
 package jact.lagaltproject.models;
 
+import jact.lagaltproject.enums.Progress;
 import lombok.*;
 import org.hibernate.annotations.Type;
 
@@ -24,6 +25,11 @@ public class Project {
     @Column(columnDefinition = "text[]")
     @Type(type = "jact.lagaltproject.models.types.PostgreSqlStringArrayType")
     private String[] projectImages;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Progress progress;
+
 
     //Relationships
 
