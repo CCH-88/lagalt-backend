@@ -43,11 +43,12 @@ public abstract class FreelancerMapper {
 //    }
 
     /*
-    * Mapping:  Messages
+    * Mapping:  Messages - check
     *           Freelance History
     *           Project_Freelancers
     * */
     @Mapping(target = "messages",source = "messages", qualifiedByName = "messagesToIds")
+    @Mapping(target = "project_history", source = "freelancer_history.id")
     public abstract FreelancerDTO freelancerToDTO(Freelancer freelancer);
 
     @Named("messagesToIds")
