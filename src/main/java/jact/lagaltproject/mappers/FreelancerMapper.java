@@ -17,37 +17,9 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public abstract class FreelancerMapper {
-//
-//    @Autowired
- //   protected FreelancerService freelancerService;
-//
-//    @Mapping(target = "freelancer", source = "freelancer.id")
-//    public abstract FreelancerDTO freelancerDTO(Freelancer user);
-//
-//    public abstract Collection<FreelancerDTO> userToUserDTO(Collection<Freelancer> users);
-//
-//    @Mapping(target = "project", source = "project", qualifiedByName = "projectIdToProject")
-//    public abstract Freelancer freelancerDtoToFreelancer(FreelancerDTO dto);
-//
-//    @Named("usersToIds")
-//    Set<Long> mapFreelancersToIds(Set<Freelancer> source) {
-//        if (source == null) return null;
-//        return source.stream()
-//                .map(Freelancer::getId).collect(Collectors.toSet());
-//    }
-//
-//    @Named("userIdsToUsers")
-//    Set<Freelancer> mapIdsToFreelancers(Set<Integer> id) {
-//        return id.stream()
-//                .map(i -> freelancerService.findById(i))
-//                .collect(Collectors.toSet());
-//    }
 
-    /*
-    * Mapping:  Messages - check
-    *           Freelance History
-    *           Project_Freelancers - check
-    * */
+    @Autowired
+    protected FreelancerService freelancerService;
     @Mapping(target = "messages",source = "messages", qualifiedByName = "messagesToIds")
     @Mapping(target = "project_history", source = "freelancer_history.id")
     @Mapping(target = "projectFreelancers", source = "project_freelancers", qualifiedByName = "projectFreelancersToIds")
