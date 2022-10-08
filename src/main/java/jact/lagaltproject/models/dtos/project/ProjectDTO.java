@@ -13,6 +13,6 @@ public class ProjectDTO {
     private String description;
     private String[] projectImages;
 
-    private Set<Project_freelancer> projectFreelancers;
+    private Set<Long> projectFreelancers;
     private Long chatId;
 }
