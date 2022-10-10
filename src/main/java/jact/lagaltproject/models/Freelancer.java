@@ -45,11 +45,11 @@ public class Freelancer {
     private String description;
 
     //Relationships
-    //@OneToMany(mappedBy = "freelancer")
-    //Set<Message> messages;
+    @OneToMany(mappedBy = "freelancer")
+    Set<Message> messages;
 
-    //@OneToMany(mappedBy = "freelancer")
-    //private Set<Project_freelancer> project_freelancers;
+    @OneToMany(mappedBy = "freelancer")
+    private Set<Project_freelancer> project_freelancers;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "freelancer_history_id", referencedColumnName = "id")
