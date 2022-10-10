@@ -32,7 +32,7 @@ public abstract class FreelancerMapper {
     /*
     *   Mapping of Freelancer To FreelancerDTO
     */
-    @Mapping(target = "messages",source = "messages", qualifiedByName = "mapMessageIdsToMessages")
+    @Mapping(target = "messages",source = "messages", qualifiedByName = "messageIdsToMessages")
     @Mapping(target = "freelancer_history", source = "freelancer_history.id")
     @Mapping(target = "projectFreelancers", source = "project_freelancers", qualifiedByName = "projectFreelancersToIds")
     public abstract FreelancerDTO freelancerToDTO(Freelancer freelancer);
