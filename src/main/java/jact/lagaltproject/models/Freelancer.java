@@ -27,7 +27,6 @@ public class Freelancer {
     @Type(type = "jact.lagaltproject.models.types.PostgreSqlStringArrayType")
     //Possible solutions: Change type from Role[] to String[].
     // Or change role to a var: Role[] -> Role
-    //private Role[] skills;
     private String[] skills;
 
     @Column(length = 800)
