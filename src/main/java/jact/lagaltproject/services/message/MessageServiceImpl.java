@@ -3,9 +3,11 @@ package jact.lagaltproject.services.message;
 import jact.lagaltproject.exceptions.MessageNotFoundException;
 import jact.lagaltproject.models.Message;
 import jact.lagaltproject.repositories.MessageRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
+@Service
 public class MessageServiceImpl implements MessageService {
 
     private final MessageRepository messageRepo;
