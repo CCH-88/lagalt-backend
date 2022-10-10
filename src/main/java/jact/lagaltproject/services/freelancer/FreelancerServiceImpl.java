@@ -49,6 +49,11 @@ public class FreelancerServiceImpl implements FreelancerService {
     }
 
     @Override
+    public Freelancer findByUid(String uid) {
+        return freelancerRepo.findByUid(uid);
+    }
+
+    @Override
     public Freelancer update(Freelancer entity) {
         return freelancerRepo.save(entity);
     }
