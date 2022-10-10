@@ -8,6 +8,7 @@ import jact.lagaltproject.models.Project_freelancer;
 import jact.lagaltproject.models.dtos.freelancer.FreelancerDTO;
 import jact.lagaltproject.services.FreelancerHistoryService.FreelancerHistoryService;
 import jact.lagaltproject.services.freelancer.FreelancerService;
+import jact.lagaltproject.services.message.MessageService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -26,20 +27,22 @@ public abstract class FreelancerMapper {
     @Autowired
     protected FreelancerHistoryService freelancerHistoryService;
 
+    @Autowired
+    protected MessageService messageService;
     /*
     *   Mapping of Freelancer To FreelancerDTO
     */
-    @Mapping(target = "messages",source = "messages", qualifiedByName = "messagesToIds")
+    @Mapping(target = "messages",source = "messages", qualifiedByName = "mapMessageIdsToMessages")
     @Mapping(target = "freelancer_history", source = "freelancer_history.id")
     @Mapping(target = "projectFreelancers", source = "project_freelancers", qualifiedByName = "projectFreelancersToIds")
     public abstract FreelancerDTO freelancerToDTO(Freelancer freelancer);
 
-    @Named("messagesToIds")
-    Set<Long> mapMessagesToIds(Set<Message> messages) {
-        if(messages == null) {
+    @Named("messageIdsToMessages")
+    Set<Message> mapMessageIdsToMessages(Set<Long> ids) {
+        if(ids == null) {
             return null;
         }
-        return messages.stream().map(Message::getId).collect(Collectors.toSet());
+        return ids.stream().map(id -> messageService.findById(id)).collect(Collectors.toSet());
     }
 
     @Named("projectFreelancersToIds")
@@ -55,10 +58,17 @@ public abstract class FreelancerMapper {
     */
 
     @Mapping(target = "freelancer_history", source = "freelancer_history", qualifiedByName = "freelancerHistoryIdToFreelancerHistory")
+    @Mapping(target = "messages", source = "messages", qualifiedByName = "messagesToIds")
     public abstract Freelancer FreelancerDTOtoFreelancer(FreelancerDTO dto);
 
     @Named("freelancerHistoryIdToFreelancerHistory")
     Freelancer_history mapIdToFreelancer_History(Long id ) {
         return freelancerHistoryService.findById(id);
+    }
+
+    @Named("messagesToIds")
+    Set<Long> mapMessagesToIds(Set<Message> messages) {
+        if(messages == null) return null;
+        return messages.stream().map(m -> m.getId()).collect(Collectors.toSet());
     }
 }
