@@ -1,37 +1,51 @@
 package jact.lagaltproject.services.FreelancerHistoryService;
 
-import jact.lagaltproject.models.Freelancer;
+import jact.lagaltproject.exceptions.ResourceNotFoundException;
+import jact.lagaltproject.models.Freelancer_history;
+import jact.lagaltproject.repositories.FreelancerHistoryRepository;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
 
+@Service
 public class FreelancerHistoryServiceImpl implements FreelancerHistoryService{
-    @Override
-    public Freelancer findById(Integer id) {
-        return null;
+
+    private final FreelancerHistoryRepository freelancerHistoryRepository;
+
+    public FreelancerHistoryServiceImpl(FreelancerHistoryRepository freelancerHistoryRepository) {
+        this.freelancerHistoryRepository = freelancerHistoryRepository;
     }
 
     @Override
-    public Collection<Freelancer> findAll() {
-        return null;
+    public Freelancer_history findById(Long id) {
+        return freelancerHistoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Freelance History With the Id: " + id + " Could not be found"));
     }
 
     @Override
-    public Freelancer add(Freelancer entity) {
-        return null;
+    public Collection<Freelancer_history> findAll() {
+        return freelancerHistoryRepository.findAll();
     }
 
     @Override
-    public Freelancer update(Freelancer entity) {
-        return null;
+    public Freelancer_history add(Freelancer_history entity) {
+        return freelancerHistoryRepository.save(entity);
     }
 
     @Override
-    public void deleteById(Integer id) {
-
+    public Freelancer_history update(Freelancer_history entity) {
+        return freelancerHistoryRepository.save(entity);
     }
 
     @Override
-    public boolean exists(Integer id) {
-        return false;
+    @Transactional
+    public void deleteById(Long id) {
+        freelancerHistoryRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean exists(Long id) {
+        return freelancerHistoryRepository.existsById(id);
     }
 }
