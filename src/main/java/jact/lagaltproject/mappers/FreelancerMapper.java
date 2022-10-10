@@ -32,19 +32,16 @@ public abstract class FreelancerMapper {
     /*
     *   Mapping of Freelancer To FreelancerDTO
     */
-    @Mapping(target = "messages",source = "messages", qualifiedByName = "messageIdsToMessages")
+    @Mapping(target = "messages",source = "messages", qualifiedByName = "messagesToIds")
     @Mapping(target = "freelancer_history", source = "freelancer_history.id")
     @Mapping(target = "projectFreelancers", source = "project_freelancers", qualifiedByName = "projectFreelancersToIds")
     public abstract FreelancerDTO freelancerToDTO(Freelancer freelancer);
 
-    @Named("messageIdsToMessages")
-    Set<Message> mapMessageIdsToMessages(Set<Long> ids) {
-        if(ids == null) {
-            return null;
-        }
-        return ids.stream().map(id -> messageService.findById(id)).collect(Collectors.toSet());
+    @Named("messagesToIds")
+    Set<Long> mapMessagesToIds(Set<Message> messages) {
+        if(messages == null) return null;
+        return messages.stream().map(m -> m.getId()).collect(Collectors.toSet());
     }
-
     @Named("projectFreelancersToIds")
     Set<Long> mapProjectFreelancersToIds(Set<Project_freelancer> project_freelancers) {
         if (project_freelancers == null) {
@@ -58,7 +55,7 @@ public abstract class FreelancerMapper {
     */
 
     @Mapping(target = "freelancer_history", source = "freelancer_history", qualifiedByName = "freelancerHistoryIdToFreelancerHistory")
-    @Mapping(target = "messages", source = "messages", qualifiedByName = "messagesToIds")
+    @Mapping(target = "messages", source = "messages", qualifiedByName = "messageIdsToMessages")
     public abstract Freelancer FreelancerDTOtoFreelancer(FreelancerDTO dto);
 
     @Named("freelancerHistoryIdToFreelancerHistory")
@@ -66,9 +63,11 @@ public abstract class FreelancerMapper {
         return freelancerHistoryService.findById(id);
     }
 
-    @Named("messagesToIds")
-    Set<Long> mapMessagesToIds(Set<Message> messages) {
-        if(messages == null) return null;
-        return messages.stream().map(m -> m.getId()).collect(Collectors.toSet());
+    @Named("messageIdsToMessages")
+    Set<Message> mapMessageIdsToMessages(Set<Long> ids) {
+        if(ids == null) {
+            return null;
+        }
+        return ids.stream().map(id -> messageService.findById(id)).collect(Collectors.toSet());
     }
 }
