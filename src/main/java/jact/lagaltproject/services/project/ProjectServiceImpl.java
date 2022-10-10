@@ -28,6 +28,10 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project add(Project entity) {
+        if (entity.getProjectImages() == null) {
+            String[] empty = new String[0];
+            entity.setProjectImages(empty);
+        }
         return projectRepo.save(entity);
     }
 
