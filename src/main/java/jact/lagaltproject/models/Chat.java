@@ -18,7 +18,7 @@ public class Chat {
     @OneToMany(mappedBy = "chat")
     private Set<Message> messages;
 
-    @OneToOne
+    @OneToOne(mappedBy = "chat")
     private Project project;
 
 }

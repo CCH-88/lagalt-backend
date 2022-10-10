@@ -1,6 +1,7 @@
 package jact.lagaltproject.services.project;
 
 import jact.lagaltproject.exceptions.ProjectNotFoundException;
+import jact.lagaltproject.models.Chat;
 import jact.lagaltproject.models.Project;
 import jact.lagaltproject.repositories.ProjectRepository;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,8 @@ public class ProjectServiceImpl implements ProjectService {
             String[] empty = new String[0];
             entity.setProjectImages(empty);
         }
+        Chat chat = new Chat();
+        entity.setChat(chat);
         return projectRepo.save(entity);
     }
 
