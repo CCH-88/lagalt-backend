@@ -1,12 +1,23 @@
 package jact.lagaltproject.mappers;
 
+import jact.lagaltproject.models.Project;
+import jact.lagaltproject.models.Project_freelancer;
+import jact.lagaltproject.models.dtos.project.ProjectDTO;
+import jact.lagaltproject.services.project.ProjectService;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public abstract class ProjectMapper {
 //
 //    protected FreelancerService freelancerService;
-//    protected ProjectService projectService;
+     @Autowired
+     protected ProjectService projectService;
 //
 //    @Mapping(target = "project", source = "project.id")
 //    @Mapping(target = "freelancer", source = "freelancer.id")
@@ -31,5 +42,15 @@ public abstract class ProjectMapper {
 //                .collect(Collectors.toSet());
 //    }
 
+            @Mapping(target = "chatId", source = "chat.id")
+            @Mapping(target = "projectFreelancers", source = "project_freelancers", qualifiedByName = "projectFreelancersToIds")
+            public abstract ProjectDTO projectToDTO(Project project);
 
+    @Named("projectFreelancersToIds")
+    Set<Long> mapProjectFreelancersToIds(Set<Project_freelancer> project_freelancers) {
+        if (project_freelancers == null) {
+            return null;
+        }
+        return project_freelancers.stream().map(project_freelancer -> project_freelancer.getId().getFreelancer_id() + project_freelancer.getId().getProject_id()).collect(Collectors.toSet());
+    }
 }
