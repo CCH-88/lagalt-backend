@@ -21,7 +21,7 @@ public abstract class FreelancerMapper {
     @Autowired
     protected FreelancerService freelancerService;
     @Mapping(target = "messages",source = "messages", qualifiedByName = "messagesToIds")
-    @Mapping(target = "project_history", source = "freelancer_history.id")
+    @Mapping(target = "freelancer_history", source = "freelancer_history.id")
     @Mapping(target = "projectFreelancers", source = "project_freelancers", qualifiedByName = "projectFreelancersToIds")
     public abstract FreelancerDTO freelancerToDTO(Freelancer freelancer);
 
