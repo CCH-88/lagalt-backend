@@ -6,6 +6,7 @@ import jact.lagaltproject.repositories.MessageRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+
 @Service
 public class MessageServiceImpl implements MessageService {
 
