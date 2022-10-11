@@ -65,9 +65,7 @@ public abstract class FreelancerMapper {
 
     @Named("messageIdsToMessages")
     Set<Message> mapMessageIdsToMessages(Set<Long> ids) {
-        if(ids == null) {
-            return null;
-        }
+        if(ids == null) return null;
         return ids.stream().map(id -> messageService.findById(id)).collect(Collectors.toSet());
     }
 }
