@@ -12,13 +12,13 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public abstract class ProjectMapper {
-//
-//    protected FreelancerService freelancerService;
+
      @Autowired
      protected ProjectService projectService;
 
@@ -27,30 +27,9 @@ public abstract class ProjectMapper {
 
      @Autowired
      protected ProjectFreelancerService projectFreelancerService;
-//
-//    @Mapping(target = "project", source = "project.id")
-//    @Mapping(target = "freelancer", source = "freelancer.id")
-//    public abstract ProjectDTO projectToProjectDto(Project project);
-//
-//    public abstract Collection<ProjectDTO> projectToProjectDto(Collection<Project> projects);
-//
-//    @Mapping(target = "project", source = "project", qualifiedByName = "projectIdToProject")
-//    @Mapping(target = "freelancers", source = "freelancers", qualifiedByName = "freelancerIdsToFreelancers")
-//    public abstract Project projectDtoToProject(ProjectDTO dto);
-//
-//    //Custom Mappings
-//    @Named("projectIdToProject")
-//    Project mapIdToProject(int id) {
-//        return projectService.findById(id);
-//    }
-//
-//    @Named("freelancerIdsToFreelancers")
-//    Set<Freelancer> mapIdsToFreelancers(Set<Integer> id) {
-//        return id.stream()
-//                .map(i -> freelancerService.findById(i))
-//                .collect(Collectors.toSet());
-//    }
 
+
+    /*  Project To ProjectDTO   */
     @Mapping(target = "chatId", source = "chat.id")
     @Mapping(target = "projectFreelancers", source = "project_freelancers", qualifiedByName = "projectFreelancersToIds")
     public abstract ProjectDTO projectToDTO(Project project);
@@ -62,7 +41,11 @@ public abstract class ProjectMapper {
         }
         return project_freelancers.stream().map(project_freelancer -> project_freelancer.getId().getFreelancer_id() + project_freelancer.getId().getProject_id()).collect(Collectors.toSet());
     }
+    /*  Collection<Project> To Collection<ProjectDTO>   */
+    public abstract Collection<ProjectDTO> projectToDTO(Collection<Project> projects);
 
+
+    /*  ProjectDTO To Project   */
     @Mapping(target = "chat", source = "chatId", qualifiedByName = "chatIdToChat")
     @Mapping(target = "project_freelancers", source = "projectFreelancers", qualifiedByName =  "projectFreelancerIdsToProjectFreelancers" )
     public abstract Project projectDTOToProject(ProjectDTO projectDTO);
@@ -77,4 +60,8 @@ public abstract class ProjectMapper {
         if (ids == null) return null;
         return ids.stream().map(id ->projectFreelancerService.findById(id)).collect(Collectors.toSet());
     }
+
+    /*  Collection<ProjectDTO> To Collection<Project>   */
+    public abstract Collection<Project> projectDTOToProject(Collection<ProjectDTO> projects);
+
 }
