@@ -9,12 +9,13 @@ import jact.lagaltproject.models.dtos.freelancer.FreelancerDTO;
 import jact.lagaltproject.services.FreelancerHistoryService.FreelancerHistoryService;
 import jact.lagaltproject.services.freelancer.FreelancerService;
 import jact.lagaltproject.services.message.MessageService;
+import jact.lagaltproject.services.projectFreelancer.ProjectFreelancerService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
+import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,6 +30,10 @@ public abstract class FreelancerMapper {
 
     @Autowired
     protected MessageService messageService;
+
+    @Autowired
+    protected ProjectFreelancerService projectFreelancerService;
+
     /*
     *   Mapping of Freelancer To FreelancerDTO
     */
@@ -39,9 +44,12 @@ public abstract class FreelancerMapper {
 
     @Named("messagesToIds")
     Set<Long> mapMessagesToIds(Set<Message> messages) {
-        if(messages == null) return null;
-        return messages.stream().map(m -> m.getId()).collect(Collectors.toSet());
+        if(messages == null) {
+            return null;
+        }
+        return messages.stream().map(Message::getId).collect(Collectors.toSet());
     }
+
     @Named("projectFreelancersToIds")
     Set<Long> mapProjectFreelancersToIds(Set<Project_freelancer> project_freelancers) {
         if (project_freelancers == null) {
@@ -56,6 +64,7 @@ public abstract class FreelancerMapper {
 
     @Mapping(target = "freelancer_history", source = "freelancer_history", qualifiedByName = "freelancerHistoryIdToFreelancerHistory")
     @Mapping(target = "messages", source = "messages", qualifiedByName = "messageIdsToMessages")
+    @Mapping(target = "project_freelancers",source = "projectFreelancers", qualifiedByName = "mapProjectFreelancerIdsToProjectFreelancers")
     public abstract Freelancer FreelancerDTOtoFreelancer(FreelancerDTO dto);
 
     @Named("freelancerHistoryIdToFreelancerHistory")
@@ -68,4 +77,11 @@ public abstract class FreelancerMapper {
         if(ids == null) return null;
         return ids.stream().map(id -> messageService.findById(id)).collect(Collectors.toSet());
     }
+
+    @Named("mapProjectFreelancerIdsToProjectFreelancers")
+    Set<Project_freelancer> mapProjectFreelancerIdsToProjectFreelancers(Set<Long> ids) {
+        if (ids == null) return null;
+        return ids.stream().map(id ->projectFreelancerService.findById(id)).collect(Collectors.toSet());
+    }
+
 }
