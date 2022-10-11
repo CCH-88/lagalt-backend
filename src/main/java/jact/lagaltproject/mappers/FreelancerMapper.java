@@ -1,11 +1,9 @@
 package jact.lagaltproject.mappers;
 
 
-import jact.lagaltproject.models.Freelancer;
-import jact.lagaltproject.models.Freelancer_history;
-import jact.lagaltproject.models.Message;
-import jact.lagaltproject.models.Project_freelancer;
+import jact.lagaltproject.models.*;
 import jact.lagaltproject.models.dtos.freelancer.FreelancerDTO;
+import jact.lagaltproject.models.dtos.project.ProjectDTO;
 import jact.lagaltproject.services.FreelancerHistoryService.FreelancerHistoryService;
 import jact.lagaltproject.services.freelancer.FreelancerService;
 import jact.lagaltproject.services.message.MessageService;
@@ -34,9 +32,7 @@ public abstract class FreelancerMapper {
     @Autowired
     protected ProjectFreelancerService projectFreelancerService;
 
-    /*
-    *   Mapping of Freelancer To FreelancerDTO
-    */
+    /*  Mapping of Freelancer To FreelancerDTO  */
     @Mapping(target = "messages",source = "messages", qualifiedByName = "messagesToIds")
     @Mapping(target = "freelancer_history", source = "freelancer_history.id")
     @Mapping(target = "projectFreelancers", source = "project_freelancers", qualifiedByName = "projectFreelancersToIds")
@@ -58,9 +54,11 @@ public abstract class FreelancerMapper {
         return project_freelancers.stream().map(project_freelancer -> project_freelancer.getId().getFreelancer_id() + project_freelancer.getId().getProject_id()).collect(Collectors.toSet());
     }
 
-    /*
-    *   Mapping of Freelancer To FreelancerDTO
-    */
+    /*  Collection<Freelancer> To Collection<FreelancerDTO>   */
+    public abstract Collection<FreelancerDTO> freelancerToDTO(Collection<Freelancer> freelancers);
+
+
+    /*  Mapping of Freelancer To FreelancerDTO  */
 
     @Mapping(target = "freelancer_history", source = "freelancer_history", qualifiedByName = "freelancerHistoryIdToFreelancerHistory")
     @Mapping(target = "messages", source = "messages", qualifiedByName = "messageIdsToMessages")
@@ -83,5 +81,8 @@ public abstract class FreelancerMapper {
         if (ids == null) return null;
         return ids.stream().map(id ->projectFreelancerService.findById(id)).collect(Collectors.toSet());
     }
+
+    /*  Collection<Freelancer> To Collection<FreelancerDTO>   */
+    public abstract Collection<Freelancer> FreelancerDTOtoFreelancer(Collection<FreelancerDTO> freelancers);
 
 }
