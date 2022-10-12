@@ -9,4 +9,6 @@ import java.util.Collection;
 public interface ProjectService extends CrudService<Project, Long> {
 
     Collection<Project> findAllByName(String name);
+
+    Collection<Project> findAllByField(String field);
 }
