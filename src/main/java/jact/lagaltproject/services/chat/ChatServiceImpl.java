@@ -3,9 +3,11 @@ package jact.lagaltproject.services.chat;
 import jact.lagaltproject.exceptions.ChatNotFoundException;
 import jact.lagaltproject.models.Chat;
 import jact.lagaltproject.repositories.ChatRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
+@Service
 public class ChatServiceImpl implements ChatService {
 
     private final ChatRepository chatRepo;

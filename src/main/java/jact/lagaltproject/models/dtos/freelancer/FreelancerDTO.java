@@ -19,4 +19,5 @@ public class FreelancerDTO {
     private Set<Long> projectFreelancers;
 
     private Set<Long> messages;
+    private Long freelancer_history;
 }

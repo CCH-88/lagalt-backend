@@ -21,8 +21,8 @@ public class Message {
     @JoinColumn(name="freelancer_id")
     private Freelancer freelancer;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chat_id")
+    @ManyToOne
+    @JoinColumn(name = "chat_id", nullable = false)
     private Chat chat;
 
     @Column(length = 600, nullable = false)

@@ -25,7 +25,9 @@ public class Freelancer {
     @Column(columnDefinition = "text[]")
     @Enumerated(EnumType.STRING)
     @Type(type = "jact.lagaltproject.models.types.PostgreSqlStringArrayType")
-    private Role[] skills;
+    //Possible solutions: Change type from Role[] to String[].
+    // Or change role to a var: Role[] -> Role
+    private String[] skills;
 
     @Column(length = 800)
     private String googleToken;
@@ -49,7 +51,7 @@ public class Freelancer {
     @OneToMany(mappedBy = "freelancer")
     private Set<Project_freelancer> project_freelancers;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "freelancer_history_id", referencedColumnName = "id")
     private Freelancer_history freelancer_history;
 
