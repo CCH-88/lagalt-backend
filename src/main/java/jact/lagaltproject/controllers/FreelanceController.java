@@ -25,16 +25,12 @@ public class FreelanceController {
 
     /*
      *  Abase URL is defined and the relevant service is injected.
-     *
-     * */
+     */
 
     public FreelanceController(FreelancerService freelancerService) {
         this.freelancerService = freelancerService;
     }
 
-    /*
-     * The getAll methods gets all the freelancers in the table Freelancer.
-     * */
     @Operation(summary = "Get all freelancers")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -49,9 +45,6 @@ public class FreelanceController {
         return ResponseEntity.ok(freelancerService.findAll());
     }
 
-    /*
-     * The findById methods gets the freelancers with the provided id.
-     * */
     @Operation(summary = "Gets a freelancer by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",

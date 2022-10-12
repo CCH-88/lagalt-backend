@@ -21,21 +21,16 @@ import java.util.Collection;
 @RequestMapping(path = "api/v1/projects")
 public class ProjectController {
 
-
     private final ProjectService projectService;
 
     /*
      *  Abase URL is defined and the relevant service is injected.
-     *
-     * */
+     */
 
     public ProjectController(ProjectService projectService) {
         this.projectService = projectService;
     }
 
-    /*
-     * The getAll methods gets all the projects in the table Projects.
-     * */
     @Operation(summary = "Get all projects")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -50,9 +45,6 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.findAll());
     }
 
-    /*
-     * The findById methods gets the projects with the provided id.
-     * */
     @Operation(summary = "Gets a project by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -68,9 +60,6 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.findById(id));
     }
 
-    /*
-     * The findByName method searches for the projects with the provided name.
-     * */
     @Operation(summary = "Searches after projects by name")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -87,9 +76,6 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.findAllByName(name));
     }
 
-    /*
-    * The findByField method searches for the projects with the provided field.
-     */
     @Operation(summary = "Searches for projects by field")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -118,7 +104,6 @@ public class ProjectController {
                     description = "Project with supplied ID not found ",
                     content = @Content)
     })
-
     @PostMapping // POST: localhost:8080/api/v1/projects
     public ResponseEntity add(@RequestBody Project project) {
         Project aProject = projectService.add(project);
@@ -160,7 +145,6 @@ public class ProjectController {
                     description = "Project with supplied ID not found ",
                     content = @Content)
     })
-
     @DeleteMapping("{id}") // DELETE: localhost:8080/api/v1/projects/1
     public ResponseEntity delete(@PathVariable long id) {
         projectService.deleteById(id);

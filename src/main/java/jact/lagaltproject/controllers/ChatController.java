@@ -26,16 +26,13 @@ public class ChatController {
 
     /*
      *  Abase URL is defined and the relevant service is injected.
-     *
-     * */
+     */
 
     public ChatController(ChatService chatService) {
         this.chatService = chatService;
     }
 
-    /*
-     * The getAll methods gets all the chats in the table Chat.
-     * */
+
     @Operation(summary = "Get all chats")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -50,9 +47,6 @@ public class ChatController {
         return ResponseEntity.ok(chatService.findAll());
     }
 
-    /*
-     * The findById methods gets the chats with the provided id.
-     * */
     @Operation(summary = "Gets a chat by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",

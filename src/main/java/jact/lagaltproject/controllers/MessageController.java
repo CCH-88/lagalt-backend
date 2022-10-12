@@ -24,16 +24,12 @@ public class MessageController {
 
     /*
      *  Abase URL is defined and the relevant service is injected.
-     *
-     * */
+     */
 
     public MessageController(MessageService messageService) {
         this.messageService = messageService;
     }
 
-    /*
-     * The getAll methods gets all the messages in the table Message.
-     * */
     @Operation(summary = "Get all messages")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -48,9 +44,6 @@ public class MessageController {
         return ResponseEntity.ok(messageService.findAll());
     }
 
-    /*
-     * The findById methods gets the chats with the provided id.
-     * */
     @Operation(summary = "Gets a message by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
