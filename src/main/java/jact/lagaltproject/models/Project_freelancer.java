@@ -1,6 +1,7 @@
 package jact.lagaltproject.models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jact.lagaltproject.enums.Role;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,11 +33,13 @@ public class Project_freelancer {
     @ManyToOne(optional = true)
     @MapsId("freelancer_id")
     @JoinColumn(name = "freelancer_id")
+    @JsonBackReference
     Freelancer freelancer;
 
     @ManyToOne(optional = true)
     @MapsId("project_id")
     @JoinColumn(name = "project_id")
+    @JsonBackReference
     Project project;
 
 

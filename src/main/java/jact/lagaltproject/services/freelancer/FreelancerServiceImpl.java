@@ -57,10 +57,7 @@ public class FreelancerServiceImpl implements FreelancerService {
         return freelancerRepo.existsById(id);
     }
 
-    @Override
-    public Collection<Freelancer> findFreelancersInFreelancer(Long id) {
-        return freelancerRepo.findFreelancersInFreelancer(id);
-    }
+
 
     @Override
     public Collection<Freelancer> findAllByUsername(String username) {
