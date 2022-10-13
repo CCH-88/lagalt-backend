@@ -1,5 +1,6 @@
 package jact.lagaltproject.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -25,10 +26,12 @@ public class Message {
     }
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="freelancer_id")
+    @JsonBackReference
     private Freelancer freelancer;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_id", nullable = false)
+    @JsonBackReference
     private Chat chat;
 
     @Column(length = 600, nullable = false)

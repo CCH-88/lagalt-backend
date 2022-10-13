@@ -1,5 +1,7 @@
 package jact.lagaltproject.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,10 +17,12 @@ public class Chat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "chat")
+    @OneToMany(mappedBy = "chat", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Set<Message> messages;
 
     @OneToOne(mappedBy = "chat")
+    @JsonBackReference
     private Project project;
 
 }

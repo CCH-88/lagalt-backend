@@ -1,5 +1,6 @@
 package jact.lagaltproject.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jact.lagaltproject.enums.Progress;
 import lombok.*;
 import org.hibernate.annotations.Type;
@@ -36,10 +37,12 @@ public class Project {
     //Relationships
 
     @OneToMany(mappedBy = "project")
+    @JsonManagedReference
     private Set<Project_freelancer> project_freelancers;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "project_chat")
+    @JsonManagedReference
     private Chat chat;
 
 }
