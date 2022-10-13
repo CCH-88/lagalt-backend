@@ -13,6 +13,6 @@ public interface FreelancerRepository extends JpaRepository<Freelancer, Long> {
     @Query(value = "SELECT * FROM freelancer f where f.id = ?1", nativeQuery = true)
     Collection<Freelancer> findUsersInFreelancer(Long id);
 
-    @Query("select f from Freelancer f where f.name like %?1%")
+    @Query("select f from Freelancer f where f.username like %?1%")
     Set<Freelancer> findAllByName(String name);
 }
