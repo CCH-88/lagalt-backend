@@ -12,6 +12,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     @Query("select p from Project p where p.name like %?1%")
     Set<Project> findAllByName(String name);
 
-    @Query("select p from Project p where p.field like %?1%")
-    Set<Project> findAllByField(String field);
+//    @Query("select p from Project p where p.field like %?1%")
+//    Set<Project> findAllByField(String field);
 }

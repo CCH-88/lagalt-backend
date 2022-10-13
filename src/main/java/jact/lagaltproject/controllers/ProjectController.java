@@ -88,21 +88,21 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.findAllByName(name));
     }
 
-    @Operation(summary = "Searches for projects by field")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",
-                    description = "Success",
-                    content = {@Content(mediaType = "apllication/json",
-                            schema = @Schema(implementation = Project.class))}),
-            @ApiResponse(responseCode = "404",
-                    description = "No projects where found with given field",
-                    content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiErrorResponse.class))})
-    })
-    @GetMapping("search/field") // GET: localhost:8080/ap/v1/projects/search?field=aProjectName
-    public ResponseEntity<Collection<Project>> findByField(@RequestParam String field) {
-        return ResponseEntity.ok(projectService.findAllByField(field));
-    }
+//    @Operation(summary = "Searches for projects by field")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200",
+//                    description = "Success",
+//                    content = {@Content(mediaType = "apllication/json",
+//                            schema = @Schema(implementation = Project.class))}),
+//            @ApiResponse(responseCode = "404",
+//                    description = "No projects where found with given field",
+//                    content = {@Content(mediaType = "application/json",
+//                            schema = @Schema(implementation = ApiErrorResponse.class))})
+//    })
+//    @GetMapping("search/field") // GET: localhost:8080/ap/v1/projects/search?field=aProjectName
+//    public ResponseEntity<Collection<Project>> findByField(@RequestParam String field) {
+//        return ResponseEntity.ok(projectService.findAllByField(field));
+//    }
 
     @Operation(summary = "Adds a project")
     @ApiResponses(value = {

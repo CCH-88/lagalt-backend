@@ -21,8 +21,8 @@ public class Project {
     private int ownerId;
     @Column(length = 1000, nullable = false)
     private String description;
-    @Column(nullable = false)
-    private String field;
+//    @Column(nullable = false)
+//    private String field;
 
     @Column(columnDefinition = "text[]")
     @Type(type = "jact.lagaltproject.models.types.PostgreSqlStringArrayType")
