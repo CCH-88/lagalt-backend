@@ -7,7 +7,5 @@ import java.util.Collection;
 import java.util.Set;
 
 public interface FreelancerService extends CrudService<Freelancer, Long> {
-    Collection<Freelancer> findFreelancersInFreelancer(Long id);
-
     Collection<Freelancer> findAllByUsername(String username);
 }
