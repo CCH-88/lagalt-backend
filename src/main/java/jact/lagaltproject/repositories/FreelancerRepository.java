@@ -11,8 +11,8 @@ import java.util.Set;
 @Repository
 public interface FreelancerRepository extends JpaRepository<Freelancer, Long> {
     @Query(value = "SELECT * FROM freelancer f where f.id = ?1", nativeQuery = true)
-    Collection<Freelancer> findUsersInFreelancer(Long id);
+    Collection<Freelancer> findFreelancersInFreelancer(Long id);
 
     @Query("select f from Freelancer f where f.username like %?1%")
-    Set<Freelancer> findAllByName(String name);
+    Set<Freelancer> findAllByUsername(String username);
 }
