@@ -75,8 +75,8 @@ public class FreelanceController {
                             schema = @Schema(implementation = ApiErrorResponse.class)) })
     })
     @GetMapping("search") // GET: localhost:8080/api/v1/freelancers/search?name=Thor
-    public ResponseEntity<Collection<Freelancer>> findByName(@RequestParam String name) {
-        return ResponseEntity.ok(freelancerService.findAllByName(name));
+    public ResponseEntity<Collection<Freelancer>> findByName(@RequestParam String username) {
+        return ResponseEntity.ok(freelancerService.findAllByUsername(username));
     }
 
     @Operation(summary = "Adds a freelancer")

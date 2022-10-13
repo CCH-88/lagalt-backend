@@ -10,10 +10,9 @@ import java.util.Set;
 
 @Repository
 public interface FreelancerRepository extends JpaRepository<Freelancer, Long> {
-    @Query(value = "SELECT * FROM Project p where p.id = ?1", nativeQuery = true)
-    Collection<Freelancer> findUsersInProject(Long id);
+    @Query(value = "SELECT * FROM freelancer f where f.id = ?1", nativeQuery = true)
+    Collection<Freelancer> findFreelancersInFreelancer(Long id);
 
-    // Query for finding all freelancers by name which aren't hidden.
-    @Query("select f from Freelancer f where f.name like %?1% and f.hidden is false")
-    Set<Freelancer> findAllByName(String name);
+    @Query("select f from Freelancer f where f.username like %?1%")
+    Set<Freelancer> findAllByUsername(String username);
 }

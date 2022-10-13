@@ -2,6 +2,7 @@ package jact.lagaltproject.models;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,9 +15,14 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+    @Column(nullable = false)
+    @CreationTimestamp
     private LocalDateTime dateTime;
 
+    @PrePersist
+    protected void onCreate() {
+        dateTime = LocalDateTime.now();
+    }
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="freelancer_id")
     private Freelancer freelancer;
