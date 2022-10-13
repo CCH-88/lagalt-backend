@@ -6,8 +6,12 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jact.lagaltproject.mappers.FreelancerMapper;
+import jact.lagaltproject.mappers.ProjectMapper;
 import jact.lagaltproject.models.Freelancer;
 import jact.lagaltproject.models.Project;
+import jact.lagaltproject.models.Project_freelancer;
+import jact.lagaltproject.models.dtos.freelancer.FreelancerDTO;
 import jact.lagaltproject.models.dtos.project.ProjectDTO;
 import jact.lagaltproject.services.project.ProjectService;
 import jact.lagaltproject.util.ApiErrorResponse;
@@ -22,13 +26,17 @@ import java.util.Collection;
 public class ProjectController {
 
     private final ProjectService projectService;
+    private final ProjectMapper projectMapper;
+    private final FreelancerMapper freelancerMapper;
 
     /*
      *  Abase URL is defined and the relevant service is injected.
      */
 
-    public ProjectController(ProjectService projectService) {
+    public ProjectController(ProjectService projectService, ProjectMapper projectMapper, FreelancerMapper freelancerMapper) {
         this.projectService = projectService;
+        this.projectMapper = projectMapper;
+        this.freelancerMapper = freelancerMapper;
     }
 
     @Operation(summary = "Get all projects")
@@ -38,7 +46,7 @@ public class ProjectController {
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = ProjectDTO.class))) })
+                                    array = @ArraySchema(schema = @Schema(implementation = ProjectDTO.class)))})
     })
     @GetMapping // GET: localhost:8080/api/v1/projects
     public ResponseEntity<Collection<Project>> getAll() {
@@ -49,8 +57,8 @@ public class ProjectController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Success",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Project.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Project.class))}),
             @ApiResponse(responseCode = "404",
                     description = "Projects with supplied ID does not exist",
                     content = @Content)
@@ -64,12 +72,12 @@ public class ProjectController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Success",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Project.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Project.class))}),
             @ApiResponse(responseCode = "404",
                     description = "Projects with supplied ID does not exist",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiErrorResponse.class)) })
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class))})
     })
     @GetMapping("search") // GET: localhost:8080/api/v1/projects/search?name=aProjectName
     public ResponseEntity<Collection<Project>> findByName(@RequestParam String name) {
@@ -79,21 +87,21 @@ public class ProjectController {
     @Operation(summary = "Searches for projects by field")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-            description = "Success",
-            content = { @Content(mediaType = "apllication/json",
-            schema = @Schema(implementation = Project.class))}),
+                    description = "Success",
+                    content = {@Content(mediaType = "apllication/json",
+                            schema = @Schema(implementation = Project.class))}),
             @ApiResponse(responseCode = "404",
-            description = "No projects where found with given field",
-            content = {@Content(mediaType = "application/json",
-            schema = @Schema(implementation = ApiErrorResponse.class))})
+                    description = "No projects where found with given field",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class))})
     })
     @GetMapping("search") // GET: localhost:8080/ap/v1/projects/search?field=aProjectName
-    public ResponseEntity<Collection<Project>> findByField(@RequestParam String field){
+    public ResponseEntity<Collection<Project>> findByField(@RequestParam String field) {
         return ResponseEntity.ok(projectService.findAllByField(field));
     }
 
     @Operation(summary = "Adds a project")
-    @ApiResponses( value = {
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "204",
                     description = "Project successfully added",
                     content = @Content),
@@ -113,7 +121,7 @@ public class ProjectController {
     }
 
     @Operation(summary = "Updates a project")
-    @ApiResponses( value = {
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "204",
                     description = "Project successfully updated",
                     content = @Content),
@@ -127,14 +135,33 @@ public class ProjectController {
     @PutMapping("{id}") // PUT: localhost:8080/api/v1/projects/1
     public ResponseEntity update(@RequestBody Project aProject, @PathVariable int id) {
         // Validates if body is correct
-        if(id != aProject.getId())
+        if (id != aProject.getId())
             return ResponseEntity.badRequest().build();
         projectService.update(aProject);
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Apply to project")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "404",
+                    description = "Project or Freelancer with supplied ID doesn't exist",
+                    content = @Content),
+            @ApiResponse(responseCode = "204",
+                    description = "Successfully applied to project",
+                    content = @Content)
+    })
+    @PostMapping("{id}/apply")
+    public ResponseEntity apply(@RequestBody ProjectDTO aProject, @RequestBody FreelancerDTO aFreelancer, @RequestBody String motivation, @PathVariable long projectId) {
+        if (projectId != aProject.getId()) return ResponseEntity.badRequest().build();
+        Project_freelancer pf = new Project_freelancer();
+        pf.setProject(projectMapper.projectDTOToProject(aProject));
+        pf.setMotivation(motivation);
+        pf.setFreelancer(freelancerMapper.FreelancerDTOtoFreelancer(aFreelancer));
+        return ResponseEntity.noContent().build();
+    }
+
     @Operation(summary = "Deletes a project")
-    @ApiResponses( value = {
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "410",
                     description = "Project successfully deleted",
                     content = @Content),
