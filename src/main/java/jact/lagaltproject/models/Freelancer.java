@@ -1,5 +1,6 @@
 package jact.lagaltproject.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jact.lagaltproject.enums.Role;
 import lombok.*;
 import org.hibernate.annotations.Type;
@@ -45,10 +46,12 @@ public class Freelancer {
     private String description;
 
     //Relationships
-    @OneToMany(mappedBy = "freelancer")
+    @OneToMany(mappedBy = "freelancer", fetch = FetchType.LAZY)
+    @JsonManagedReference
     Set<Message> messages;
 
     @OneToMany(mappedBy = "freelancer")
+    @JsonManagedReference
     private Set<Project_freelancer> project_freelancers;
 
     @OneToOne(cascade = CascadeType.ALL)
