@@ -8,12 +8,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jact.lagaltproject.mappers.FreelancerMapper;
 import jact.lagaltproject.mappers.ProjectMapper;
-import jact.lagaltproject.models.Freelancer;
 import jact.lagaltproject.models.Project;
 import jact.lagaltproject.models.Project_freelancer;
-import jact.lagaltproject.models.dtos.freelancer.FreelancerDTO;
 import jact.lagaltproject.models.dtos.project.ProjectDTO;
+import jact.lagaltproject.services.freelancer.FreelancerService;
 import jact.lagaltproject.services.project.ProjectService;
+import jact.lagaltproject.services.projectFreelancer.ProjectFreelancerService;
 import jact.lagaltproject.util.ApiErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +26,8 @@ import java.util.Collection;
 public class ProjectController {
 
     private final ProjectService projectService;
+    private final ProjectFreelancerService pfService;
+    private final FreelancerService freelancerService;
     private final ProjectMapper projectMapper;
     private final FreelancerMapper freelancerMapper;
 
@@ -33,8 +35,10 @@ public class ProjectController {
      *  Abase URL is defined and the relevant service is injected.
      */
 
-    public ProjectController(ProjectService projectService, ProjectMapper projectMapper, FreelancerMapper freelancerMapper) {
+    public ProjectController(ProjectService projectService, ProjectFreelancerService pfService, FreelancerService freelancerService, ProjectMapper projectMapper, FreelancerMapper freelancerMapper) {
         this.projectService = projectService;
+        this.pfService = pfService;
+        this.freelancerService = freelancerService;
         this.projectMapper = projectMapper;
         this.freelancerMapper = freelancerMapper;
     }
@@ -79,7 +83,7 @@ public class ProjectController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class))})
     })
-    @GetMapping("search") // GET: localhost:8080/api/v1/projects/search?name=aProjectName
+    @GetMapping("search/name") // GET: localhost:8080/api/v1/projects/search?name=aProjectName
     public ResponseEntity<Collection<Project>> findByName(@RequestParam String name) {
         return ResponseEntity.ok(projectService.findAllByName(name));
     }
@@ -95,7 +99,7 @@ public class ProjectController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiErrorResponse.class))})
     })
-    @GetMapping("search") // GET: localhost:8080/ap/v1/projects/search?field=aProjectName
+    @GetMapping("search/field") // GET: localhost:8080/ap/v1/projects/search?field=aProjectName
     public ResponseEntity<Collection<Project>> findByField(@RequestParam String field) {
         return ResponseEntity.ok(projectService.findAllByField(field));
     }
@@ -151,12 +155,13 @@ public class ProjectController {
                     content = @Content)
     })
     @PostMapping("{id}/apply")
-    public ResponseEntity apply(@RequestBody ProjectDTO aProject, @RequestBody FreelancerDTO aFreelancer, @RequestBody String motivation, @PathVariable long projectId) {
-        if (projectId != aProject.getId()) return ResponseEntity.badRequest().build();
+    public ResponseEntity apply(@RequestBody long freelancerId, @RequestBody String motivation, @PathVariable long projectId) {
+        if (projectService.findById(projectId) == null) return ResponseEntity.badRequest().build();
         Project_freelancer pf = new Project_freelancer();
-        pf.setProject(projectMapper.projectDTOToProject(aProject));
+        pf.setProject(projectService.findById(projectId));
         pf.setMotivation(motivation);
-        pf.setFreelancer(freelancerMapper.FreelancerDTOtoFreelancer(aFreelancer));
+        pf.setFreelancer(freelancerService.findById(freelancerId));
+        pfService.add(pf);
         return ResponseEntity.noContent().build();
     }
 
