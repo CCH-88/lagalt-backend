@@ -7,7 +7,7 @@ import java.util.Set;
 @Data
 public class FreelancerDTO {
     private Long id;
-    private String name;
+    private String username;
     private String email;
     private boolean hidden;
     private String[] skills;

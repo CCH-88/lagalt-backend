@@ -13,11 +13,9 @@ import java.util.Collection;
 public class FreelancerServiceImpl implements FreelancerService {
 
     private final FreelancerRepository freelancerRepo;
-    private final ProjectRepository projectRepo;
 
-    public FreelancerServiceImpl(FreelancerRepository freelancerRepo, ProjectRepository projectRepo) {
+    public FreelancerServiceImpl(FreelancerRepository freelancerRepo) {
         this.freelancerRepo = freelancerRepo;
-        this.projectRepo = projectRepo;
     }
 
     @Override
@@ -60,13 +58,13 @@ public class FreelancerServiceImpl implements FreelancerService {
     }
 
     @Override
-    public Collection<Freelancer> findFreelancersInProject(Long id) {
-        return freelancerRepo.findUsersInProject(id);
+    public Collection<Freelancer> findFreelancersInFreelancer(Long id) {
+        return freelancerRepo.findFreelancersInFreelancer(id);
     }
 
     @Override
-    public Collection<Freelancer> findAllByName(String name) {
-        return freelancerRepo.findAllByName(name);
+    public Collection<Freelancer> findAllByUsername(String username) {
+        return freelancerRepo.findAllByUsername(username);
     }
 
 }
