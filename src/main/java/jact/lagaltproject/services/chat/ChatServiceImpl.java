@@ -33,11 +33,13 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public Chat update(Chat entity) {
+        if (!chatRepo.existsById(entity.getId())) throw new ChatNotFoundException(entity.getId());
         return chatRepo.save(entity);
     }
 
     @Override
     public void deleteById(Long id) {
+        if (!chatRepo.existsById(id)) throw new ChatNotFoundException(id);
         chatRepo.deleteById(id);
     }
 

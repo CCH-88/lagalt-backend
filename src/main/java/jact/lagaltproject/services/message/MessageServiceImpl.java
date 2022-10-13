@@ -34,6 +34,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public Message update(Message entity) {
+        if(!messageRepo.existsById(entity.getId())) throw new MessageNotFoundException(entity.getId());
         return messageRepo.save(entity);
     }
 

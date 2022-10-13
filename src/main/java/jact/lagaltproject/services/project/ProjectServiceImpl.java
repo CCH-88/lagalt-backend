@@ -1,10 +1,11 @@
 package jact.lagaltproject.services.project;
 
 import jact.lagaltproject.exceptions.ProjectNotFoundException;
+import jact.lagaltproject.exceptions.ResourceNotFoundException;
 import jact.lagaltproject.models.Chat;
-import jact.lagaltproject.models.Freelancer;
 import jact.lagaltproject.models.Project;
 import jact.lagaltproject.models.Project_freelancer;
+import jact.lagaltproject.repositories.ProjectFreelancerRepository;
 import jact.lagaltproject.repositories.ProjectRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +14,11 @@ import java.util.Collection;
 @Service
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepo;
+    private final ProjectFreelancerRepository projectFreelancerRepository;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository) {
+    public ProjectServiceImpl(ProjectRepository projectRepository, ProjectFreelancerRepository projectFreelancerRepository) {
         this.projectRepo = projectRepository;
+        this.projectFreelancerRepository = projectFreelancerRepository;
     }
 
     @Override
@@ -41,17 +44,21 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void application(Project project, Project_freelancer project_freelancer){
-
+    public void application(Project project, Project_freelancer project_freelancer) {
+        if (!projectRepo.existsById(project.getId())
+                || !projectFreelancerRepository.existsById(project_freelancer.getProject().getId()))
+            throw new ResourceNotFoundException("One of the resources doesn't exists");
     }
 
     @Override
     public Project update(Project entity) {
+        if (!projectRepo.existsById(entity.getId())) throw new ProjectNotFoundException(entity.getId());
         return projectRepo.save(entity);
     }
 
     @Override
     public void deleteById(Long id) {
+        if (!projectRepo.existsById(id)) throw new ProjectNotFoundException(id);
         projectRepo.deleteById(id);
     }
 

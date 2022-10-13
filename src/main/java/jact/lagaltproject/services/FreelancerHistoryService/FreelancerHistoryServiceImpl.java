@@ -35,6 +35,7 @@ public class FreelancerHistoryServiceImpl implements FreelancerHistoryService{
 
     @Override
     public Freelancer_history update(Freelancer_history entity) {
+        if (!freelancerHistoryRepository.existsById(entity.getId())) throw new ResourceNotFoundException("Freelance History with id: " + entity.getId() + " Could not be found");
         return freelancerHistoryRepository.save(entity);
     }
 

@@ -44,11 +44,13 @@ public class FreelancerServiceImpl implements FreelancerService {
 
     @Override
     public Freelancer update(Freelancer entity) {
+        if (!freelancerRepo.existsById(entity.getId())) throw new FreelancerNotFoundException(entity.getId());
         return freelancerRepo.save(entity);
     }
 
     @Override
     public void deleteById(Long id) {
+        if (!freelancerRepo.existsById(id)) throw new FreelancerNotFoundException(id);
         freelancerRepo.deleteById(id);
     }
 
@@ -56,8 +58,6 @@ public class FreelancerServiceImpl implements FreelancerService {
     public boolean exists(Long id) {
         return freelancerRepo.existsById(id);
     }
-
-
 
     @Override
     public Collection<Freelancer> findAllByUsername(String username) {
