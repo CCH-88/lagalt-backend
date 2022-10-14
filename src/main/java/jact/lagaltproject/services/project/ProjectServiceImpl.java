@@ -72,8 +72,8 @@ public class ProjectServiceImpl implements ProjectService {
         return projectRepo.findAllByName(name);
     }
 
-//    @Override
-//    public Collection<Project> findAllByField(String field) {
-//        return null;
-//    }
+    @Override
+    public Collection<Project> findAllByField(String field) {
+        return projectRepo.findAllByField(field);
+    }
 }

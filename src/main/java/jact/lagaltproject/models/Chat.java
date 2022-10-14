@@ -18,11 +18,9 @@ public class Chat {
     private Long id;
 
     @OneToMany(mappedBy = "chat", fetch = FetchType.LAZY)
-    @JsonManagedReference
     private Set<Message> messages;
 
     @OneToOne(mappedBy = "chat")
-    @JsonBackReference
     private Project project;
 
 }

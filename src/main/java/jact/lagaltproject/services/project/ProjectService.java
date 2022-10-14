@@ -11,7 +11,7 @@ public interface ProjectService extends CrudService<Project, Long> {
 
     Collection<Project> findAllByName(String name);
 
-//    Collection<Project> findAllByField(String field);
+    Collection<Project> findAllByField(String field);
 
     void application(Project project, Project_freelancer project_freelancer);
 }

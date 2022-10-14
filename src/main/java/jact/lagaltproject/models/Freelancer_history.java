@@ -30,7 +30,6 @@ public class Freelancer_history {
     @Type(type = "jact.lagaltproject.models.types.PostgreSqlLongArrayType")
     private Long[] participated;
 
-
     @OneToOne(mappedBy = "freelancer_history")
     private Freelancer freelancer;
 
