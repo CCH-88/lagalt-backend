@@ -26,12 +26,12 @@ public class Message {
     }
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="freelancer_id")
-    @JsonBackReference
+    @JsonBackReference(value = "freelancer_message")
     private Freelancer freelancer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_id", nullable = false)
-    @JsonBackReference
+    @JsonBackReference(value = "chat-messages")
     private Chat chat;
 
     @Column(length = 600, nullable = false)
