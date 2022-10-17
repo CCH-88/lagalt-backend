@@ -9,6 +9,7 @@ import jact.lagaltproject.repositories.ProjectFreelancerRepository;
 import jact.lagaltproject.repositories.ProjectRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
 
 @Service
@@ -57,13 +58,12 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         if (!projectRepo.existsById(id)) throw new ProjectNotFoundException(id);
-        else {
-            Project proj = projectRepo.findById(id).get();
-            proj.getProject_freelancers().forEach(s -> s.setProject(null));
-            projectRepo.deleteById(id);
-        }
+        Project proj = projectRepo.findById(id).get();
+        proj.getProjectFreelancers().forEach(f -> projectFreelancerRepository.deleteByProjectFreelancerKey(f.getId()));
+        projectRepo.deleteById(id);
     }
 
     @Override

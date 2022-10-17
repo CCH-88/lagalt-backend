@@ -31,7 +31,7 @@ public abstract class ProjectMapper {
 
     /*  Project To ProjectDTO   */
     @Mapping(target = "chatId", source = "chat.id")
-    @Mapping(target = "projectFreelancers", source = "project_freelancers", qualifiedByName = "projectFreelancersToIds")
+    @Mapping(target = "projectFreelancers", source = "projectFreelancers", qualifiedByName = "projectFreelancersToIds")
     public abstract ProjectDTO projectToDTO(Project project);
 
     @Named("projectFreelancersToIds")
@@ -47,7 +47,7 @@ public abstract class ProjectMapper {
 
     /*  ProjectDTO To Project   */
     @Mapping(target = "chat", source = "chatId", qualifiedByName = "chatIdToChat")
-    @Mapping(target = "project_freelancers", source = "projectFreelancers", qualifiedByName =  "projectFreelancerIdsToProjectFreelancers" )
+    @Mapping(target = "projectFreelancers", source = "projectFreelancers", qualifiedByName =  "projectFreelancerIdsToProjectFreelancers" )
     public abstract Project projectDTOToProject(ProjectDTO projectDTO);
 
     @Named("chatIdToChat")

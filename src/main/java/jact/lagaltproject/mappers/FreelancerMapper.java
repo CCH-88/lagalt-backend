@@ -65,7 +65,7 @@ public abstract class FreelancerMapper {
     public abstract Freelancer FreelancerDTOtoFreelancer(FreelancerDTO dto);
 
     @Named("freelancerHistoryIdToFreelancerHistory")
-    Freelancer_history mapIdToFreelancer_History(Long id ) {
+    FreelancerHistory mapIdToFreelancer_History(Long id ) {
         return freelancerHistoryService.findById(id);
     }
 

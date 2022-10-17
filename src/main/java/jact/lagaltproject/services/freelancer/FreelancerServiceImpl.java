@@ -2,9 +2,8 @@ package jact.lagaltproject.services.freelancer;
 
 import jact.lagaltproject.exceptions.FreelancerNotFoundException;
 import jact.lagaltproject.models.Freelancer;
-import jact.lagaltproject.models.Freelancer_history;
+import jact.lagaltproject.models.FreelancerHistory;
 import jact.lagaltproject.repositories.FreelancerRepository;
-import jact.lagaltproject.repositories.ProjectRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -31,7 +30,7 @@ public class FreelancerServiceImpl implements FreelancerService {
 
     @Override
     public Freelancer add(Freelancer entity) {
-        Freelancer_history fh = new Freelancer_history();
+        FreelancerHistory fh = new FreelancerHistory();
         fh.setFreelancer(entity);
         Long[] empty = new Long[0];
         fh.setViewed(empty);

@@ -31,13 +31,6 @@ public class Freelancer {
     @Column(length = 800)
     private String googleToken;
 
-    /*
-    @Column(length = 800)
-    private String githubToken;
-    @Column(length = 800)
-    private String twitterToken;
-    */
-
     @Column()
     private String portfolio;
     @Column(length = 4000)
@@ -51,6 +44,6 @@ public class Freelancer {
     private Set<ProjectFreelancer> project_freelancers;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Freelancer_history freelancer_history;
+    private FreelancerHistory freelancer_history;
 
 }

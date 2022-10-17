@@ -2,6 +2,7 @@ package jact.lagaltproject.services.projectFreelancer;
 
 import jact.lagaltproject.exceptions.ResourceNotFoundException;
 import jact.lagaltproject.models.ProjectFreelancer;
+import jact.lagaltproject.models.ProjectFreelancerKey;
 import jact.lagaltproject.repositories.ProjectFreelancerRepository;
 import org.springframework.stereotype.Service;
 
@@ -47,4 +48,7 @@ public class ProjectFreelancerServiceImpl implements ProjectFreelancerService{
     public boolean exists(Long id) {
         return projectFreelancerRepository.existsById(id);
     }
+
+    @Override
+    public void deleteByProjectFreelancerKey(ProjectFreelancerKey key) { projectFreelancerRepository.deleteByProjectFreelancerKey(key);}
 }

@@ -36,7 +36,7 @@ public class Project {
     //Relationships
 
     @OneToMany(mappedBy = "project")
-    private Set<ProjectFreelancer> project_freelancers;
+    private Set<ProjectFreelancer> projectFreelancers;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "project_chat")
