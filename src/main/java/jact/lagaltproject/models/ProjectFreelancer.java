@@ -32,11 +32,13 @@ public class ProjectFreelancer {
     @ManyToOne(optional = true)
     @MapsId("freelancer_id")
     @JoinColumn(name = "freelancer_id")
+    @JsonBackReference(value = "freelancer_pf")
     Freelancer freelancer;
 
     @ManyToOne(optional = true)
     @MapsId("project_id")
     @JoinColumn(name = "project_id")
+    @JsonBackReference(value = "project_pf")
     Project project;
 
 

@@ -38,9 +38,11 @@ public class Freelancer {
 
     //Relationships
     @OneToMany(mappedBy = "freelancer", fetch = FetchType.LAZY)
+    @JsonManagedReference(value = "freelancer_message")
     Set<Message> messages;
 
     @OneToMany(mappedBy = "freelancer")
+    @JsonManagedReference(value = "freelancer_pf")
     private Set<ProjectFreelancer> project_freelancers;
 
     @OneToOne(cascade = CascadeType.ALL)

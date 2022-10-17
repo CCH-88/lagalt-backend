@@ -36,10 +36,12 @@ public class Project {
     //Relationships
 
     @OneToMany(mappedBy = "project")
+    @JsonManagedReference(value = "project_pf")
     private Set<ProjectFreelancer> projectFreelancers;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "project_chat")
+    @JsonManagedReference(value = "project_chat")
     private Chat chat;
 
 }
