@@ -53,7 +53,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project update(Project entity) {
-        if (!projectRepo.existsById(entity.getId())) throw new ProjectNotFoundException(entity.getId());
         return projectRepo.save(entity);
     }
 

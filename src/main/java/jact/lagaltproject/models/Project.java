@@ -1,5 +1,6 @@
 package jact.lagaltproject.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jact.lagaltproject.enums.Progress;
 import lombok.*;
 import org.hibernate.annotations.Type;

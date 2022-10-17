@@ -1,6 +1,7 @@
 package jact.lagaltproject.models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jact.lagaltproject.enums.Role;
 import lombok.Getter;
 import lombok.Setter;

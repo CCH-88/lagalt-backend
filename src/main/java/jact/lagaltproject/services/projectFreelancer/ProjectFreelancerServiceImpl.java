@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 
 @Service
-public class ProjectFreelancerServiceImpl implements ProjectFreelancerService{
+public class ProjectFreelancerServiceImpl implements ProjectFreelancerService {
 
     private final ProjectFreelancerRepository projectFreelancerRepository;
 
@@ -21,7 +21,7 @@ public class ProjectFreelancerServiceImpl implements ProjectFreelancerService{
     @Override
     public ProjectFreelancer findById(Long id) {
         return projectFreelancerRepository.findById(id)
-                .orElseThrow(()->new ResourceNotFoundException("Project_Freelancer With the Id: " + id + " Could not be found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Project_Freelancer With the Id: " + id + " Could not be found"));
     }
 
     @Override
@@ -50,5 +50,7 @@ public class ProjectFreelancerServiceImpl implements ProjectFreelancerService{
     }
 
     @Override
-    public void deleteByProjectFreelancerKey(ProjectFreelancerKey key) { projectFreelancerRepository.deleteByProjectFreelancerKey(key);}
+    public void deleteByProjectFreelancerKey(ProjectFreelancerKey key) {
+        projectFreelancerRepository.deleteByProjectFreelancerKey(key);
+    }
 }

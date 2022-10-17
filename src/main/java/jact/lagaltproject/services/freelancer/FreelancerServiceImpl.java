@@ -37,13 +37,16 @@ public class FreelancerServiceImpl implements FreelancerService {
         fh.setApplied(empty);
         fh.setParticipated(empty);
         fh.setClicked(empty);
-        entity.setFreelancer_history(fh);
+        entity.setFreelancerHistory(fh);
+        if (entity.getSkills() == null) {
+            String[] emptySkills = new String[0];
+            entity.setSkills(emptySkills);
+        }
         return freelancerRepo.save(entity);
     }
 
     @Override
     public Freelancer update(Freelancer entity) {
-        if (!freelancerRepo.existsById(entity.getId())) throw new FreelancerNotFoundException(entity.getId());
         return freelancerRepo.save(entity);
     }
 

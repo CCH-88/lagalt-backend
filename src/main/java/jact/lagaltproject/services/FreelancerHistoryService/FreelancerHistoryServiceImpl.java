@@ -20,7 +20,7 @@ public class FreelancerHistoryServiceImpl implements FreelancerHistoryService{
     @Override
     public FreelancerHistory findById(Long id) {
         return freelancerHistoryRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Freelance History With the Id: " + id + " Could not be found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Freelance history with the id: " + id + " could not be found"));
     }
 
     @Override
@@ -35,7 +35,6 @@ public class FreelancerHistoryServiceImpl implements FreelancerHistoryService{
 
     @Override
     public FreelancerHistory update(FreelancerHistory entity) {
-        if (!freelancerHistoryRepository.existsById(entity.getId())) throw new ResourceNotFoundException("Freelance History with id: " + entity.getId() + " Could not be found");
         return freelancerHistoryRepository.save(entity);
     }
 

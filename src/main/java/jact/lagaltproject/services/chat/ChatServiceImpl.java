@@ -39,7 +39,6 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public void deleteById(Long id) {
-        if (!chatRepo.existsById(id)) throw new ChatNotFoundException(id);
         chatRepo.deleteById(id);
     }
 

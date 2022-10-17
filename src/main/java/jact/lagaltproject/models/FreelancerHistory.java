@@ -1,5 +1,6 @@
 package jact.lagaltproject.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
@@ -30,7 +31,8 @@ public class FreelancerHistory {
     @Type(type = "jact.lagaltproject.models.types.PostgreSqlLongArrayType")
     private Long[] participated;
 
-    @OneToOne(mappedBy = "freelancer_history")
+    @OneToOne(mappedBy = "freelancerHistory")
+    @JsonBackReference(value = "freelancer_fh")
     private Freelancer freelancer;
 
 }

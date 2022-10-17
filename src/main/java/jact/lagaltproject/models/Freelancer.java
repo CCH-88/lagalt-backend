@@ -1,5 +1,6 @@
 package jact.lagaltproject.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.Type;
 
@@ -37,15 +38,16 @@ public class Freelancer {
     private String description;
 
     //Relationships
-    @OneToMany(mappedBy = "freelancer", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "freelancer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference(value = "freelancer_message")
     Set<Message> messages;
 
-    @OneToMany(mappedBy = "freelancer")
+    @OneToMany(mappedBy = "freelancer", cascade = CascadeType.ALL)
     @JsonManagedReference(value = "freelancer_pf")
-    private Set<ProjectFreelancer> project_freelancers;
+    private Set<ProjectFreelancer> projectFreelancers;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private FreelancerHistory freelancer_history;
+    @JsonManagedReference(value = "freelancer_fh")
+    private FreelancerHistory freelancerHistory;
 
 }
