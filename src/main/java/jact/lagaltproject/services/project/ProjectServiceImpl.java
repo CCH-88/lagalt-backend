@@ -4,7 +4,7 @@ import jact.lagaltproject.exceptions.ProjectNotFoundException;
 import jact.lagaltproject.exceptions.ResourceNotFoundException;
 import jact.lagaltproject.models.Chat;
 import jact.lagaltproject.models.Project;
-import jact.lagaltproject.models.Project_freelancer;
+import jact.lagaltproject.models.ProjectFreelancer;
 import jact.lagaltproject.repositories.ProjectFreelancerRepository;
 import jact.lagaltproject.repositories.ProjectRepository;
 import org.springframework.stereotype.Service;
@@ -44,7 +44,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void application(Project project, Project_freelancer project_freelancer) {
+    public void application(Project project, ProjectFreelancer project_freelancer) {
         if (!projectRepo.existsById(project.getId())
                 || !projectFreelancerRepository.existsById(project_freelancer.getProject().getId()))
             throw new ResourceNotFoundException("One of the resources doesn't exists");
@@ -59,7 +59,11 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void deleteById(Long id) {
         if (!projectRepo.existsById(id)) throw new ProjectNotFoundException(id);
-        projectRepo.deleteById(id);
+        else {
+            Project proj = projectRepo.findById(id).get();
+            proj.getProject_freelancers().forEach(s -> s.setProject(null));
+            projectRepo.deleteById(id);
+        }
     }
 
     @Override

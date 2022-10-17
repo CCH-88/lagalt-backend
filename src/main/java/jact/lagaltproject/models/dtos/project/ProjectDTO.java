@@ -1,6 +1,5 @@
 package jact.lagaltproject.models.dtos.project;
 
-import jact.lagaltproject.models.Project_freelancer;
 import lombok.Data;
 
 import java.util.Set;

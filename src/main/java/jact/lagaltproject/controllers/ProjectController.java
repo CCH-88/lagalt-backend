@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jact.lagaltproject.mappers.FreelancerMapper;
 import jact.lagaltproject.mappers.ProjectMapper;
 import jact.lagaltproject.models.Project;
-import jact.lagaltproject.models.Project_freelancer;
+import jact.lagaltproject.models.ProjectFreelancer;
 import jact.lagaltproject.models.dtos.project.ProjectDTO;
 import jact.lagaltproject.services.freelancer.FreelancerService;
 import jact.lagaltproject.services.project.ProjectService;
@@ -68,7 +68,7 @@ public class ProjectController {
                     content = @Content)
     })
     @GetMapping("{id}") // GET: localhost:8080/api/v1/projects/1
-    public ResponseEntity<Project> findById(@PathVariable long id) {
+    public ResponseEntity<Project> findById(@PathVariable Long id) {
         return ResponseEntity.ok(projectService.findById(id));
     }
 
@@ -137,7 +137,7 @@ public class ProjectController {
                     content = @Content)
     })
     @PutMapping("{id}") // PUT: localhost:8080/api/v1/projects/1
-    public ResponseEntity update(@RequestBody ProjectDTO projectDTO, @PathVariable long id) {
+    public ResponseEntity update(@RequestBody ProjectDTO projectDTO, @PathVariable Long id) {
         // Validates if body is correct
         if (id != projectDTO.getId())
             return ResponseEntity.badRequest().build();
@@ -157,10 +157,11 @@ public class ProjectController {
                     content = @Content)
     })
     @PostMapping("{id}/apply")
-    public ResponseEntity apply(@RequestBody long freelancerId, @RequestBody String motivation, @PathVariable long projectId) {
-        if (projectService.findById(projectId) == null) return ResponseEntity.badRequest().build();
-        Project_freelancer pf = new Project_freelancer();
-        pf.setProject(projectService.findById(projectId));
+    public ResponseEntity apply(@RequestBody Long freelancerId, @RequestBody String motivation, @PathVariable Long id) {
+        if (!projectService.exists(id))
+            return ResponseEntity.badRequest().build();
+        ProjectFreelancer pf = new ProjectFreelancer();
+        pf.setProject(projectService.findById(id));
         pf.setMotivation(motivation);
         pf.setFreelancer(freelancerService.findById(freelancerId));
         pfService.add(pf);
@@ -180,7 +181,7 @@ public class ProjectController {
                     content = @Content)
     })
     @DeleteMapping("{id}") // DELETE: localhost:8080/api/v1/projects/1
-    public ResponseEntity delete(@PathVariable long id) {
+    public ResponseEntity delete(@PathVariable Long id) {
         projectService.deleteById(id);
         return ResponseEntity.noContent().build();
     }

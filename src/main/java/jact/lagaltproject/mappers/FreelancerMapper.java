@@ -3,7 +3,6 @@ package jact.lagaltproject.mappers;
 
 import jact.lagaltproject.models.*;
 import jact.lagaltproject.models.dtos.freelancer.FreelancerDTO;
-import jact.lagaltproject.models.dtos.project.ProjectDTO;
 import jact.lagaltproject.services.FreelancerHistoryService.FreelancerHistoryService;
 import jact.lagaltproject.services.freelancer.FreelancerService;
 import jact.lagaltproject.services.message.MessageService;
@@ -47,7 +46,7 @@ public abstract class FreelancerMapper {
     }
 
     @Named("projectFreelancersToIds")
-    Set<Long> mapProjectFreelancersToIds(Set<Project_freelancer> project_freelancers) {
+    Set<Long> mapProjectFreelancersToIds(Set<ProjectFreelancer> project_freelancers) {
         if (project_freelancers == null) {
             return null;
         }
@@ -77,7 +76,7 @@ public abstract class FreelancerMapper {
     }
 
     @Named("mapProjectFreelancerIdsToProjectFreelancers")
-    Set<Project_freelancer> mapProjectFreelancerIdsToProjectFreelancers(Set<Long> ids) {
+    Set<ProjectFreelancer> mapProjectFreelancerIdsToProjectFreelancers(Set<Long> ids) {
         if (ids == null) return null;
         return ids.stream().map(id ->projectFreelancerService.findById(id)).collect(Collectors.toSet());
     }

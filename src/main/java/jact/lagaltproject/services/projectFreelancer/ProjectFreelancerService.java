@@ -1,7 +1,9 @@
 package jact.lagaltproject.services.projectFreelancer;
 
-import jact.lagaltproject.models.Project_freelancer;
+import jact.lagaltproject.models.ProjectFreelancer;
 import jact.lagaltproject.services.CrudService;
+import org.springframework.stereotype.Service;
 
-public interface ProjectFreelancerService extends CrudService<Project_freelancer, Long> {
+@Service
+public interface ProjectFreelancerService extends CrudService<ProjectFreelancer, Long> {
 }

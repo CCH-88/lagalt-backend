@@ -2,7 +2,7 @@ package jact.lagaltproject.mappers;
 
 import jact.lagaltproject.models.Chat;
 import jact.lagaltproject.models.Project;
-import jact.lagaltproject.models.Project_freelancer;
+import jact.lagaltproject.models.ProjectFreelancer;
 import jact.lagaltproject.models.dtos.project.ProjectDTO;
 import jact.lagaltproject.services.chat.ChatService;
 import jact.lagaltproject.services.project.ProjectService;
@@ -35,7 +35,7 @@ public abstract class ProjectMapper {
     public abstract ProjectDTO projectToDTO(Project project);
 
     @Named("projectFreelancersToIds")
-    Set<Long> mapProjectFreelancersToIds(Set<Project_freelancer> project_freelancers) {
+    Set<Long> mapProjectFreelancersToIds(Set<ProjectFreelancer> project_freelancers) {
         if (project_freelancers == null) {
             return null;
         }
@@ -56,7 +56,7 @@ public abstract class ProjectMapper {
     }
 
     @Named("projectFreelancerIdsToProjectFreelancers")
-    Set<Project_freelancer> mapProjectFreelancerIdsToProjectFreelancers(Set<Long> ids) {
+    Set<ProjectFreelancer> mapProjectFreelancerIdsToProjectFreelancers(Set<Long> ids) {
         if (ids == null) return null;
         return ids.stream().map(id ->projectFreelancerService.findById(id)).collect(Collectors.toSet());
     }
