@@ -8,7 +8,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Set;
 
-
 @Getter
 @Setter
 @Entity
@@ -24,5 +23,6 @@ public class Chat {
     @OneToOne(mappedBy = "chat")
     @JsonBackReference(value = "project_chat")
     private Project project;
+
 
 }

@@ -30,45 +30,16 @@ public class MessageController {
         this.messageService = messageService;
     }
 
-    @Operation(summary = "Get all messages")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",
-                    description = "Success",
-                    content = {
-                            @Content(
-                                    mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = MessageDTO.class))) })
-    })
-    @GetMapping // GET: localhost:8080/api/v1/messages
-    public ResponseEntity<Collection<Message>> getAll() {
-        return ResponseEntity.ok(messageService.findAll());
-    }
-
-    @Operation(summary = "Gets a message by ID")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",
-                    description = "Success",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Message.class)) }),
-            @ApiResponse(responseCode = "404",
-                    description = "Message with supplied ID does not exist",
-                    content = @Content)
-    })
-    @GetMapping("{id}") // GET: localhost:8080/api/v1/messages/1
-    public ResponseEntity<Message> findById(@PathVariable long id) {
-        return ResponseEntity.ok(messageService.findById(id));
-    }
-
-    @Operation(summary = "Adds a chat")
+    @Operation(summary = "Adds a message")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "204",
-                    description = "Chat successfully added",
+                    description = "Message successfully added",
                     content = @Content),
             @ApiResponse(responseCode = "400",
                     description = "Malformed request",
                     content = @Content),
             @ApiResponse(responseCode = "404",
-                    description = "Chat with supplied ID not found ",
+                    description = "Message with supplied ID not found ",
                     content = @Content)
     })
     @PostMapping // POST: localhost:8080/api/v1/messages
