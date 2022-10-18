@@ -2,7 +2,7 @@ package jact.lagaltproject.mappers;
 
 import jact.lagaltproject.models.Chat;
 import jact.lagaltproject.models.Project;
-import jact.lagaltproject.models.Project_freelancer;
+import jact.lagaltproject.models.ProjectFreelancer;
 import jact.lagaltproject.models.dtos.project.ProjectDTO;
 import jact.lagaltproject.services.chat.ChatService;
 import jact.lagaltproject.services.project.ProjectService;
@@ -31,11 +31,11 @@ public abstract class ProjectMapper {
 
     /*  Project To ProjectDTO   */
     @Mapping(target = "chatId", source = "chat.id")
-    @Mapping(target = "projectFreelancers", source = "project_freelancers", qualifiedByName = "projectFreelancersToIds")
+    @Mapping(target = "projectFreelancers", source = "projectFreelancers", qualifiedByName = "projectFreelancersToIds")
     public abstract ProjectDTO projectToDTO(Project project);
 
     @Named("projectFreelancersToIds")
-    Set<Long> mapProjectFreelancersToIds(Set<Project_freelancer> project_freelancers) {
+    Set<Long> mapProjectFreelancersToIds(Set<ProjectFreelancer> project_freelancers) {
         if (project_freelancers == null) {
             return null;
         }
@@ -47,7 +47,7 @@ public abstract class ProjectMapper {
 
     /*  ProjectDTO To Project   */
     @Mapping(target = "chat", source = "chatId", qualifiedByName = "chatIdToChat")
-    @Mapping(target = "project_freelancers", source = "projectFreelancers", qualifiedByName =  "projectFreelancerIdsToProjectFreelancers" )
+    @Mapping(target = "projectFreelancers", source = "projectFreelancers", qualifiedByName =  "projectFreelancerIdsToProjectFreelancers" )
     public abstract Project projectDTOToProject(ProjectDTO projectDTO);
 
     @Named("chatIdToChat")
@@ -56,7 +56,7 @@ public abstract class ProjectMapper {
     }
 
     @Named("projectFreelancerIdsToProjectFreelancers")
-    Set<Project_freelancer> mapProjectFreelancerIdsToProjectFreelancers(Set<Long> ids) {
+    Set<ProjectFreelancer> mapProjectFreelancerIdsToProjectFreelancers(Set<Long> ids) {
         if (ids == null) return null;
         return ids.stream().map(id ->projectFreelancerService.findById(id)).collect(Collectors.toSet());
     }

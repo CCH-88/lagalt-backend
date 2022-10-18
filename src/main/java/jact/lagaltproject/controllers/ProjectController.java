@@ -6,10 +6,14 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jact.lagaltproject.models.Freelancer;
+import jact.lagaltproject.mappers.FreelancerMapper;
+import jact.lagaltproject.mappers.ProjectMapper;
 import jact.lagaltproject.models.Project;
+import jact.lagaltproject.models.ProjectFreelancer;
 import jact.lagaltproject.models.dtos.project.ProjectDTO;
+import jact.lagaltproject.services.freelancer.FreelancerService;
 import jact.lagaltproject.services.project.ProjectService;
+import jact.lagaltproject.services.projectFreelancer.ProjectFreelancerService;
 import jact.lagaltproject.util.ApiErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,21 +25,24 @@ import java.util.Collection;
 @RequestMapping(path = "api/v1/projects")
 public class ProjectController {
 
-
     private final ProjectService projectService;
+    private final ProjectFreelancerService pfService;
+    private final FreelancerService freelancerService;
+    private final ProjectMapper projectMapper;
+    private final FreelancerMapper freelancerMapper;
 
     /*
      *  Abase URL is defined and the relevant service is injected.
-     *
-     * */
+     */
 
-    public ProjectController(ProjectService projectService) {
+    public ProjectController(ProjectService projectService, ProjectFreelancerService pfService, FreelancerService freelancerService, ProjectMapper projectMapper, FreelancerMapper freelancerMapper) {
         this.projectService = projectService;
+        this.pfService = pfService;
+        this.freelancerService = freelancerService;
+        this.projectMapper = projectMapper;
+        this.freelancerMapper = freelancerMapper;
     }
 
-    /*
-     * The getAll methods gets all the projects in the table Projects.
-     * */
     @Operation(summary = "Get all projects")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -43,54 +50,65 @@ public class ProjectController {
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = ProjectDTO.class))) })
+                                    array = @ArraySchema(schema = @Schema(implementation = ProjectDTO.class)))})
     })
     @GetMapping // GET: localhost:8080/api/v1/projects
     public ResponseEntity<Collection<Project>> getAll() {
         return ResponseEntity.ok(projectService.findAll());
     }
 
-    /*
-     * The findById methods gets the projects with the provided id.
-     * */
     @Operation(summary = "Gets a project by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Success",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Project.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProjectDTO.class))}),
             @ApiResponse(responseCode = "404",
                     description = "Projects with supplied ID does not exist",
                     content = @Content)
     })
     @GetMapping("{id}") // GET: localhost:8080/api/v1/projects/1
-    public ResponseEntity<Project> findById(@PathVariable long id) {
+    public ResponseEntity<Project> findById(@PathVariable Long id) {
         return ResponseEntity.ok(projectService.findById(id));
     }
 
-    /*
-     * The findByName method searches for the projects with the provided name.
-     * */
     @Operation(summary = "Searches after projects by name")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Success",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Project.class)) }),
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    array = @ArraySchema(schema = @Schema(implementation = ProjectDTO.class)))}),
             @ApiResponse(responseCode = "404",
                     description = "Projects with supplied ID does not exist",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiErrorResponse.class)) })
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class))})
     })
-    @GetMapping("search") // GET: localhost:8080/api/v1/projects/search?name=aProjectName
+    @GetMapping("search/name") // GET: localhost:8080/api/v1/projects/search/name?name=aProjectName
     public ResponseEntity<Collection<Project>> findByName(@RequestParam String name) {
         return ResponseEntity.ok(projectService.findAllByName(name));
     }
 
+    @Operation(summary = "Searches for projects by field")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Success",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProjectDTO.class))}),
+            @ApiResponse(responseCode = "406",
+                    description = "No projects where found with given field",
+                    content = {@Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = ApiErrorResponse.class)))})
+    })
+    @GetMapping("search/field") // GET: localhost:8080/ap/v1/projects/search/field?field=aProjectName
+    public ResponseEntity<Collection<Project>> findByField(@RequestParam String field) {
+        return ResponseEntity.ok(projectService.findAllByField(field));
+    }
+
     @Operation(summary = "Adds a project")
-    @ApiResponses( value = {
-            @ApiResponse(responseCode = "204",
-                    description = "Project successfully added",
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Project successfully created",
                     content = @Content),
             @ApiResponse(responseCode = "400",
                     description = "Malformed request",
@@ -104,11 +122,10 @@ public class ProjectController {
         Project aProject = projectService.add(project);
         URI location = URI.create("projects/" + aProject.getId());
         return ResponseEntity.created(location).build();
-        // return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Operation(summary = "Updates a project")
-    @ApiResponses( value = {
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "204",
                     description = "Project successfully updated",
                     content = @Content),
@@ -120,16 +137,39 @@ public class ProjectController {
                     content = @Content)
     })
     @PutMapping("{id}") // PUT: localhost:8080/api/v1/projects/1
-    public ResponseEntity update(@RequestBody Project aProject, @PathVariable int id) {
+    public ResponseEntity update(@RequestBody ProjectDTO projectDTO, @PathVariable Long id) {
         // Validates if body is correct
-        if(id != aProject.getId())
+        if (id != projectDTO.getId())
             return ResponseEntity.badRequest().build();
-        projectService.update(aProject);
+        projectService.update(
+                projectMapper.projectDTOToProject(projectDTO)
+        );
+        return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Apply to project")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "404",
+                    description = "Project or Freelancer with supplied ID doesn't exist",
+                    content = @Content),
+            @ApiResponse(responseCode = "204",
+                    description = "Successfully applied to project",
+                    content = @Content)
+    })
+    @PostMapping("{id}/apply")
+    public ResponseEntity apply(@RequestBody Long freelancerId, @RequestBody String motivation, @PathVariable Long id) {
+        if (!projectService.exists(id))
+            return ResponseEntity.badRequest().build();
+        ProjectFreelancer pf = new ProjectFreelancer();
+        pf.setProject(projectService.findById(id));
+        pf.setMotivation(motivation);
+        pf.setFreelancer(freelancerService.findById(freelancerId));
+        pfService.add(pf);
         return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "Deletes a project")
-    @ApiResponses( value = {
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "410",
                     description = "Project successfully deleted",
                     content = @Content),
@@ -141,7 +181,7 @@ public class ProjectController {
                     content = @Content)
     })
     @DeleteMapping("{id}") // DELETE: localhost:8080/api/v1/projects/1
-    public ResponseEntity delete(@PathVariable long id) {
+    public ResponseEntity delete(@PathVariable Long id) {
         projectService.deleteById(id);
         return ResponseEntity.noContent().build();
     }

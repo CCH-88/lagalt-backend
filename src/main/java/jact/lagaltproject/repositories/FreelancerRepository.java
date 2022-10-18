@@ -12,6 +12,6 @@ import java.util.Set;
 public interface FreelancerRepository extends JpaRepository<Freelancer, Long> {
 
 
-    @Query("select f from Freelancer f where f.username like %?1%")
+    @Query("select f from Freelancer f where lower(f.username) like lower(concat('%', ?1, '%'))")
     Set<Freelancer> findAllByUsername(String username);
 }

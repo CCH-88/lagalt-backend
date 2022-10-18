@@ -1,5 +1,6 @@
 package jact.lagaltproject.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
@@ -9,7 +10,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-public class Freelancer_history {
+public class FreelancerHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,8 +31,8 @@ public class Freelancer_history {
     @Type(type = "jact.lagaltproject.models.types.PostgreSqlLongArrayType")
     private Long[] participated;
 
-
-    @OneToOne(mappedBy = "freelancer_history")
+    @OneToOne(mappedBy = "freelancerHistory")
+    @JsonBackReference(value = "freelancer_fh")
     private Freelancer freelancer;
 
 }

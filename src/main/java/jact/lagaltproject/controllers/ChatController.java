@@ -26,16 +26,13 @@ public class ChatController {
 
     /*
      *  Abase URL is defined and the relevant service is injected.
-     *
-     * */
+     */
 
     public ChatController(ChatService chatService) {
         this.chatService = chatService;
     }
 
-    /*
-     * The getAll methods gets all the chats in the table Chat.
-     * */
+
     @Operation(summary = "Get all chats")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -50,9 +47,6 @@ public class ChatController {
         return ResponseEntity.ok(chatService.findAll());
     }
 
-    /*
-     * The findById methods gets the chats with the provided id.
-     * */
     @Operation(summary = "Gets a chat by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -108,6 +102,22 @@ public class ChatController {
         chatService.update(aChat);
         return ResponseEntity.noContent().build();
     }
+
+//    @Operation(summary = "Adds a message to a chat")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "404",
+//            description = "Chat doesn't exist with that id",
+//            content = @Content),
+//            @ApiResponse(responseCode = "200",
+//            description = "Message succesfully added",
+//            content = @Content)
+//    })
+//    @PutMapping("{id}")
+//        public ResponseEntity addMessage(@RequestBody Chat aChat, @PathVariable int chatId, @PathVariable int messageId){
+//        if (chatId != aChat.getId())
+//            return ResponseEntity.badRequest().build();
+//        return null; //TODO FIX THIS!
+//    }
 
     @Operation(summary = "Deletes a chat")
     @ApiResponses( value = {

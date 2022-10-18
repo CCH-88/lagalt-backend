@@ -22,6 +22,8 @@ public class Project {
     private int ownerId;
     @Column(length = 1000, nullable = false)
     private String description;
+    @Column(nullable = false)
+    private String field;
 
     @Column(columnDefinition = "text[]")
     @Type(type = "jact.lagaltproject.models.types.PostgreSqlStringArrayType")
@@ -36,7 +38,7 @@ public class Project {
 
     @OneToMany(mappedBy = "project")
     @JsonManagedReference(value = "project_pf")
-    private Set<Project_freelancer> project_freelancers;
+    private Set<ProjectFreelancer> projectFreelancers;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "project_chat")

@@ -2,9 +2,8 @@ package jact.lagaltproject.services.freelancer;
 
 import jact.lagaltproject.exceptions.FreelancerNotFoundException;
 import jact.lagaltproject.models.Freelancer;
-import jact.lagaltproject.models.Freelancer_history;
+import jact.lagaltproject.models.FreelancerHistory;
 import jact.lagaltproject.repositories.FreelancerRepository;
-import jact.lagaltproject.repositories.ProjectRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -31,14 +30,18 @@ public class FreelancerServiceImpl implements FreelancerService {
 
     @Override
     public Freelancer add(Freelancer entity) {
-        Freelancer_history fh = new Freelancer_history();
+        FreelancerHistory fh = new FreelancerHistory();
         fh.setFreelancer(entity);
         Long[] empty = new Long[0];
         fh.setViewed(empty);
         fh.setApplied(empty);
         fh.setParticipated(empty);
         fh.setClicked(empty);
-        entity.setFreelancer_history(fh);
+        entity.setFreelancerHistory(fh);
+        if (entity.getSkills() == null) {
+            String[] emptySkills = new String[0];
+            entity.setSkills(emptySkills);
+        }
         return freelancerRepo.save(entity);
     }
 
@@ -49,6 +52,7 @@ public class FreelancerServiceImpl implements FreelancerService {
 
     @Override
     public void deleteById(Long id) {
+        if (!freelancerRepo.existsById(id)) throw new FreelancerNotFoundException(id);
         freelancerRepo.deleteById(id);
     }
 
@@ -56,8 +60,6 @@ public class FreelancerServiceImpl implements FreelancerService {
     public boolean exists(Long id) {
         return freelancerRepo.existsById(id);
     }
-
-
 
     @Override
     public Collection<Freelancer> findAllByUsername(String username) {

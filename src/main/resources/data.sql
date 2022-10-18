@@ -17,11 +17,11 @@ VALUES(nextval('freelancer_id_seq'),'A mega awesome description', 'levelio@examp
 INSERT INTO chat (id) values (nextval('chat_id_seq'));
 INSERT INTO chat (id) values (nextval('chat_id_seq'));
 
-INSERT INTO project (description, name,owner_id, progress, project_images, project_chat)
-VALUES ('Project description', 'Awesome project 1',2, 'founding',ARRAY['image 1', 'image 2'],2);
+INSERT INTO project (description, name,owner_id, progress, project_images, project_chat, field)
+VALUES ('Project description', 'Awesome project 1',2, 'founding',ARRAY['image 1', 'image 2'],2, 'Web Development');
 
-INSERT INTO project (description, name,owner_id, progress, project_images, project_chat)
-VALUES ('Project description', 'Awesome project 2', 1, 'founding',ARRAY['image 1', 'image 2'], 1);
+INSERT INTO project (description, name,owner_id, progress, project_images, project_chat, field)
+VALUES ('Project description', 'Awesome project 2', 1, 'founding',ARRAY['image 1', 'image 2'], 1, 'Game Development');
 
 INSERT INTO project_freelancer (freelancer_id, project_id, motivation)
 VALUES (1, 2, 'weee please let me join this awesome project');

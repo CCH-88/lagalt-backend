@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-public class Project_freelancer {
+public class ProjectFreelancer {
 
     @EmbeddedId
     ProjectFreelancerKey id;
