@@ -12,7 +12,6 @@ public class FreelancerDTO {
     private boolean hidden;
     private String[] skills;
     private String googleToken;
-    private String twitterToken;
     private String portfolio;
     private String description;
 

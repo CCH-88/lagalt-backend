@@ -1,7 +1,7 @@
 package jact.lagaltproject.services.FreelancerHistoryService;
 
 import jact.lagaltproject.exceptions.ResourceNotFoundException;
-import jact.lagaltproject.models.Freelancer_history;
+import jact.lagaltproject.models.FreelancerHistory;
 import jact.lagaltproject.repositories.FreelancerHistoryRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,23 +18,23 @@ public class FreelancerHistoryServiceImpl implements FreelancerHistoryService{
     }
 
     @Override
-    public Freelancer_history findById(Long id) {
+    public FreelancerHistory findById(Long id) {
         return freelancerHistoryRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Freelance History With the Id: " + id + " Could not be found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Freelance history with the id: " + id + " could not be found"));
     }
 
     @Override
-    public Collection<Freelancer_history> findAll() {
+    public Collection<FreelancerHistory> findAll() {
         return freelancerHistoryRepository.findAll();
     }
 
     @Override
-    public Freelancer_history add(Freelancer_history entity) {
+    public FreelancerHistory add(FreelancerHistory entity) {
         return freelancerHistoryRepository.save(entity);
     }
 
     @Override
-    public Freelancer_history update(Freelancer_history entity) {
+    public FreelancerHistory update(FreelancerHistory entity) {
         return freelancerHistoryRepository.save(entity);
     }
 

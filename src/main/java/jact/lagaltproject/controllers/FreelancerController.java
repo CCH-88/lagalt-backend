@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jact.lagaltproject.mappers.FreelancerMapper;
 import jact.lagaltproject.models.Freelancer;
 import jact.lagaltproject.models.dtos.freelancer.FreelancerDTO;
 import jact.lagaltproject.services.freelancer.FreelancerService;
@@ -13,28 +14,27 @@ import jact.lagaltproject.util.ApiErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.net.URI;
 import java.util.Collection;
 
 @RestController
 @RequestMapping(path = "api/v1/freelancers")
-public class FreelanceController {
+public class FreelancerController {
 
 
     private final FreelancerService freelancerService;
+    private final FreelancerMapper freelancerMapper;
 
     /*
      *  Abase URL is defined and the relevant service is injected.
-     *
-     * */
+     */
 
-    public FreelanceController(FreelancerService freelancerService) {
+    public FreelancerController(FreelancerService freelancerService, FreelancerMapper freelancerMapper) {
         this.freelancerService = freelancerService;
+        this.freelancerMapper = freelancerMapper;
     }
 
-    /*
-     * The getAll methods gets all the freelancers in the table Freelancer.
-     * */
     @Operation(summary = "Get all freelancers")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -42,22 +42,19 @@ public class FreelanceController {
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = FreelancerDTO.class))) })
+                                    array = @ArraySchema(schema = @Schema(implementation = FreelancerDTO.class)))})
     })
     @GetMapping // GET: localhost:8080/api/v1/freelancers
     public ResponseEntity<Collection<Freelancer>> getAll() {
         return ResponseEntity.ok(freelancerService.findAll());
     }
 
-    /*
-     * The findById methods gets the freelancers with the provided id.
-     * */
     @Operation(summary = "Gets a freelancer by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Success",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Freelancer.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Freelancer.class))}),
             @ApiResponse(responseCode = "404",
                     description = "Freelancer with supplied ID does not exist",
                     content = @Content)
@@ -67,19 +64,16 @@ public class FreelanceController {
         return ResponseEntity.ok(freelancerService.findById(id));
     }
 
-    /*
-     * The findByName method searches for the freelancers with the provided name.
-     * */
     @Operation(summary = "Searches after freelancers by name")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Success",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Freelancer.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Freelancer.class))}),
             @ApiResponse(responseCode = "404",
                     description = "Character with supplied ID does not exist",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiErrorResponse.class)) })
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class))})
     })
     @GetMapping("search") // GET: localhost:8080/api/v1/freelancers/search?name=Thor
     public ResponseEntity<Collection<Freelancer>> findByName(@RequestParam String username) {
@@ -87,7 +81,7 @@ public class FreelanceController {
     }
 
     @Operation(summary = "Adds a freelancer")
-    @ApiResponses( value = {
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "204",
                     description = "Freelancer successfully added",
                     content = @Content),
@@ -107,7 +101,7 @@ public class FreelanceController {
     }
 
     @Operation(summary = "Updates a freelancer")
-    @ApiResponses( value = {
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "204",
                     description = "Freelancer successfully updated",
                     content = @Content),
@@ -119,16 +113,17 @@ public class FreelanceController {
                     content = @Content)
     })
     @PutMapping("{id}") // PUT: localhost:8080/api/v1/freelancers/1
-    public ResponseEntity update(@RequestBody Freelancer aFreelancer, @PathVariable int id) {
+    public ResponseEntity update(@RequestBody FreelancerDTO freelancerDTO, @PathVariable Long id) {
         // Validates if body is correct
-        if(id != aFreelancer.getId())
+        if (id != freelancerDTO.getId())
             return ResponseEntity.badRequest().build();
-        freelancerService.update(aFreelancer);
+        freelancerService.update(
+                freelancerMapper.freelancerDTOtoFreelancer(freelancerDTO));
         return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "Deletes a freelancer")
-    @ApiResponses( value = {
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "410",
                     description = "Freelancer successfully deleted",
                     content = @Content),

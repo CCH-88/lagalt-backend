@@ -1,7 +1,6 @@
 package jact.lagaltproject.models;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jact.lagaltproject.enums.Role;
 import lombok.*;
 import org.hibernate.annotations.Type;
 
@@ -33,29 +32,22 @@ public class Freelancer {
     @Column(length = 800)
     private String googleToken;
 
-    /*
-    @Column(length = 800)
-    private String githubToken;
-    @Column(length = 800)
-    private String twitterToken;
-    */
-
     @Column()
     private String portfolio;
     @Column(length = 4000)
     private String description;
 
     //Relationships
-    @OneToMany(mappedBy = "freelancer", fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "freelancer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "freelancer_message")
     Set<Message> messages;
 
-    @OneToMany(mappedBy = "freelancer")
-    @JsonManagedReference
-    private Set<Project_freelancer> project_freelancers;
+    @OneToMany(mappedBy = "freelancer", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "freelancer_pf")
+    private Set<ProjectFreelancer> projectFreelancers;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "freelancer_history_id", referencedColumnName = "id")
-    private Freelancer_history freelancer_history;
+    @JsonManagedReference(value = "freelancer_fh")
+    private FreelancerHistory freelancerHistory;
 
 }

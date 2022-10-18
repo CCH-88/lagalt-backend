@@ -1,19 +1,25 @@
 package jact.lagaltproject.services.project;
 
 import jact.lagaltproject.exceptions.ProjectNotFoundException;
+import jact.lagaltproject.exceptions.ResourceNotFoundException;
 import jact.lagaltproject.models.Chat;
 import jact.lagaltproject.models.Project;
+import jact.lagaltproject.models.ProjectFreelancer;
+import jact.lagaltproject.repositories.ProjectFreelancerRepository;
 import jact.lagaltproject.repositories.ProjectRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepo;
+    private final ProjectFreelancerRepository projectFreelancerRepository;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository) {
+    public ProjectServiceImpl(ProjectRepository projectRepository, ProjectFreelancerRepository projectFreelancerRepository) {
         this.projectRepo = projectRepository;
+        this.projectFreelancerRepository = projectFreelancerRepository;
     }
 
     @Override
@@ -39,12 +45,23 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public void application(Project project, ProjectFreelancer project_freelancer) {
+        if (!projectRepo.existsById(project.getId())
+                || !projectFreelancerRepository.existsById(project_freelancer.getProject().getId()))
+            throw new ResourceNotFoundException("One of the resources doesn't exists");
+    }
+
+    @Override
     public Project update(Project entity) {
         return projectRepo.save(entity);
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
+        if (!projectRepo.existsById(id)) throw new ProjectNotFoundException(id);
+        Project proj = projectRepo.findById(id).get();
+        proj.getProjectFreelancers().forEach(f -> projectFreelancerRepository.deleteByProjectFreelancerKey(f.getId()));
         projectRepo.deleteById(id);
     }
 
@@ -56,5 +73,10 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Collection<Project> findAllByName(String name) {
         return projectRepo.findAllByName(name);
+    }
+
+    @Override
+    public Collection<Project> findAllByField(String field) {
+        return projectRepo.findAllByField(field);
     }
 }
