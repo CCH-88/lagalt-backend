@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jact.lagaltproject.models.Chat;
-import jact.lagaltproject.models.dtos.chat.ChatDTO;
 import jact.lagaltproject.services.chat.ChatService;
 import jact.lagaltproject.services.freelancer.FreelancerService;
 import jact.lagaltproject.services.message.MessageService;
@@ -43,7 +42,7 @@ public class ChatController {
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = ChatDTO.class)))})
+                                    array = @ArraySchema(schema = @Schema(implementation = Chat.class)))})
     })
     @GetMapping // GET: localhost:8080/api/v1/chats
     public ResponseEntity<Collection<Chat>> getAll() {
