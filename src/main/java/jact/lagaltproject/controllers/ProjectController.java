@@ -6,10 +6,11 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jact.lagaltproject.mappers.FreelancerMapper;
+import jact.lagaltproject.enums.Role;
 import jact.lagaltproject.mappers.ProjectMapper;
 import jact.lagaltproject.models.Project;
 import jact.lagaltproject.models.ProjectFreelancer;
+import jact.lagaltproject.models.ProjectFreelancerKey;
 import jact.lagaltproject.models.dtos.project.ProjectDTO;
 import jact.lagaltproject.services.freelancer.FreelancerService;
 import jact.lagaltproject.services.project.ProjectService;
@@ -29,18 +30,16 @@ public class ProjectController {
     private final ProjectFreelancerService pfService;
     private final FreelancerService freelancerService;
     private final ProjectMapper projectMapper;
-    private final FreelancerMapper freelancerMapper;
 
     /*
      *  Abase URL is defined and the relevant service is injected.
      */
 
-    public ProjectController(ProjectService projectService, ProjectFreelancerService pfService, FreelancerService freelancerService, ProjectMapper projectMapper, FreelancerMapper freelancerMapper) {
+    public ProjectController(ProjectService projectService, ProjectFreelancerService pfService, FreelancerService freelancerService, ProjectMapper projectMapper) {
         this.projectService = projectService;
         this.pfService = pfService;
         this.freelancerService = freelancerService;
         this.projectMapper = projectMapper;
-        this.freelancerMapper = freelancerMapper;
     }
 
     @Operation(summary = "Get all projects")
@@ -156,15 +155,50 @@ public class ProjectController {
                     description = "Successfully applied to project",
                     content = @Content)
     })
-    @PostMapping("{id}/apply")
-    public ResponseEntity apply(@RequestBody Long freelancerId, @RequestBody String motivation, @PathVariable Long id) {
-        if (!projectService.exists(id))
+    @PostMapping("{pId}/{fId}")
+    public ResponseEntity apply(@RequestBody String motivation, @PathVariable Long pId, @PathVariable Long fId) {
+        if (!projectService.exists(pId))
             return ResponseEntity.badRequest().build();
+        Project project = projectService.findById(pId);
+//        project.getProjectFreelancers().forEach(id -> {
+//            if (id.getFreelancer().getId().equals(fId))
+//                throw new ProjectFreelancerAlreadyExists(fId);
+//        });
+        ProjectFreelancerKey pfKey = new ProjectFreelancerKey();
         ProjectFreelancer pf = new ProjectFreelancer();
-        pf.setProject(projectService.findById(id));
+        pfKey.setProject_id(pId);
+        pfKey.setFreelancer_id(fId);
+
+        pf.setId(pfKey);
+        pf.setProject(projectService.findById(pId));
         pf.setMotivation(motivation);
-        pf.setFreelancer(freelancerService.findById(freelancerId));
+        pf.setFreelancer(freelancerService.findById(fId));
+        pf.setRole(Role.applicant);
         pfService.add(pf);
+
+        project.addProjectFreelancer(pf);
+        projectService.update(project);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Add or deny a application")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Applicant accepted or denied",
+                    content = @Content),
+            @ApiResponse(responseCode = "400",
+                    description = "Malformed request",
+                    content = @Content)
+    })
+    @PatchMapping("{pId}/{fId}/respond")
+    public ResponseEntity respond(@RequestBody boolean bool, @PathVariable Long pId, @PathVariable Long fId) {
+        ProjectFreelancer pf = pfService.findById(fId + pId);
+        if (bool) {
+            pf.setRole(Role.collaborator);
+        } else {
+            pf.setRole(Role.denied);
+        }
+        pfService.update(pf);
         return ResponseEntity.noContent().build();
     }
 
