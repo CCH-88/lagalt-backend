@@ -7,10 +7,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jact.lagaltproject.models.Chat;
-import jact.lagaltproject.models.Freelancer;
 import jact.lagaltproject.models.dtos.chat.ChatDTO;
-import jact.lagaltproject.models.dtos.freelancer.FreelancerDTO;
 import jact.lagaltproject.services.chat.ChatService;
+import jact.lagaltproject.services.freelancer.FreelancerService;
+import jact.lagaltproject.services.message.MessageService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,15 +23,18 @@ public class ChatController {
 
 
     private final ChatService chatService;
+    private final MessageService messageService;
+    private final FreelancerService freelancerService;
 
     /*
      *  Abase URL is defined and the relevant service is injected.
      */
 
-    public ChatController(ChatService chatService) {
+    public ChatController(ChatService chatService, MessageService messageService, FreelancerService freelancerService) {
         this.chatService = chatService;
+        this.messageService = messageService;
+        this.freelancerService = freelancerService;
     }
-
 
     @Operation(summary = "Get all chats")
     @ApiResponses(value = {
@@ -40,7 +43,7 @@ public class ChatController {
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = ChatDTO.class))) })
+                                    array = @ArraySchema(schema = @Schema(implementation = ChatDTO.class)))})
     })
     @GetMapping // GET: localhost:8080/api/v1/chats
     public ResponseEntity<Collection<Chat>> getAll() {
@@ -51,8 +54,8 @@ public class ChatController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Success",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Chat.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Chat.class))}),
             @ApiResponse(responseCode = "404",
                     description = "Chat with supplied ID does not exist",
                     content = @Content)
@@ -63,7 +66,7 @@ public class ChatController {
     }
 
     @Operation(summary = "Adds a chat")
-    @ApiResponses( value = {
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "204",
                     description = "Chat successfully added",
                     content = @Content),
@@ -83,7 +86,7 @@ public class ChatController {
     }
 
     @Operation(summary = "Updates a chat")
-    @ApiResponses( value = {
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "204",
                     description = "Chat successfully updated",
                     content = @Content),
@@ -97,30 +100,14 @@ public class ChatController {
     @PutMapping("{id}") // PUT: localhost:8080/api/v1/chats/1
     public ResponseEntity update(@RequestBody Chat aChat, @PathVariable int id) {
         // Validates if body is correct
-        if(id != aChat.getId())
+        if (id != aChat.getId())
             return ResponseEntity.badRequest().build();
         chatService.update(aChat);
         return ResponseEntity.noContent().build();
     }
 
-//    @Operation(summary = "Adds a message to a chat")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "404",
-//            description = "Chat doesn't exist with that id",
-//            content = @Content),
-//            @ApiResponse(responseCode = "200",
-//            description = "Message succesfully added",
-//            content = @Content)
-//    })
-//    @PutMapping("{id}")
-//        public ResponseEntity addMessage(@RequestBody Chat aChat, @PathVariable int chatId, @PathVariable int messageId){
-//        if (chatId != aChat.getId())
-//            return ResponseEntity.badRequest().build();
-//        return null; //TODO FIX THIS!
-//    }
-
     @Operation(summary = "Deletes a chat")
-    @ApiResponses( value = {
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "410",
                     description = "Chat successfully deleted",
                     content = @Content),

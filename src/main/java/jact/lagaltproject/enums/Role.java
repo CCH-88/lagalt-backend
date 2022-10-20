@@ -1,5 +1,5 @@
 package jact.lagaltproject.enums;
 
 public enum Role {
-    leader, collaborator, owner, applicant
+    leader, collaborator, owner, applicant, denied
 }

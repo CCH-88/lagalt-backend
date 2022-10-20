@@ -45,4 +45,8 @@ public class Project {
     @JsonManagedReference(value = "project_chat")
     private Chat chat;
 
+    public void addProjectFreelancer(ProjectFreelancer projectFreelancer){
+        this.projectFreelancers.add(projectFreelancer);
+    }
+
 }
