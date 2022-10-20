@@ -8,8 +8,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jact.lagaltproject.models.Chat;
 import jact.lagaltproject.services.chat.ChatService;
-import jact.lagaltproject.services.freelancer.FreelancerService;
-import jact.lagaltproject.services.message.MessageService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +20,7 @@ public class ChatController {
 
 
     private final ChatService chatService;
+
 
     /*
      *  Abase URL is defined and the relevant service is injected.
