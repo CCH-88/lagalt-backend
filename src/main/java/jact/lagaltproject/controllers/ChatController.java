@@ -22,17 +22,13 @@ public class ChatController {
 
 
     private final ChatService chatService;
-    private final MessageService messageService;
-    private final FreelancerService freelancerService;
 
     /*
      *  Abase URL is defined and the relevant service is injected.
      */
 
-    public ChatController(ChatService chatService, MessageService messageService, FreelancerService freelancerService) {
+    public ChatController(ChatService chatService) {
         this.chatService = chatService;
-        this.messageService = messageService;
-        this.freelancerService = freelancerService;
     }
 
     @Operation(summary = "Get all chats")
