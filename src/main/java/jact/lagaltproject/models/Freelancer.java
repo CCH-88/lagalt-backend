@@ -30,7 +30,7 @@ public class Freelancer {
     private String[] skills;
 
     @Column(length = 800)
-    private String googleToken;
+    private String googleToken; //TODO: Needs to be renamed in the future.
 
     @Column()
     private String portfolio;

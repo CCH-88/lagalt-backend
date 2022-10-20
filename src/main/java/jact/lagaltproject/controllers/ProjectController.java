@@ -7,8 +7,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jact.lagaltproject.enums.Role;
-import jact.lagaltproject.exceptions.ProjectFreelancerAlreadyExists;
-import jact.lagaltproject.mappers.FreelancerMapper;
 import jact.lagaltproject.mappers.ProjectMapper;
 import jact.lagaltproject.models.Project;
 import jact.lagaltproject.models.ProjectFreelancer;
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.Collection;
-import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "api/v1/projects")

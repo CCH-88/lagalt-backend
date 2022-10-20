@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jact.lagaltproject.models.Chat;
-import jact.lagaltproject.models.Message;
 import jact.lagaltproject.models.dtos.chat.ChatDTO;
 import jact.lagaltproject.services.chat.ChatService;
 import jact.lagaltproject.services.freelancer.FreelancerService;
