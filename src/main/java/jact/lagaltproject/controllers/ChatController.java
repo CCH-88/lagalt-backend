@@ -7,10 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jact.lagaltproject.models.Chat;
-import jact.lagaltproject.models.dtos.chat.ChatDTO;
 import jact.lagaltproject.services.chat.ChatService;
-import jact.lagaltproject.services.freelancer.FreelancerService;
-import jact.lagaltproject.services.message.MessageService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,17 +20,14 @@ public class ChatController {
 
 
     private final ChatService chatService;
-    private final MessageService messageService;
-    private final FreelancerService freelancerService;
+
 
     /*
      *  Abase URL is defined and the relevant service is injected.
      */
 
-    public ChatController(ChatService chatService, MessageService messageService, FreelancerService freelancerService) {
+    public ChatController(ChatService chatService) {
         this.chatService = chatService;
-        this.messageService = messageService;
-        this.freelancerService = freelancerService;
     }
 
     @Operation(summary = "Get all chats")
@@ -43,7 +37,7 @@ public class ChatController {
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = ChatDTO.class)))})
+                                    array = @ArraySchema(schema = @Schema(implementation = Chat.class)))})
     })
     @GetMapping // GET: localhost:8080/api/v1/chats
     public ResponseEntity<Collection<Chat>> getAll() {

@@ -22,17 +22,7 @@ public class WebSecurityConfig {
                 .csrf().disable()
                 // Enable security for http requests
                 .authorizeHttpRequests(authorize -> authorize
-                        // Specify paths where public access is allowed
-                        .mvcMatchers("/public").permitAll()
-                        // Specify paths to be protected with scope
-                        //.mvcMatchers("/products").hasAuthority("SCOPE_profile")
-                        //.mvcMatchers("/products").hasAuthority("client-role")
-                        // Specify paths to be protected with role
-                        //.mvcMatchers("/api/v1/resources/roles").hasRole("ADMIN")
-                        // All remaining paths require authentication
-                        .antMatchers(HttpMethod.GET, "/*").permitAll()
-                        .antMatchers(HttpMethod.OPTIONS, "/*").permitAll()
-                        .antMatchers(HttpMethod.HEAD, "/*").permitAll()
+                                .antMatchers(HttpMethod.GET).permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer()
