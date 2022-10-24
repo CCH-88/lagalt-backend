@@ -34,7 +34,7 @@ public class FreelancerController {
         this.freelancerMapper = freelancerMapper;
     }
 
-    @Operation(summary = "Get all freelancers")
+    @Operation(summary = "Get all freelancers that aren't hidden.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Success",
@@ -48,7 +48,7 @@ public class FreelancerController {
         return ResponseEntity.ok(freelancerService.findAllRespectHidden());
     }
 
-    @Operation(summary = "Gets a freelancer by ID")
+    @Operation(summary = "Gets a freelancer by ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Success",
@@ -58,12 +58,14 @@ public class FreelancerController {
                     description = "Freelancer with supplied ID does not exist",
                     content = @Content)
     })
-    @GetMapping("{id}") // GET: localhost:8080/api/v1/freelancers/1
+    @GetMapping("profile/{id}") // GET: localhost:8080/api/v1/freelancers/1
     public ResponseEntity<Freelancer> findById(@PathVariable long id) {
+        if (!freelancerService.exists(id))
+            return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(freelancerService.findById(id));
     }
 
-    @Operation(summary = "Searches after freelancers by name")
+    @Operation(summary = "Searches after freelancers by name that aren't hidden.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Success",
@@ -76,10 +78,10 @@ public class FreelancerController {
     })
     @GetMapping("search") // GET: localhost:8080/api/v1/freelancers/search?name=Thor
     public ResponseEntity<Collection<Freelancer>> findByName(@RequestParam String username) {
-        return ResponseEntity.ok(freelancerService.findAllByUsername(username));
+        return ResponseEntity.ok(freelancerService.findAllByUsernameRespectHidden(username));
     }
 
-    @Operation(summary = "Adds a freelancer")
+    @Operation(summary = "Adds a freelancer.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204",
                     description = "Freelancer successfully added",
@@ -99,7 +101,7 @@ public class FreelancerController {
         // return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @Operation(summary = "Updates a freelancer")
+    @Operation(summary = "Updates a freelancer.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204",
                     description = "Freelancer successfully updated",
@@ -111,17 +113,22 @@ public class FreelancerController {
                     description = "Freelancer with supplied ID not found ",
                     content = @Content)
     })
-    @PutMapping("{id}") // PUT: localhost:8080/api/v1/freelancers/1
+    @PutMapping("profile/{id}") // PUT: localhost:8080/api/v1/freelancers/1
     public ResponseEntity update(@RequestBody FreelancerDTO freelancerDTO, @PathVariable Long id) {
         // Validates if body is correct
         if (id != freelancerDTO.getId())
             return ResponseEntity.badRequest().build();
+        if (!freelancerService.exists(freelancerDTO.getId())) {
+            Freelancer aFreelancer = freelancerService.add(freelancerMapper.freelancerDTOtoFreelancer(freelancerDTO));
+            URI location = URI.create("freelancers/" + aFreelancer.getId());
+            return ResponseEntity.created(location).build();
+        }
         freelancerService.update(
                 freelancerMapper.freelancerDTOtoFreelancer(freelancerDTO));
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "Deletes a freelancer")
+    @Operation(summary = "Deletes a freelancer.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "410",
                     description = "Freelancer successfully deleted",
