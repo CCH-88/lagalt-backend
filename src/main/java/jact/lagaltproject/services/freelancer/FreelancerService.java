@@ -8,7 +8,7 @@ import java.util.Collection;
 
 @Service
 public interface FreelancerService extends CrudService<Freelancer, Long> {
-    Collection<Freelancer> findAllByUsername(String username);
+    Collection<Freelancer> findAllByUsernameRespectHidden(String username);
 
     Collection<Freelancer> findAllRespectHidden();
 }
