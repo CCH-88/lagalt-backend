@@ -45,7 +45,7 @@ public class FreelancerController {
     })
     @GetMapping // GET: localhost:8080/api/v1/freelancers
     public ResponseEntity<Collection<Freelancer>> getAll() {
-        return ResponseEntity.ok(freelancerService.findAll());
+        return ResponseEntity.ok(freelancerService.findAllRespectHidden());
     }
 
     @Operation(summary = "Gets a freelancer by ID")
