@@ -10,9 +10,7 @@ import java.util.Set;
 @Repository
 public interface FreelancerRepository extends JpaRepository<Freelancer, Long> {
 
-    @Query("select f from Freelancer f where lower(f.username) like lower(concat('%', ?1, '%')) and f.hidden = false")
+    @Query("select f from Freelancer f where lower(f.username) like lower(concat('%', ?1, '%'))")
     Set<Freelancer> findAllByUsername(String username);
 
-    @Query("select f from Freelancer f where f.hidden = false")
-    Set<Freelancer> findAllRespectHidden();
 }

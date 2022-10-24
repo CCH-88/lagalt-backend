@@ -34,7 +34,7 @@ public class FreelancerController {
         this.freelancerMapper = freelancerMapper;
     }
 
-    @Operation(summary = "Get all freelancers that aren't hidden.")
+    @Operation(summary = "Get all freelancers.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Success",
@@ -45,7 +45,7 @@ public class FreelancerController {
     })
     @GetMapping // GET: localhost:8080/api/v1/freelancers
     public ResponseEntity<Collection<Freelancer>> getAll() {
-        return ResponseEntity.ok(freelancerService.findAllRespectHidden());
+        return ResponseEntity.ok(freelancerService.findAll());
     }
 
     @Operation(summary = "Gets a freelancer by ID.")
@@ -65,7 +65,7 @@ public class FreelancerController {
         return ResponseEntity.ok(freelancerService.findById(id));
     }
 
-    @Operation(summary = "Searches after freelancers by name that aren't hidden.")
+    @Operation(summary = "Searches after freelancers.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Success",
@@ -78,7 +78,7 @@ public class FreelancerController {
     })
     @GetMapping("search") // GET: localhost:8080/api/v1/freelancers/search?name=Thor
     public ResponseEntity<Collection<Freelancer>> findByName(@RequestParam String username) {
-        return ResponseEntity.ok(freelancerService.findAllByUsernameRespectHidden(username));
+        return ResponseEntity.ok(freelancerService.findAllByUsername(username));
     }
 
     @Operation(summary = "Adds a freelancer.")

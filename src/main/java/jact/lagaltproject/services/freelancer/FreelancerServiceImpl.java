@@ -62,13 +62,8 @@ public class FreelancerServiceImpl implements FreelancerService {
     }
 
     @Override
-    public Collection<Freelancer> findAllByUsernameRespectHidden(String username) {
+    public Collection<Freelancer> findAllByUsername(String username) {
         return freelancerRepo.findAllByUsername(username);
-    }
-
-    @Override
-    public Collection<Freelancer> findAllRespectHidden() {
-        return null;
     }
 
 }
