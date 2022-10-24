@@ -20,14 +20,22 @@ First we need to launch the database
 1. docker-compose up -d
 
 For the sake of simplicity we decided to run the keycloak instance directly from the image.
-2. docker run -p 8083:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=secret jboss/keycloak
+
+2. docker run -p 8083:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=secret c jboss/keycloak
+
 3. After the image have been build we need to login to the admin console on keycloak
     http://localhost:8083/auth/admin
+
 4. create a new realm called "lagalt"
+
 5. In the Lagalt Realm Settings => Login tab, set User registration to ON
+
 5. In the side tab called Clients: create a new client called "client" with the root url of http://localhost:5173
     which is our local frontends port. 
+
 6. In the newly created client, Go the the roles tab and add a new role called "client-user"
+
 7. Then in the side tab called Roles: Default roles tab => select the newly create client int the client roles selector
     Add the client-user to the client's default roles.
+
 8. run the Spring project
