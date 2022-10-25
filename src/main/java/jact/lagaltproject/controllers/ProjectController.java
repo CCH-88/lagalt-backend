@@ -17,10 +17,14 @@ import jact.lagaltproject.services.project.ProjectService;
 import jact.lagaltproject.services.projectFreelancer.ProjectFreelancerService;
 import jact.lagaltproject.util.ApiErrorResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.Collection;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "api/v1/projects")
@@ -67,7 +71,7 @@ public class ProjectController {
                     content = @Content)
     })
     @GetMapping("{id}") // GET: localhost:8080/api/v1/projects/1
-    public ResponseEntity<Project> findById(@PathVariable Long id) {
+    public ResponseEntity<Project> findById(@PathVariable String id) {
         return ResponseEntity.ok(projectService.findById(id));
     }
 
@@ -118,6 +122,7 @@ public class ProjectController {
     })
     @PostMapping // POST: localhost:8080/api/v1/projects
     public ResponseEntity add(@RequestBody Project project) {
+
         Project aProject = projectService.add(project);
         URI location = URI.create("projects/" + aProject.getId());
         return ResponseEntity.created(location).build();
@@ -136,7 +141,7 @@ public class ProjectController {
                     content = @Content)
     })
     @PutMapping("{id}") // PUT: localhost:8080/api/v1/projects/1
-    public ResponseEntity update(@RequestBody ProjectDTO projectDTO, @PathVariable Long id) {
+    public ResponseEntity update(@RequestBody ProjectDTO projectDTO, @PathVariable String id) {
         // Validates if body is correct
         if (id != projectDTO.getId())
             return ResponseEntity.badRequest().build();
@@ -156,8 +161,10 @@ public class ProjectController {
                     content = @Content)
     })
     @PostMapping("{pId}/{fId}")
-    public ResponseEntity apply(@RequestBody String motivation, @PathVariable Long pId, @PathVariable Long fId) {
-        if (!projectService.exists(pId))
+    public ResponseEntity apply(@RequestBody String motivation, @PathVariable String pId, @PathVariable String fId) {
+        SecurityContext sch = SecurityContextHolder.getContext();
+        Authentication auth = sch.getAuthentication();
+        if (!projectService.exists(pId) && !Objects.equals(auth.getName(), fId))
             return ResponseEntity.badRequest().build();
         Project project = projectService.findById(pId);
 //        project.getProjectFreelancers().forEach(id -> {
@@ -191,7 +198,7 @@ public class ProjectController {
                     content = @Content)
     })
     @PatchMapping("{pId}/{fId}/respond")
-    public ResponseEntity respond(@RequestBody boolean bool, @PathVariable Long pId, @PathVariable Long fId) {
+    public ResponseEntity respond(@RequestBody boolean bool, @PathVariable String pId, @PathVariable String fId) {
         ProjectFreelancer pf = pfService.findById(fId + pId);
         if (bool) {
             pf.setRole(Role.collaborator);
@@ -215,7 +222,7 @@ public class ProjectController {
                     content = @Content)
     })
     @DeleteMapping("{id}") // DELETE: localhost:8080/api/v1/projects/1
-    public ResponseEntity delete(@PathVariable Long id) {
+    public ResponseEntity delete(@PathVariable String id) {
         projectService.deleteById(id);
         return ResponseEntity.noContent().build();
     }

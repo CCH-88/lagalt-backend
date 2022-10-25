@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 
 @Service
-public interface ProjectService extends CrudService<Project, Long> {
+public interface ProjectService extends CrudService<Project, String> {
 
     Collection<Project> findAllByName(String name);
 

@@ -6,7 +6,7 @@ import java.util.Set;
 
 @Data
 public class FreelancerDTO {
-    private Long id;
+    private String id;
     private String username;
     private String email;
     private boolean hidden;
@@ -15,7 +15,7 @@ public class FreelancerDTO {
     private String portfolio;
     private String description;
 
-    private Set<Long> projectFreelancers;
+    private Set<String> projectFreelancers;
 
     private Set<Long> messages;
     private Long freelancer_history;

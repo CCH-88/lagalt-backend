@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProjectFreelancerRepository extends JpaRepository<ProjectFreelancer, Long> {
+public interface ProjectFreelancerRepository extends JpaRepository<ProjectFreelancer, String> {
     @Modifying
     @Query("delete from ProjectFreelancer pf where pf.id = ?1")
     void deleteByProjectFreelancerKey(ProjectFreelancerKey key);

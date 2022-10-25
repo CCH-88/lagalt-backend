@@ -1,6 +1,7 @@
 package jact.lagaltproject.services.freelancer;
 
-import jact.lagaltproject.exceptions.FreelancerNotFoundException;
+
+import jact.lagaltproject.exceptions.ResourceNotFoundException;
 import jact.lagaltproject.models.Freelancer;
 import jact.lagaltproject.models.FreelancerHistory;
 import jact.lagaltproject.repositories.FreelancerRepository;
@@ -18,9 +19,9 @@ public class FreelancerServiceImpl implements FreelancerService {
     }
 
     @Override
-    public Freelancer findById(Long id) {
+    public Freelancer findById(String id) {
         return freelancerRepo.findById(id)
-                .orElseThrow(() -> new FreelancerNotFoundException(id));
+                .orElseThrow(() -> new ResourceNotFoundException("Freelancer by " + id + " Was not found"));
     }
 
     @Override
@@ -51,13 +52,13 @@ public class FreelancerServiceImpl implements FreelancerService {
     }
 
     @Override
-    public void deleteById(Long id) {
-        if (!freelancerRepo.existsById(id)) throw new FreelancerNotFoundException(id);
+    public void deleteById(String id) {
+        if (!freelancerRepo.existsById(id)) throw new ResourceNotFoundException("The User was already deleted or didn't exist before, id of: " + id );
         freelancerRepo.deleteById(id);
     }
 
     @Override
-    public boolean exists(Long id) {
+    public boolean exists(String id) {
         return freelancerRepo.existsById(id);
     }
 
