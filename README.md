@@ -39,3 +39,28 @@ For the sake of simplicity we decided to run the keycloak instance directly from
     Add the client-user to the client's default roles.
 
 8. run the Spring project
+
+## API Documentation
+*The following endpoints are set in this startcode.*
+
+[...] = headers required.
+
+## Project Endpoints
+| Method | URL                                  | Request Body (JSON)  | Response (JSON)   | 
+|--------|--------------------------------------|----------------------|-------------------|
+| DELETE | /api/v1/projects/{id}                |                      |                   | 
+| GET    | /api/v1/projects/{id}                | Authentication (1.0) |                   | 
+| GET    | /api/v1/projects                     | [x-access-token]     |                   | 
+| GET    | /api/v1/search/name                  | [x-access-token]     |                   | 
+| GET    | /api/v1/search/field                 |                      |                   | 
+| PATCH  | /api/v1/projects/{pId}/{fId}/respond |                      | application/json  | 
+| POST   | /api/v1/projects                     |                      | application/json  |
+| GET    | /api/v1/projects/{pId}/{fId}         |                      | application/json  | 
+| PUT    | /api/v1/projects/{id}                |                      | application/json  | 
+
+## Freelancer Endpoints
+| Method | URL              | Request Body (JSON)     | Response (JSON)          | 
+|--------|------------------|-------------------------|--------------------------|
+| POST   | /api/login       | Authentication (1.0)    | Authentication (1.1)     | 
+| GET    | /api/ext         |                         | External Fetch (2.0)     | 
+| GET    | /api/info/user   | [x-access-token]        | User Fetch  (3.0)        | 

@@ -51,5 +51,4 @@ public class Project {
     public void addProjectFreelancer(ProjectFreelancer projectFreelancer){
         this.projectFreelancers.add(projectFreelancer);
     }
-
 }
