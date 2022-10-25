@@ -25,7 +25,7 @@ public class LagaltProjectApplication {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:5173").allowCredentials(true);
+                registry.addMapping("/**").allowedOrigins("http://localhost:5173", "https://legalt-frontend.pages.dev").allowCredentials(true);
             }
         };
     }
