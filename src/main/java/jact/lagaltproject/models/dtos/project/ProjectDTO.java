@@ -6,12 +6,12 @@ import java.util.Set;
 
 @Data
 public class ProjectDTO {
-    private Long id;
+    private String id;
     private String name;
-    private int ownerId;
+    private String ownerId;
     private String description;
     private String[] projectImages;
 
-    private Set<Long> projectFreelancers;
+    private Set<String> projectFreelancers;
     private Long chatId;
 }

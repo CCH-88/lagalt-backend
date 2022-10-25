@@ -3,6 +3,7 @@ package jact.lagaltproject.models;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jact.lagaltproject.enums.Progress;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -14,12 +15,14 @@ import java.util.Set;
 @Entity
 public class Project {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "uuid2")
+    @Column(length = 36, nullable = false, updatable = false, name = "project_id")
+    private String id;
     @Column(length = 100, nullable = false)
     private String name;
-    @Column(length = 10, nullable = false)
-    private int ownerId;
+    @Column(length = 36, nullable = false)
+    private String ownerId;
     @Column(length = 1000, nullable = false)
     private String description;
     @Column(nullable = false)

@@ -7,6 +7,6 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 
 @Service
-public interface FreelancerService extends CrudService<Freelancer, Long> {
+public interface FreelancerService extends CrudService<Freelancer, String> {
     Collection<Freelancer> findAllByUsername(String username);
 }

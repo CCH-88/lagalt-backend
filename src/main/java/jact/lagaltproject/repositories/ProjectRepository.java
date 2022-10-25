@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Set;
 
-public interface ProjectRepository extends JpaRepository<Project, Long> {
+public interface ProjectRepository extends JpaRepository<Project, String> {
 
     @Query("select p from Project p where p.name like lower(concat('%', ?1, '%'))")
     Set<Project> findAllByName(String name);

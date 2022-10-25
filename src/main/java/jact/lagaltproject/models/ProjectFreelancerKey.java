@@ -14,8 +14,8 @@ import java.io.Serializable;
 @Embeddable
 public class ProjectFreelancerKey implements Serializable {
     @Column(name = "freelancer_id")
-    long freelancer_id;
+    String freelancer_id;
 
     @Column(name = "project_id")
-    long project_id;
+    String project_id;
 }

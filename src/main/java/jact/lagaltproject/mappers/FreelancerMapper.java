@@ -45,7 +45,7 @@ public abstract class FreelancerMapper {
     }
 
     @Named("projectFreelancersToIds")
-    Set<Long> mapProjectFreelancersToIds(Set<ProjectFreelancer> project_freelancers) {
+    Set<String> mapProjectFreelancersToIds(Set<ProjectFreelancer> project_freelancers) {
         if (project_freelancers == null) {
             return null;
         }
@@ -70,7 +70,7 @@ public abstract class FreelancerMapper {
     }
 
     @Named("mapProjectFreelancerIdsToProjectFreelancers")
-    Set<ProjectFreelancer> mapProjectFreelancerIdsToProjectFreelancers(Set<Long> ids) {
+    Set<ProjectFreelancer> mapProjectFreelancerIdsToProjectFreelancers(Set<String> ids) {
         if (ids == null) return null;
         return ids.stream().map(id -> projectFreelancerService.findById(id)).collect(Collectors.toSet());
     }
