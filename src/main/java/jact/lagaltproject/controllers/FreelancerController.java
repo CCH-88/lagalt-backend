@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "api/v1/freelancers")
@@ -91,14 +92,14 @@ public class FreelancerController {
 
     @Operation(summary = "Adds a freelancer.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204",
+            @ApiResponse(responseCode = "201",
                     description = "Freelancer successfully added",
                     content = @Content),
             @ApiResponse(responseCode = "400",
                     description = "Malformed request",
                     content = @Content),
-            @ApiResponse(responseCode = "404",
-                    description = "Freelancer with supplied ID not found ",
+            @ApiResponse(responseCode = "409",
+                    description = "Freelancer already Created",
                     content = @Content)
     })
     @PostMapping // POST: localhost:8080/api/v1/freelancers
@@ -114,7 +115,7 @@ public class FreelancerController {
             return ResponseEntity.status(409).build();
         }
         freelancerService.add(freelancer);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
         //Freelancer aFreelancer = freelancerService.add(freelancer);
         //URI location = URI.create("freelancers/" + aFreelancer.getId());
         //return ResponseEntity.created(location).build();
@@ -135,8 +136,11 @@ public class FreelancerController {
     })
     @PutMapping("profile/{id}") // PUT: localhost:8080/api/v1/freelancers/1
     public ResponseEntity update(@RequestBody FreelancerDTO freelancerDTO, @PathVariable String id) {
+        SecurityContext sch = SecurityContextHolder.getContext();
+        Authentication auth = sch.getAuthentication();
+
         // Validates if body is correct
-        if (id != freelancerDTO.getId())
+        if (id != freelancerDTO.getId() && Objects.equals(id, auth.getName()))
             return ResponseEntity.badRequest().build();
         if (!freelancerService.exists(freelancerDTO.getId())) {
             Freelancer aFreelancer = freelancerService.add(freelancerMapper.freelancerDTOtoFreelancer(freelancerDTO));
@@ -150,9 +154,9 @@ public class FreelancerController {
 
     @Operation(summary = "Deletes a freelancer.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "410",
+            @ApiResponse(responseCode = "204",
                     description = "Freelancer successfully deleted",
-                    content = @Content),
+                    content = {}),
             @ApiResponse(responseCode = "400",
                     description = "Malformed request",
                     content = @Content),
@@ -162,8 +166,12 @@ public class FreelancerController {
     })
     @DeleteMapping("{id}") // DELETE: localhost:8080/api/v1/freelancers/1
     public ResponseEntity delete(@PathVariable String id) {
+        SecurityContext sch = SecurityContextHolder.getContext();
+        Authentication auth = sch.getAuthentication();
+        if (Objects.equals(id, auth.getName()))
+            return ResponseEntity.badRequest().build();
         freelancerService.deleteById(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(204).build();
     }
 
 }

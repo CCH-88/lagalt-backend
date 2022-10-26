@@ -64,3 +64,31 @@ For the sake of simplicity we decided to run the keycloak instance directly from
 | POST   | /api/login       | Authentication (1.0)    | Authentication (1.1)     | 
 | GET    | /api/ext         |                         | External Fetch (2.0)     | 
 | GET    | /api/info/user   | [x-access-token]        | User Fetch  (3.0)        | 
+
+
+
+### Missing or not Completed
+
+** Controllers **
+
+Chat+Message:
+Chat is currently very basic.
+- A proper chat system, utilizing Sockets
+- Proper Auth and control of each creating user.
+- Need to be part of project to see chat.
+
+Freelancer:
+- retrieve need to respect hidden users.
+
+Project:
+- Update: check for permission, could be owner or member roles
+- respond to application: check for authorization (owner or member roles)
+- get application status
+- Check for member in get (so private information is not public)
+
+
+DTO's and mappers fully implemented and utilized.
+
+Swagger:
+- Proper API responses
+- Body, Header requirements
