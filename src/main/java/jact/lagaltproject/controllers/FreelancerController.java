@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.Collection;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "api/v1/freelancers")
@@ -101,17 +102,18 @@ public class FreelancerController {
                     content = @Content)
     })
     @PostMapping // POST: localhost:8080/api/v1/freelancers
-    public ResponseEntity add(  ) {
+    public ResponseEntity add(@RequestBody Map<String, String> userMap ) {
         SecurityContext sch = SecurityContextHolder.getContext();
         Authentication auth = sch.getAuthentication();
-        String username = auth.getName();
-        Object principal = auth.getPrincipal();
-        logger.info("username: " + username);
-        logger.info("Principal: " +principal);
         Freelancer freelancer = new Freelancer();
         freelancer.setId(auth.getName());
+        freelancer.setEmail(userMap.get("email"));
+        freelancer.setUsername(userMap.get("username"));
 
-
+        if(freelancerService.exists(auth.getName())) {
+            return ResponseEntity.status(409).build();
+        }
+        freelancerService.add(freelancer);
         return ResponseEntity.status(HttpStatus.OK).build();
         //Freelancer aFreelancer = freelancerService.add(freelancer);
         //URI location = URI.create("freelancers/" + aFreelancer.getId());

@@ -92,7 +92,7 @@ public class ChatController {
                     content = @Content)
     })
     @PutMapping("{id}") // PUT: localhost:8080/api/v1/chats/1
-    public ResponseEntity update(@RequestBody Chat aChat, @PathVariable int id) {
+    public ResponseEntity update(@RequestBody Chat aChat, @PathVariable Long id) {
         // Validates if body is correct
         if (id != aChat.getId())
             return ResponseEntity.badRequest().build();
