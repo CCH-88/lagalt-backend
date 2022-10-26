@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "api/v1/freelancers")
@@ -135,8 +136,11 @@ public class FreelancerController {
     })
     @PutMapping("profile/{id}") // PUT: localhost:8080/api/v1/freelancers/1
     public ResponseEntity update(@RequestBody FreelancerDTO freelancerDTO, @PathVariable String id) {
+        SecurityContext sch = SecurityContextHolder.getContext();
+        Authentication auth = sch.getAuthentication();
+
         // Validates if body is correct
-        if (id != freelancerDTO.getId())
+        if (id != freelancerDTO.getId() && Objects.equals(id, auth.getName()))
             return ResponseEntity.badRequest().build();
         if (!freelancerService.exists(freelancerDTO.getId())) {
             Freelancer aFreelancer = freelancerService.add(freelancerMapper.freelancerDTOtoFreelancer(freelancerDTO));
