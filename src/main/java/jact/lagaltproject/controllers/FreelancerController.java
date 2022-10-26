@@ -91,14 +91,14 @@ public class FreelancerController {
 
     @Operation(summary = "Adds a freelancer.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204",
+            @ApiResponse(responseCode = "201",
                     description = "Freelancer successfully added",
                     content = @Content),
             @ApiResponse(responseCode = "400",
                     description = "Malformed request",
                     content = @Content),
-            @ApiResponse(responseCode = "404",
-                    description = "Freelancer with supplied ID not found ",
+            @ApiResponse(responseCode = "409",
+                    description = "Freelancer already Created",
                     content = @Content)
     })
     @PostMapping // POST: localhost:8080/api/v1/freelancers
@@ -114,7 +114,7 @@ public class FreelancerController {
             return ResponseEntity.status(409).build();
         }
         freelancerService.add(freelancer);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
         //Freelancer aFreelancer = freelancerService.add(freelancer);
         //URI location = URI.create("freelancers/" + aFreelancer.getId());
         //return ResponseEntity.created(location).build();
