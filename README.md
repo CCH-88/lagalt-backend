@@ -21,7 +21,7 @@ First we need to launch the database
 
 For the sake of simplicity we decided to run the keycloak instance directly from the image.
 
-2. docker run -p 8083:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=secret c jboss/keycloak
+2. docker run -p 8083:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=secret jboss/keycloak
 
 3. After the image have been build we need to login to the admin console on keycloak
     http://localhost:8083/auth/admin
@@ -39,6 +39,10 @@ For the sake of simplicity we decided to run the keycloak instance directly from
     Add the client-user to the client's default roles.
 
 8. run the Spring project
+
+The Spring Project will be available at http://localhost:8080 
+with every routes located after /api/v1/
+
 
 ## API Documentation
 *The following endpoints are set in this startcode.*
