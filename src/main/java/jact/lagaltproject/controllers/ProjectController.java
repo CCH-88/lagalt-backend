@@ -122,7 +122,10 @@ public class ProjectController {
     })
     @PostMapping // POST: localhost:8080/api/v1/projects
     public ResponseEntity add(@RequestBody Project project) {
-
+        SecurityContext sch = SecurityContextHolder.getContext();
+        Authentication auth = sch.getAuthentication();
+        if(Objects.equals(project.getId(), auth.getName()))
+            return ResponseEntity.badRequest().build();
         Project aProject = projectService.add(project);
         URI location = URI.create("projects/" + aProject.getId());
         return ResponseEntity.created(location).build();
@@ -223,6 +226,11 @@ public class ProjectController {
     })
     @DeleteMapping("{id}") // DELETE: localhost:8080/api/v1/projects/1
     public ResponseEntity delete(@PathVariable String id) {
+        SecurityContext sch = SecurityContextHolder.getContext();
+        Authentication auth = sch.getAuthentication();
+        if(Objects.equals(id, auth.getName()))
+            return ResponseEntity.badRequest().build();
+
         projectService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
