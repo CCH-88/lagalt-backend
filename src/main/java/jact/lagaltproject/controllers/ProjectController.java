@@ -124,7 +124,7 @@ public class ProjectController {
     public ResponseEntity add(@RequestBody Project project) {
         SecurityContext sch = SecurityContextHolder.getContext();
         Authentication auth = sch.getAuthentication();
-        if(Objects.equals(project.getId(), auth.getName()))
+        if(Objects.equals(project.getOwnerId(), auth.getName()))
             return ResponseEntity.badRequest().build();
         Project aProject = projectService.add(project);
         URI location = URI.create("projects/" + aProject.getId());
