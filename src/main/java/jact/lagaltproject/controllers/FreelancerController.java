@@ -154,9 +154,9 @@ public class FreelancerController {
 
     @Operation(summary = "Deletes a freelancer.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "410",
+            @ApiResponse(responseCode = "204",
                     description = "Freelancer successfully deleted",
-                    content = @Content),
+                    content = {}),
             @ApiResponse(responseCode = "400",
                     description = "Malformed request",
                     content = @Content),
@@ -166,8 +166,12 @@ public class FreelancerController {
     })
     @DeleteMapping("{id}") // DELETE: localhost:8080/api/v1/freelancers/1
     public ResponseEntity delete(@PathVariable String id) {
+        SecurityContext sch = SecurityContextHolder.getContext();
+        Authentication auth = sch.getAuthentication();
+        if (Objects.equals(id, auth.getName()))
+            return ResponseEntity.badRequest().build();
         freelancerService.deleteById(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(204).build();
     }
 
 }
