@@ -50,26 +50,27 @@ with every routes located after /api/v1/
 [...] = headers required.
 
 ## Project Endpoints
-| Method | URL                                  | Request Body (JSON)                 | Response (JSON) | 
-|--------|--------------------------------------|-------------------------------------|-----------------|
-| DELETE | /api/v1/projects/{id}                | [Bearer token]                      |                 | 
-| GET    | /api/v1/projects/{id}                |                                     |                 | 
-| GET    | /api/v1/projects                     |                                     |                 | 
-| GET    | /api/v1/search/name                  |                                     |                 | 
-| GET    | /api/v1/search/field                 |                                     |                 | 
-| PATCH  | /api/v1/projects/{pId}/{fId}/respond | (Boolean) accepted                  |                 | 
-| POST   | /api/v1/projects                     | (Project) project                   |                 |
-| POST   | /api/v1/projects/{pId}/{fId}         | (String) motivation, [Bearer token] |                 | 
-| PUT    | /api/v1/projects/{id}                | (ProjectDTO) ProjectDTO             |                 | 
+| Method | URL                                  | Request Body (JSON)                 | Response (JSON)     | 
+|--------|--------------------------------------|-------------------------------------|---------------------|
+| DELETE | /api/v1/projects/{id}                | [Bearer token]                      |                     | 
+| GET    | /api/v1/projects/{id}                |                                     | Project             | 
+| GET    | /api/v1/projects                     |                                     | Collection(Project) | 
+| GET    | /api/v1/search/name                  |                                     | Collection(Project) | 
+| GET    | /api/v1/search/field                 |                                     | Collection(Project) | 
+| PATCH  | /api/v1/projects/{pId}/{fId}/respond | (Boolean) accepted                  |                     | 
+| POST   | /api/v1/projects                     | (Project) project                   |                     |
+| POST   | /api/v1/projects/{pId}/{fId}         | (String) motivation, [Bearer token] |                     | 
+| PUT    | /api/v1/projects/{id}                | (ProjectDTO) ProjectDTO             |                     | 
 
 * Project: Should exclude relations and can exclude images(String[]),
 
 ## Freelancer Endpoints
-| Method | URL              | Request Body (JSON)     | Response (JSON)          | 
-|--------|------------------|-------------------------|--------------------------|
-| POST   | /api/login       | Authentication (1.0)    | Authentication (1.1)     | 
-| GET    | /api/ext         |                         | External Fetch (2.0)     | 
-| GET    | /api/info/user   | [x-access-token]        | User Fetch  (3.0)        | 
+| Method | URL                 | Request Body (JSON) | Response (JSON) | 
+|--------|---------------------|---------------------|-----------------|
+| GET    | /api/v1/freelancers |                     |                 | 
+| GET    | /api/ext            |                     |                 | 
+| GET    | /api/info/user      |                     |                 | 
+|        |                     |                     |                 |
 
 
 
