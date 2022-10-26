@@ -65,13 +65,23 @@ with every routes located after /api/v1/
 * Project: Should exclude relations and can exclude images(String[]),
 
 ## Freelancer Endpoints
-| Method | URL                 | Request Body (JSON) | Response (JSON) | 
-|--------|---------------------|---------------------|-----------------|
-| GET    | /api/v1/freelancers |                     |                 | 
-| GET    | /api/ext            |                     |                 | 
-| GET    | /api/info/user      |                     |                 | 
-|        |                     |                     |                 |
+| Method | URL                              | Request Body (JSON)                              | Response (JSON)        | 
+|--------|----------------------------------|--------------------------------------------------|------------------------|
+| GET    | /api/v1/freelancers              |                                                  | Collection<Freelancer> | 
+| GET    | /api/v1/freelancers/profile/{id} |                                                  | Freelancer             | 
+| GET    | /api/v1/freelancers/search       | @Param (String) username                         | Collection<Freelancer> | 
+| POST   | /api/v1/freelancers              | [Bearer token], (String) email,(String) username |                        |
+| PUT    | /api/v1/freelancers/profile/{id} | (FreelancerDTO) freelancerDTO, [Bearer token]    |                        |
+| DELETE | /api/v1/freelancers/{id}         | [Bearer token]                                   |                        |
 
+## Chat Endpoints
+| Method | URL                | Request Body (JSON) | Response (JSON)  | 
+|--------|--------------------|---------------------|------------------|
+| GET    | /api/v1/chats      |                     | Collection<Chat> | 
+| GET    | /api/v1/chats/{id} |                     | Chat             | 
+| POST   | /api/v1/chats      | (Chat) chat         |                  |
+| PUT    | /api/v1/chats/{id} | (Chat) chat         |                  |
+| DELETE | /api/v1/chats/{id} |                     |                  |
 
 
 ### Missing or not Completed
