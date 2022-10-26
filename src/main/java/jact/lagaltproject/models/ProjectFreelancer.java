@@ -30,15 +30,13 @@ public class ProjectFreelancer {
     private String motivation;
 
     // Relationships
-    @ManyToOne(optional = true)
+    @ManyToOne
     @MapsId("freelancer_id")
-    @JoinColumn(name = "freelancer_id")
     @JsonBackReference(value = "freelancer_pf")
     Freelancer freelancer;
 
-    @ManyToOne(optional = true)
+    @ManyToOne
     @MapsId("project_id")
-    @JoinColumn(name = "project_id")
     @JsonBackReference(value = "project_pf")
     Project project;
 

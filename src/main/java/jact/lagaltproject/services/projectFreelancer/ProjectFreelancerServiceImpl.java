@@ -19,7 +19,7 @@ public class ProjectFreelancerServiceImpl implements ProjectFreelancerService {
 
 
     @Override
-    public ProjectFreelancer findById(Long id) {
+    public ProjectFreelancer findById(String id) {
         return projectFreelancerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Project_Freelancer With the Id: " + id + " Could not be found"));
     }
@@ -40,12 +40,12 @@ public class ProjectFreelancerServiceImpl implements ProjectFreelancerService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(String id) {
         projectFreelancerRepository.deleteById(id);
     }
 
     @Override
-    public boolean exists(Long id) {
+    public boolean exists(String id) {
         return projectFreelancerRepository.existsById(id);
     }
 

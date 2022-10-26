@@ -6,6 +6,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Set;
+import java.util.UUID;
 
 
 @Getter
@@ -13,8 +14,8 @@ import java.util.Set;
 @Entity
 public class Freelancer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name="freelancer_id", length = 36)
+    private String id;
     @Column(length = 100, nullable = false, unique = true)
     private String username;
     @Column(length = 100, nullable = false)

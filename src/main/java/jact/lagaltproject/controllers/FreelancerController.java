@@ -11,17 +11,25 @@ import jact.lagaltproject.models.Freelancer;
 import jact.lagaltproject.models.dtos.freelancer.FreelancerDTO;
 import jact.lagaltproject.services.freelancer.FreelancerService;
 import jact.lagaltproject.util.ApiErrorResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.Collection;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "api/v1/freelancers")
 public class FreelancerController {
 
-
+    Logger logger = LoggerFactory.getLogger(FreelancerController.class);
     private final FreelancerService freelancerService;
     private final FreelancerMapper freelancerMapper;
 
@@ -59,7 +67,7 @@ public class FreelancerController {
                     content = @Content)
     })
     @GetMapping("profile/{id}") // GET: localhost:8080/api/v1/freelancers/1
-    public ResponseEntity<Freelancer> findById(@PathVariable long id) {
+    public ResponseEntity<Freelancer> findById(@PathVariable String id) {
         if (!freelancerService.exists(id))
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(freelancerService.findById(id));
@@ -94,10 +102,22 @@ public class FreelancerController {
                     content = @Content)
     })
     @PostMapping // POST: localhost:8080/api/v1/freelancers
-    public ResponseEntity add(@RequestBody Freelancer freelancer) {
-        Freelancer aFreelancer = freelancerService.add(freelancer);
-        URI location = URI.create("freelancers/" + aFreelancer.getId());
-        return ResponseEntity.created(location).build();
+    public ResponseEntity add(@RequestBody Map<String, String> userMap ) {
+        SecurityContext sch = SecurityContextHolder.getContext();
+        Authentication auth = sch.getAuthentication();
+        Freelancer freelancer = new Freelancer();
+        freelancer.setId(auth.getName());
+        freelancer.setEmail(userMap.get("email"));
+        freelancer.setUsername(userMap.get("username"));
+
+        if(freelancerService.exists(auth.getName())) {
+            return ResponseEntity.status(409).build();
+        }
+        freelancerService.add(freelancer);
+        return ResponseEntity.status(HttpStatus.OK).build();
+        //Freelancer aFreelancer = freelancerService.add(freelancer);
+        //URI location = URI.create("freelancers/" + aFreelancer.getId());
+        //return ResponseEntity.created(location).build();
         // return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -114,7 +134,7 @@ public class FreelancerController {
                     content = @Content)
     })
     @PutMapping("profile/{id}") // PUT: localhost:8080/api/v1/freelancers/1
-    public ResponseEntity update(@RequestBody FreelancerDTO freelancerDTO, @PathVariable Long id) {
+    public ResponseEntity update(@RequestBody FreelancerDTO freelancerDTO, @PathVariable String id) {
         // Validates if body is correct
         if (id != freelancerDTO.getId())
             return ResponseEntity.badRequest().build();
@@ -141,7 +161,7 @@ public class FreelancerController {
                     content = @Content)
     })
     @DeleteMapping("{id}") // DELETE: localhost:8080/api/v1/freelancers/1
-    public ResponseEntity delete(@PathVariable long id) {
+    public ResponseEntity delete(@PathVariable String id) {
         freelancerService.deleteById(id);
         return ResponseEntity.noContent().build();
     }

@@ -23,9 +23,9 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project findById(Long id) {
+    public Project findById(String id) {
         return projectRepo.findById(id)
-                .orElseThrow(() -> new ProjectNotFoundException(id));
+                .orElseThrow(() -> new ResourceNotFoundException("Project with the following id, was not found: "+id));
     }
 
     @Override
@@ -58,15 +58,15 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     @Transactional
-    public void deleteById(Long id) {
-        if (!projectRepo.existsById(id)) throw new ProjectNotFoundException(id);
+    public void deleteById(String id) {
+        if (!projectRepo.existsById(id)) throw new ResourceNotFoundException("Either project didn't exist or already deleted: "+id);
         Project proj = projectRepo.findById(id).get();
         proj.getProjectFreelancers().forEach(f -> projectFreelancerRepository.deleteByProjectFreelancerKey(f.getId()));
         projectRepo.deleteById(id);
     }
 
     @Override
-    public boolean exists(Long id) {
+    public boolean exists(String id) {
         return projectRepo.existsById(id);
     }
 
