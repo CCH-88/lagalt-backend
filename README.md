@@ -50,17 +50,19 @@ with every routes located after /api/v1/
 [...] = headers required.
 
 ## Project Endpoints
-| Method | URL                                  | Request Body (JSON)  | Response (JSON)   | 
-|--------|--------------------------------------|----------------------|-------------------|
-| DELETE | /api/v1/projects/{id}                |                      |                   | 
-| GET    | /api/v1/projects/{id}                | Authentication (1.0) |                   | 
-| GET    | /api/v1/projects                     | [x-access-token]     |                   | 
-| GET    | /api/v1/search/name                  | [x-access-token]     |                   | 
-| GET    | /api/v1/search/field                 |                      |                   | 
-| PATCH  | /api/v1/projects/{pId}/{fId}/respond |                      | application/json  | 
-| POST   | /api/v1/projects                     |                      | application/json  |
-| GET    | /api/v1/projects/{pId}/{fId}         |                      | application/json  | 
-| PUT    | /api/v1/projects/{id}                |                      | application/json  | 
+| Method | URL                                  | Request Body (JSON)                 | Response (JSON) | 
+|--------|--------------------------------------|-------------------------------------|-----------------|
+| DELETE | /api/v1/projects/{id}                | [Bearer token]                      |                 | 
+| GET    | /api/v1/projects/{id}                |                                     |                 | 
+| GET    | /api/v1/projects                     |                                     |                 | 
+| GET    | /api/v1/search/name                  |                                     |                 | 
+| GET    | /api/v1/search/field                 |                                     |                 | 
+| PATCH  | /api/v1/projects/{pId}/{fId}/respond | (Boolean) accepted                  |                 | 
+| POST   | /api/v1/projects                     | (Project) project                   |                 |
+| POST   | /api/v1/projects/{pId}/{fId}         | (String) motivation, [Bearer token] |                 | 
+| PUT    | /api/v1/projects/{id}                | (ProjectDTO) ProjectDTO             |                 | 
+
+* Project: Should exclude relations and can exclude images(String[]),
 
 ## Freelancer Endpoints
 | Method | URL              | Request Body (JSON)     | Response (JSON)          | 
