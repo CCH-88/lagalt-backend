@@ -75,6 +75,13 @@ with every routes located after /api/v1/
 | DELETE | /api/v1/freelancers/{id}         | [Bearer token]                                   |                        |
 
 ## Chat Endpoints
+| Method | URL                    | Request Body (JSON) | Response (JSON)     | 
+|--------|------------------------|---------------------|---------------------|
+| POST   | /api/v1/messages       | (Message) message   |                     |
+| PUT    | /api/v1/messages/{id}  | (Message) message   |                     |
+| DELETE | /api/v1/messages/{id}  |                     |                     |
+
+## Message Endpoints
 | Method | URL                | Request Body (JSON) | Response (JSON)  | 
 |--------|--------------------|---------------------|------------------|
 | GET    | /api/v1/chats      |                     | Collection<Chat> | 
@@ -82,7 +89,6 @@ with every routes located after /api/v1/
 | POST   | /api/v1/chats      | (Chat) chat         |                  |
 | PUT    | /api/v1/chats/{id} | (Chat) chat         |                  |
 | DELETE | /api/v1/chats/{id} |                     |                  |
-
 
 ### Missing or not Completed
 
@@ -96,6 +102,10 @@ Chat is currently very basic.
 
 Freelancer:
 - retrieve need to respect hidden users.
+
+Freelancer_history:
+- Routes/methods for creating, updating and retrieving history of freelancer
+  - along with proper authorization
 
 Project:
 - Update: check for permission, could be owner or member roles
