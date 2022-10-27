@@ -5,6 +5,7 @@ import jact.lagaltproject.exceptions.ResourceNotFoundException;
 import jact.lagaltproject.models.Chat;
 import jact.lagaltproject.models.Project;
 import jact.lagaltproject.models.ProjectFreelancer;
+import jact.lagaltproject.models.ProjectFreelancerKey;
 import jact.lagaltproject.repositories.ProjectFreelancerRepository;
 import jact.lagaltproject.repositories.ProjectRepository;
 import org.springframework.stereotype.Service;
@@ -52,8 +53,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void join(ProjectFreelancer projectFreelancer, Project project) {
-        projectRepo.join(projectFreelancer.getId(), project.getId());
+    public void join(ProjectFreelancerKey projectFreelancerKey, Project project) {
+        projectRepo.join(projectFreelancerKey, project.getId());
     }
 
     @Override
