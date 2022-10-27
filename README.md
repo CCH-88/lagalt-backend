@@ -21,7 +21,7 @@ First we need to launch the database
 
 For the sake of simplicity we decided to run the keycloak instance directly from the image.
 
-2. docker run -p 8083:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=secret c jboss/keycloak
+2. docker run -p 8083:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=secret jboss/keycloak
 
 3. After the image have been build we need to login to the admin console on keycloak
     http://localhost:8083/auth/admin
@@ -40,32 +40,55 @@ For the sake of simplicity we decided to run the keycloak instance directly from
 
 8. run the Spring project
 
+The Spring Project will be available at http://localhost:8080 
+with every routes located after /api/v1/
+
+
 ## API Documentation
 *The following endpoints are set in this startcode.*
 
 [...] = headers required.
 
 ## Project Endpoints
-| Method | URL                                  | Request Body (JSON)  | Response (JSON)   | 
-|--------|--------------------------------------|----------------------|-------------------|
-| DELETE | /api/v1/projects/{id}                |                      |                   | 
-| GET    | /api/v1/projects/{id}                | Authentication (1.0) |                   | 
-| GET    | /api/v1/projects                     | [x-access-token]     |                   | 
-| GET    | /api/v1/search/name                  | [x-access-token]     |                   | 
-| GET    | /api/v1/search/field                 |                      |                   | 
-| PATCH  | /api/v1/projects/{pId}/{fId}/respond |                      | application/json  | 
-| POST   | /api/v1/projects                     |                      | application/json  |
-| GET    | /api/v1/projects/{pId}/{fId}         |                      | application/json  | 
-| PUT    | /api/v1/projects/{id}                |                      | application/json  | 
+| Method | URL                                  | Request Body (JSON)                 | Response (JSON)     | 
+|--------|--------------------------------------|-------------------------------------|---------------------|
+| DELETE | /api/v1/projects/{id}                | [Bearer token]                      |                     | 
+| GET    | /api/v1/projects/{id}                |                                     | Project             | 
+| GET    | /api/v1/projects                     |                                     | Collection(Project) | 
+| GET    | /api/v1/search/name                  |                                     | Collection(Project) | 
+| GET    | /api/v1/search/field                 |                                     | Collection(Project) | 
+| PATCH  | /api/v1/projects/{pId}/{fId}/respond | (Boolean) accepted                  |                     | 
+| POST   | /api/v1/projects                     | (Project) project                   |                     |
+| POST   | /api/v1/projects/{pId}/{fId}         | (String) motivation, [Bearer token] |                     | 
+| PUT    | /api/v1/projects/{id}                | (ProjectDTO) ProjectDTO             |                     | 
+
+* Project: Should exclude relations and can exclude images(String[]),
 
 ## Freelancer Endpoints
-| Method | URL              | Request Body (JSON)     | Response (JSON)          | 
-|--------|------------------|-------------------------|--------------------------|
-| POST   | /api/login       | Authentication (1.0)    | Authentication (1.1)     | 
-| GET    | /api/ext         |                         | External Fetch (2.0)     | 
-| GET    | /api/info/user   | [x-access-token]        | User Fetch  (3.0)        | 
+| Method | URL                              | Request Body (JSON)                              | Response (JSON)        | 
+|--------|----------------------------------|--------------------------------------------------|------------------------|
+| GET    | /api/v1/freelancers              |                                                  | Collection<Freelancer> | 
+| GET    | /api/v1/freelancers/profile/{id} |                                                  | Freelancer             | 
+| GET    | /api/v1/freelancers/search       | @Param (String) username                         | Collection<Freelancer> | 
+| POST   | /api/v1/freelancers              | [Bearer token], (String) email,(String) username |                        |
+| PUT    | /api/v1/freelancers/profile/{id} | (FreelancerDTO) freelancerDTO, [Bearer token]    |                        |
+| DELETE | /api/v1/freelancers/{id}         | [Bearer token]                                   |                        |
 
+## Chat Endpoints
+| Method | URL                    | Request Body (JSON) | Response (JSON)     | 
+|--------|------------------------|---------------------|---------------------|
+| POST   | /api/v1/messages       | (Message) message   |                     |
+| PUT    | /api/v1/messages/{id}  | (Message) message   |                     |
+| DELETE | /api/v1/messages/{id}  |                     |                     |
 
+## Message Endpoints
+| Method | URL                | Request Body (JSON) | Response (JSON)  | 
+|--------|--------------------|---------------------|------------------|
+| GET    | /api/v1/chats      |                     | Collection<Chat> | 
+| GET    | /api/v1/chats/{id} |                     | Chat             | 
+| POST   | /api/v1/chats      | (Chat) chat         |                  |
+| PUT    | /api/v1/chats/{id} | (Chat) chat         |                  |
+| DELETE | /api/v1/chats/{id} |                     |                  |
 
 ### Missing or not Completed
 
@@ -79,6 +102,10 @@ Chat is currently very basic.
 
 Freelancer:
 - retrieve need to respect hidden users.
+
+Freelancer_history:
+- Routes/methods for creating, updating and retrieving history of freelancer
+  - along with proper authorization
 
 Project:
 - Update: check for permission, could be owner or member roles
