@@ -206,8 +206,6 @@ public class ProjectController {
     })
     @PostMapping("/join/{id}")
     public ResponseEntity join(@RequestBody FreelancerDTO freelancerDTO, @RequestParam String pId){
-        SecurityContext sch = SecurityContextHolder.getContext();
-        Authentication autch = sch.getAuthentication();
         if (!projectService.exists(pId))
             return ResponseEntity.badRequest().build();
         Project project = projectService.findById(pId);
@@ -216,9 +214,10 @@ public class ProjectController {
         pfKey.setProject_id(pId);
         pfKey.setFreelancer_id(freelancerMapper.freelancerDTOtoFreelancer(freelancerDTO).getId());
         pf.setId(pfKey);
+        pf.setRole(Role.applicant);
         pf.setProject(project);
         pf.setFreelancer(freelancerService.findById(freelancerMapper.freelancerDTOtoFreelancer(freelancerDTO).getId()));
-        projectService.join(pf, project);
+        projectService.join(pfKey, project);
         return ResponseEntity.noContent().build();
     }
 

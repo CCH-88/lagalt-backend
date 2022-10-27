@@ -26,7 +26,7 @@ public class ProjectFreelancer {
     @Column(columnDefinition = "Boolean default null")
     private Boolean accepted;
 
-    @Column(length = 2000, nullable = false)
+    @Column(length = 2000)
     private String motivation;
 
     // Relationships
