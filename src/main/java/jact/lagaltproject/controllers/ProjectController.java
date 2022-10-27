@@ -124,9 +124,6 @@ public class ProjectController {
     public ResponseEntity add(@RequestBody Project project) {
         SecurityContext sch = SecurityContextHolder.getContext();
         Authentication auth = sch.getAuthentication();
-        System.out.println(project.getName());
-        System.out.println(project.getOwnerId());
-        System.out.println(auth.getName());
 
         if(project.getOwnerId() == auth.getName())
             return ResponseEntity.badRequest().build();
