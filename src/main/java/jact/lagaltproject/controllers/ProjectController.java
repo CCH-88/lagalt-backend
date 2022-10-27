@@ -218,10 +218,7 @@ public class ProjectController {
         pf.setId(pfKey);
         pf.setProject(project);
         pf.setFreelancer(freelancerService.findById(freelancerMapper.freelancerDTOtoFreelancer(freelancerDTO).getId()));
-        pfService.add(pf);
-
-        project.addProjectFreelancer(pf);
-        projectService.update(project);
+        projectService.join(pf, project);
         return ResponseEntity.noContent().build();
     }
 
