@@ -260,13 +260,8 @@ public class ProjectController {
     public ResponseEntity delete(@PathVariable String id) {
         SecurityContext sch = SecurityContextHolder.getContext();
         Authentication auth = sch.getAuthentication();
-<<<<<<< src/main/java/jact/lagaltproject/controllers/ProjectController.java
-        if (Objects.equals(id, auth.getName()))
-=======
-        if(id == auth.getName())
->>>>>>> src/main/java/jact/lagaltproject/controllers/ProjectController.java
+        if(id != auth.getName())
             return ResponseEntity.badRequest().build();
-
         projectService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
