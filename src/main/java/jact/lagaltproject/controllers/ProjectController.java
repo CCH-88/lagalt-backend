@@ -216,6 +216,7 @@ public class ProjectController {
         pfKey.setFreelancer_id(freelancerMapper.freelancerDTOtoFreelancer(freelancerDTO).getId());
         pf.setId(pfKey);
         pf.setRole(Role.applicant);
+        pf.setMotivation("Something");
         pf.setProject(project);
         pf.setFreelancer(freelancerService.findById(freelancerMapper.freelancerDTOtoFreelancer(freelancerDTO).getId()));
         projectService.join(pfKey, project);
