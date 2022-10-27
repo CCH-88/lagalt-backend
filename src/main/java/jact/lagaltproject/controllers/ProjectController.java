@@ -206,7 +206,7 @@ public class ProjectController {
             content = @Content)
     })
     @PostMapping("/join/{id}")
-    public ResponseEntity join(@RequestBody FreelancerDTO freelancerDTO, @RequestParam String id){
+    public ResponseEntity join(@RequestBody FreelancerDTO freelancerDTO, @PathVariable String id){
         if (!projectService.exists(id))
             return ResponseEntity.badRequest().build();
         Project project = projectService.findById(id);
