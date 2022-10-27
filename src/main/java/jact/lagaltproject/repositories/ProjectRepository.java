@@ -1,7 +1,9 @@
 package jact.lagaltproject.repositories;
 
 import jact.lagaltproject.models.Project;
+import jact.lagaltproject.models.ProjectFreelancerKey;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.Set;
@@ -13,4 +15,8 @@ public interface ProjectRepository extends JpaRepository<Project, String> {
 
     @Query("select p from Project p where lower(p.field) like lower(concat('%', ?1, '%'))")
     Set<Project> findAllByField(String field);
+
+    @Modifying
+    @Query("update Project p set p.project_freelancer.id = ?1 where p.id = ?2")
+    void join(ProjectFreelancerKey projectFreelancerKey, String projectId);
 }

@@ -52,6 +52,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public void join(ProjectFreelancer projectFreelancer, Project project) {
+        projectRepo.join(projectFreelancer.getId(), project.getId());
+    }
+
+    @Override
     public Project update(Project entity) {
         return projectRepo.save(entity);
     }
