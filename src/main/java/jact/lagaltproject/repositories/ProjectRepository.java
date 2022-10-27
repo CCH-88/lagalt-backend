@@ -17,6 +17,6 @@ public interface ProjectRepository extends JpaRepository<Project, String> {
     Set<Project> findAllByField(String field);
 
     @Modifying
-    @Query("update Project p set p.project_freelancer.id = ?1 where p.id = ?2")
+    @Query("update ProjectFreelancer pf set pf.project.id = ?2 where pf.id = ?1")
     void join(ProjectFreelancerKey projectFreelancerKey, String projectId);
 }
