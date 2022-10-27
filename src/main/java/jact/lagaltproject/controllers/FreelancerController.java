@@ -140,7 +140,7 @@ public class FreelancerController {
         Authentication auth = sch.getAuthentication();
 
         // Validates if body is correct
-        if (id != freelancerDTO.getId() && Objects.equals(id, auth.getName()))
+        if (id != freelancerDTO.getId() && id == auth.getName())
             return ResponseEntity.badRequest().build();
         if (!freelancerService.exists(freelancerDTO.getId())) {
             Freelancer aFreelancer = freelancerService.add(freelancerMapper.freelancerDTOtoFreelancer(freelancerDTO));
@@ -168,7 +168,7 @@ public class FreelancerController {
     public ResponseEntity delete(@PathVariable String id) {
         SecurityContext sch = SecurityContextHolder.getContext();
         Authentication auth = sch.getAuthentication();
-        if (Objects.equals(id, auth.getName()))
+        if (id == auth.getName())
             return ResponseEntity.badRequest().build();
         freelancerService.deleteById(id);
         return ResponseEntity.status(204).build();

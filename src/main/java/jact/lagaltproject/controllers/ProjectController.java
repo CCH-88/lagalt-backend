@@ -124,7 +124,11 @@ public class ProjectController {
     public ResponseEntity add(@RequestBody Project project) {
         SecurityContext sch = SecurityContextHolder.getContext();
         Authentication auth = sch.getAuthentication();
-        if(Objects.equals(project.getOwnerId(), auth.getName()))
+        System.out.println(project.getName());
+        System.out.println(project.getOwnerId());
+        System.out.println(auth.getName());
+
+        if(project.getOwnerId() == auth.getName())
             return ResponseEntity.badRequest().build();
         Project aProject = projectService.add(project);
         URI location = URI.create("projects/" + aProject.getId());
@@ -167,7 +171,7 @@ public class ProjectController {
     public ResponseEntity apply(@RequestBody String motivation, @PathVariable String pId, @PathVariable String fId) {
         SecurityContext sch = SecurityContextHolder.getContext();
         Authentication auth = sch.getAuthentication();
-        if (!projectService.exists(pId) && !Objects.equals(auth.getName(), fId))
+        if (!projectService.exists(pId) && auth.getName() == fId)
             return ResponseEntity.badRequest().build();
         Project project = projectService.findById(pId);
 //        project.getProjectFreelancers().forEach(id -> {
@@ -228,7 +232,7 @@ public class ProjectController {
     public ResponseEntity delete(@PathVariable String id) {
         SecurityContext sch = SecurityContextHolder.getContext();
         Authentication auth = sch.getAuthentication();
-        if(Objects.equals(id, auth.getName()))
+        if(id == auth.getName())
             return ResponseEntity.badRequest().build();
 
         projectService.deleteById(id);
