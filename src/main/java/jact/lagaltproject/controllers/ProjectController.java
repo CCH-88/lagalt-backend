@@ -7,10 +7,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jact.lagaltproject.enums.Role;
+import jact.lagaltproject.mappers.FreelancerMapper;
 import jact.lagaltproject.mappers.ProjectMapper;
 import jact.lagaltproject.models.Project;
 import jact.lagaltproject.models.ProjectFreelancer;
 import jact.lagaltproject.models.ProjectFreelancerKey;
+import jact.lagaltproject.models.dtos.freelancer.FreelancerDTO;
 import jact.lagaltproject.models.dtos.project.ProjectDTO;
 import jact.lagaltproject.services.freelancer.FreelancerService;
 import jact.lagaltproject.services.project.ProjectService;
@@ -34,16 +36,18 @@ public class ProjectController {
     private final ProjectFreelancerService pfService;
     private final FreelancerService freelancerService;
     private final ProjectMapper projectMapper;
+    private final FreelancerMapper freelancerMapper;
 
     /*
      *  Abase URL is defined and the relevant service is injected.
      */
 
-    public ProjectController(ProjectService projectService, ProjectFreelancerService pfService, FreelancerService freelancerService, ProjectMapper projectMapper) {
+    public ProjectController(ProjectService projectService, ProjectFreelancerService pfService, FreelancerService freelancerService, ProjectMapper projectMapper, FreelancerMapper freelancerMapper) {
         this.projectService = projectService;
         this.pfService = pfService;
         this.freelancerService = freelancerService;
         this.projectMapper = projectMapper;
+        this.freelancerMapper = freelancerMapper;
     }
 
     @Operation(summary = "Get all projects")
@@ -185,6 +189,36 @@ public class ProjectController {
         pf.setMotivation(motivation);
         pf.setFreelancer(freelancerService.findById(fId));
         pf.setRole(Role.applicant);
+        pfService.add(pf);
+
+        project.addProjectFreelancer(pf);
+        projectService.update(project);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Join a project")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+            description = "Project joined",
+            content = @Content),
+            @ApiResponse(responseCode = "404",
+            description = "Project doesn't exist",
+            content = @Content)
+    })
+    @PostMapping("/join/{id}")
+    public ResponseEntity join(@RequestBody FreelancerDTO freelancerDTO, @RequestParam String pId){
+        SecurityContext sch = SecurityContextHolder.getContext();
+        Authentication autch = sch.getAuthentication();
+        if (!projectService.exists(pId))
+            return ResponseEntity.badRequest().build();
+        Project project = projectService.findById(pId);
+        ProjectFreelancerKey pfKey = new ProjectFreelancerKey();
+        ProjectFreelancer pf = new ProjectFreelancer();
+        pfKey.setProject_id(pId);
+        pfKey.setFreelancer_id(freelancerMapper.freelancerDTOtoFreelancer(freelancerDTO).getId());
+        pf.setId(pfKey);
+        pf.setProject(project);
+        pf.setFreelancer(freelancerService.findById(freelancerMapper.freelancerDTOtoFreelancer(freelancerDTO).getId()));
         pfService.add(pf);
 
         project.addProjectFreelancer(pf);
