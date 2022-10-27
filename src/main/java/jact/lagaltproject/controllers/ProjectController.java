@@ -129,7 +129,6 @@ public class ProjectController {
     public ResponseEntity add(@RequestBody Project project) {
         SecurityContext sch = SecurityContextHolder.getContext();
         Authentication auth = sch.getAuthentication();
-
         if(project.getOwnerId() == auth.getName())
             return ResponseEntity.badRequest().build();
         Project aProject = projectService.add(project);
@@ -200,25 +199,25 @@ public class ProjectController {
     @Operation(summary = "Join a project")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-            description = "Project joined",
-            content = @Content),
+                    description = "Project joined",
+                    content = @Content),
             @ApiResponse(responseCode = "404",
-            description = "Project doesn't exist",
-            content = @Content)
+                    description = "Project doesn't exist",
+                    content = @Content)
     })
     @PostMapping("/join/{id}")
-    public ResponseEntity join(@RequestBody Freelancer freelancer, @PathVariable String id){
+    public ResponseEntity join(@RequestBody FreelancerDTO freelancerDTO, @PathVariable String id) {
         if (!projectService.exists(id))
             return ResponseEntity.badRequest().build();
         Project project = projectService.findById(id);
         ProjectFreelancerKey pfKey = new ProjectFreelancerKey();
         ProjectFreelancer pf = new ProjectFreelancer();
         pfKey.setProject_id(id);
-        pfKey.setFreelancer_id(freelancer.getId());
+        pfKey.setFreelancer_id(freelancerMapper.freelancerDTOtoFreelancer(freelancerDTO).getId());
         pf.setId(pfKey);
         pf.setRole(Role.applicant);
         pf.setProject(project);
-        pf.setFreelancer(freelancerService.findById(freelancer.getId()));
+        pf.setFreelancer(freelancerService.findById(freelancerMapper.freelancerDTOtoFreelancer(freelancerDTO).getId()));
         projectService.join(pfKey, project);
         return ResponseEntity.noContent().build();
     }
@@ -260,7 +259,11 @@ public class ProjectController {
     public ResponseEntity delete(@PathVariable String id) {
         SecurityContext sch = SecurityContextHolder.getContext();
         Authentication auth = sch.getAuthentication();
+<<<<<<< src/main/java/jact/lagaltproject/controllers/ProjectController.java
+        if (Objects.equals(id, auth.getName()))
+=======
         if(id == auth.getName())
+>>>>>>> src/main/java/jact/lagaltproject/controllers/ProjectController.java
             return ResponseEntity.badRequest().build();
 
         projectService.deleteById(id);
