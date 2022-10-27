@@ -206,19 +206,19 @@ public class ProjectController {
                     content = @Content)
     })
     @PostMapping("/join/{id}")
-    public ResponseEntity join(@RequestBody FreelancerDTO freelancerDTO, @PathVariable String id) {
+    public ResponseEntity join(@RequestBody String freelancerId, @PathVariable String id) {
         if (!projectService.exists(id))
             return ResponseEntity.badRequest().build();
         Project project = projectService.findById(id);
         ProjectFreelancerKey pfKey = new ProjectFreelancerKey();
         ProjectFreelancer pf = new ProjectFreelancer();
         pfKey.setProject_id(id);
-        pfKey.setFreelancer_id(freelancerMapper.freelancerDTOtoFreelancer(freelancerDTO).getId());
+        pfKey.setFreelancer_id(freelancerId);
         pf.setId(pfKey);
         pf.setRole(Role.applicant);
         pf.setMotivation("Something");
         pf.setProject(project);
-        pf.setFreelancer(freelancerService.findById(freelancerMapper.freelancerDTOtoFreelancer(freelancerDTO).getId()));
+        pf.setFreelancer(freelancerService.findById(freelancerId));
         projectService.join(pfKey, project);
         return ResponseEntity.noContent().build();
     }
