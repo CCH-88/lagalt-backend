@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jact.lagaltproject.enums.Role;
 import jact.lagaltproject.mappers.FreelancerMapper;
 import jact.lagaltproject.mappers.ProjectMapper;
+import jact.lagaltproject.models.Freelancer;
 import jact.lagaltproject.models.Project;
 import jact.lagaltproject.models.ProjectFreelancer;
 import jact.lagaltproject.models.ProjectFreelancerKey;
@@ -206,18 +207,18 @@ public class ProjectController {
             content = @Content)
     })
     @PostMapping("/join/{id}")
-    public ResponseEntity join(@RequestBody FreelancerDTO freelancerDTO, @PathVariable String id){
+    public ResponseEntity join(@RequestBody Freelancer freelancer, @PathVariable String id){
         if (!projectService.exists(id))
             return ResponseEntity.badRequest().build();
         Project project = projectService.findById(id);
         ProjectFreelancerKey pfKey = new ProjectFreelancerKey();
         ProjectFreelancer pf = new ProjectFreelancer();
         pfKey.setProject_id(id);
-        pfKey.setFreelancer_id(freelancerMapper.freelancerDTOtoFreelancer(freelancerDTO).getId());
+        pfKey.setFreelancer_id(freelancer.getId());
         pf.setId(pfKey);
         pf.setRole(Role.applicant);
         pf.setProject(project);
-        pf.setFreelancer(freelancerService.findById(freelancerMapper.freelancerDTOtoFreelancer(freelancerDTO).getId()));
+        pf.setFreelancer(freelancerService.findById(freelancer.getId()));
         projectService.join(pfKey, project);
         return ResponseEntity.noContent().build();
     }
