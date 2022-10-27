@@ -206,13 +206,13 @@ public class ProjectController {
             content = @Content)
     })
     @PostMapping("/join/{id}")
-    public ResponseEntity join(@RequestBody FreelancerDTO freelancerDTO, @RequestParam String pId){
-        if (!projectService.exists(pId))
+    public ResponseEntity join(@RequestBody FreelancerDTO freelancerDTO, @RequestParam String id){
+        if (!projectService.exists(id))
             return ResponseEntity.badRequest().build();
-        Project project = projectService.findById(pId);
+        Project project = projectService.findById(id);
         ProjectFreelancerKey pfKey = new ProjectFreelancerKey();
         ProjectFreelancer pf = new ProjectFreelancer();
-        pfKey.setProject_id(pId);
+        pfKey.setProject_id(id);
         pfKey.setFreelancer_id(freelancerMapper.freelancerDTOtoFreelancer(freelancerDTO).getId());
         pf.setId(pfKey);
         pf.setRole(Role.applicant);
