@@ -18,4 +18,6 @@ public interface ProjectService extends CrudService<Project, String> {
     void application(Project project, ProjectFreelancer project_freelancer);
 
     void join(ProjectFreelancerKey projectFreelancerKey, Project project);
+
+    boolean checkIfExistsInProject(String projectFreelancerId);
 }

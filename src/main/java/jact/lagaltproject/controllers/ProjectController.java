@@ -129,8 +129,10 @@ public class ProjectController {
     public ResponseEntity add(@RequestBody Project project) {
         SecurityContext sch = SecurityContextHolder.getContext();
         Authentication auth = sch.getAuthentication();
-        if(project.getOwnerId() == auth.getName())
-            return ResponseEntity.badRequest().build();
+        System.out.println("owner: " + project.getOwnerId());
+        System.out.println("Auth: " + auth.getName());
+        if(!project.getOwnerId().equals(auth.getName()))
+            return ResponseEntity.status(403).build();
         Project aProject = projectService.add(project);
         URI location = URI.create("projects/" + aProject.getId());
         return ResponseEntity.created(location).build();
@@ -151,8 +153,8 @@ public class ProjectController {
     @PutMapping("{id}") // PUT: localhost:8080/api/v1/projects/1
     public ResponseEntity update(@RequestBody ProjectDTO projectDTO, @PathVariable String id) {
         // Validates if body is correct
-        if (id != projectDTO.getId())
-            return ResponseEntity.badRequest().build();
+        if (!id.equals(projectDTO.getId()))
+            return ResponseEntity.status(403).build();
         projectService.update(
                 projectMapper.projectDTOToProject(projectDTO)
         );
@@ -172,8 +174,12 @@ public class ProjectController {
     public ResponseEntity apply(@RequestBody String motivation, @PathVariable String pId, @PathVariable String fId) {
         SecurityContext sch = SecurityContextHolder.getContext();
         Authentication auth = sch.getAuthentication();
-        if (!projectService.exists(pId) && auth.getName() == fId)
+
+        if (!auth.getName().equals(fId))
+            return ResponseEntity.status(403).build();
+        if (!projectService.exists(pId) || !freelancerService.exists(fId))
             return ResponseEntity.badRequest().build();
+
         Project project = projectService.findById(pId);
 //        project.getProjectFreelancers().forEach(id -> {
 //            if (id.getFreelancer().getId().equals(fId))
@@ -184,8 +190,9 @@ public class ProjectController {
         pfKey.setProject_id(pId);
         pfKey.setFreelancer_id(fId);
 
+
         pf.setId(pfKey);
-        pf.setProject(projectService.findById(pId));
+        pf.setProject(project);
         pf.setMotivation(motivation);
         pf.setFreelancer(freelancerService.findById(fId));
         pf.setRole(Role.applicant);
