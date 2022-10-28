@@ -181,10 +181,6 @@ public class ProjectController {
             return ResponseEntity.badRequest().build();
 
         Project project = projectService.findById(pId);
-//        project.getProjectFreelancers().forEach(id -> {
-//            if (id.getFreelancer().getId().equals(fId))
-//                throw new ProjectFreelancerAlreadyExists(fId);
-//        });
         ProjectFreelancerKey pfKey = new ProjectFreelancerKey();
         ProjectFreelancer pf = new ProjectFreelancer();
         pfKey.setProject_id(pId);
@@ -203,33 +199,6 @@ public class ProjectController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "Join a project")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",
-                    description = "Project joined",
-                    content = @Content),
-            @ApiResponse(responseCode = "404",
-                    description = "Project doesn't exist",
-                    content = @Content)
-    })
-    @PostMapping("/join/{id}")
-    public ResponseEntity join(@RequestBody String freelancerId, @PathVariable String id) {
-        if (!projectService.exists(id))
-            return ResponseEntity.badRequest().build();
-        Project project = projectService.findById(id);
-        ProjectFreelancerKey pfKey = new ProjectFreelancerKey();
-        ProjectFreelancer pf = new ProjectFreelancer();
-        pfKey.setProject_id(id);
-        pfKey.setFreelancer_id(freelancerId);
-        pf.setId(pfKey);
-        pf.setRole(Role.applicant);
-        pf.setMotivation("Something");
-        pf.setProject(project);
-        pf.setFreelancer(freelancerService.findById(freelancerId));
-        projectService.join(pfKey, project);
-        return ResponseEntity.noContent().build();
-    }
-
     @Operation(summary = "Add or deny a application")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -241,6 +210,14 @@ public class ProjectController {
     })
     @PatchMapping("{pId}/{fId}/respond")
     public ResponseEntity respond(@RequestBody boolean bool, @PathVariable String pId, @PathVariable String fId) {
+        SecurityContext sch = SecurityContextHolder.getContext();
+        Authentication auth = sch.getAuthentication();
+
+        if(!auth.getName().equals(fId))
+            return ResponseEntity.status(403).build();
+        if(!projectService.exists(pId) || !freelancerService.exists(fId))
+            return ResponseEntity.badRequest().build();
+
         ProjectFreelancer pf = pfService.findById(fId + pId);
         if (bool) {
             pf.setRole(Role.collaborator);
