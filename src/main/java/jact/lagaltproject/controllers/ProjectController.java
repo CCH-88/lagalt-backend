@@ -174,7 +174,7 @@ public class ProjectController {
     public ResponseEntity apply(@RequestBody String motivation, @PathVariable String pId, @PathVariable String fId) {
         SecurityContext sch = SecurityContextHolder.getContext();
         Authentication auth = sch.getAuthentication();
-        System.out.println(motivation+ " | " + pId + " | "+ fId);
+
         if (!auth.getName().equals(fId))
             return ResponseEntity.status(403).build();
         if (!projectService.exists(pId) || !freelancerService.exists(fId))
