@@ -58,6 +58,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public boolean checkIfExistsInProject(String projectFreelancerId) {
+        return projectRepo.checkIfExistsInProject(projectFreelancerId);
+    }
+
+    @Override
     public Project update(Project entity) {
         return projectRepo.save(entity);
     }

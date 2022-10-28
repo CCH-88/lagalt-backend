@@ -19,4 +19,7 @@ public interface ProjectRepository extends JpaRepository<Project, String> {
     @Modifying
     @Query("update ProjectFreelancer pf set pf.project.id = ?2 where pf.id = ?1")
     void join(ProjectFreelancerKey projectFreelancerKey, String projectId);
+
+    @Query("select pf from ProjectFreelancer pf where pf.id =?1")
+    Boolean checkIfExistsInProject(String projectFreelancerId);
 }
